@@ -1,13 +1,12 @@
 package cc.fukas.string.regex;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static cc.fukas.util.PrintHelper.*;
+import static cc.fukas.util.PrintHelper.print;
+import static cc.fukas.util.PrintHelper.println;
 
 /**
  * Created by sun on 16-1-12.
@@ -33,7 +32,7 @@ public class Groups2 {
         // 不以大写字母开头的单词
         String regex = "\\b([a-z]\\w*)\\b";
         Matcher matcher = Pattern.compile(regex).matcher(words);
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<String, Integer>();
         while (matcher.find()) {
             String s = matcher.group(1);
             Integer cnt = map.get(s);
