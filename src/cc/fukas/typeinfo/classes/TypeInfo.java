@@ -1,4 +1,4 @@
-package cc.fukas.typeinfo;
+package cc.fukas.typeinfo.classes;
 
 import static cc.fukas.util.PrintHelper.println;
 
@@ -52,7 +52,7 @@ public class TypeInfo {
     }
 
     public static void main(String[] args) {
-        String className = "cc.fukas.typeinfo.FancyToy";
+        String className = "cc.fukas.typeinfo.classes.FancyToy";
         Class c = null;
         try {
             // 自动初始化类
@@ -82,18 +82,18 @@ public class TypeInfo {
     }
 }
 /* Output :
-Class     name : cc.fukas.typeinfo.FancyToy is interface? [false]
+Class     name : cc.fukas.typeinfo.classes.FancyToy is interface? [false]
 Simple    name : FancyToy
-Canonical name : cc.fukas.typeinfo.FancyToy
+Canonical name : cc.fukas.typeinfo.classes.FancyToy
 
-Class     name : cc.fukas.typeinfo.Action is interface? [true]
+Class     name : cc.fukas.typeinfo.classes.Action is interface? [true]
 Simple    name : Action
-Canonical name : cc.fukas.typeinfo.Action
-Class     name : cc.fukas.typeinfo.Size is interface? [true]
+Canonical name : cc.fukas.typeinfo.classes.Action
+Class     name : cc.fukas.typeinfo.classes.Size is interface? [true]
 Simple    name : Size
-Canonical name : cc.fukas.typeinfo.Size
+Canonical name : cc.fukas.typeinfo.classes.Size
 
-Class     name : cc.fukas.typeinfo.Toy is interface? [false]
+Class     name : cc.fukas.typeinfo.classes.Toy is interface? [false]
 Simple    name : Toy
-Canonical name : cc.fukas.typeinfo.Toy
+Canonical name : cc.fukas.typeinfo.classes.Toy
  */
