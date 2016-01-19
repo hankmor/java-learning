@@ -1,4 +1,4 @@
-package cc.fukas.typeinfo;
+package cc.fukas.typeinfo.classes;
 
 import static cc.fukas.util.PrintHelper.println;
 
