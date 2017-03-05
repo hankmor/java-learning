@@ -1,4 +1,10 @@
-package cc.fukas.thread.basic;
+package cc.fukas.thread.sleep;
+
+import cc.fukas.thread.basic.LiftOff;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by sun on 2017/3/5.
@@ -7,21 +13,15 @@ package cc.fukas.thread.basic;
  * @version 1.0
  * @since 1.0
  */
-public class LiftOff implements Runnable {
+public class SleepingTask extends LiftOff {
     //~ Static fields/initializers =====================================================================================
-    private static int taskCount = 0;
+
 
     //~ Instance fields ================================================================================================
-    protected int countDown = 10;
-    private final int id = taskCount++;
+
 
     //~ Constructors ===================================================================================================
-    public LiftOff() {
-    }
 
-    public LiftOff(int countDown) {
-        this.countDown = countDown;
-    }
 
     //~ Methods ========================================================================================================
 
@@ -29,20 +29,21 @@ public class LiftOff implements Runnable {
     public void run() {
         while (countDown-- > 0) {
             System.out.print(status());
-            Thread.yield();
+            try {
+                // 睡眠后，CPU切换到其他线程执行，结果呈现一定的规律性
+                TimeUnit.MICROSECONDS.sleep(100);
+//                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    protected String status() {
-        return "#" + id + "(" + (countDown > 0 ? countDown : "LiftOff!") + "), ";
-    }
-
     public static void main(String[] args) {
-//        LiftOff liftOff = new LiftOff();
-//        liftOff.run();
-
-        Thread thread = new Thread(new LiftOff());
-        thread.start();
-        System.out.println("Waiting for LiftOff");
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i < 5; i++) {
+            executorService.execute(new SleepingTask());
+        }
+        executorService.shutdown();
     }
 }
