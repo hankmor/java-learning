@@ -72,6 +72,7 @@ public class ClassInitialization {
         Class class3 = Class.forName("cc.fukas.typeinfo.classes.Class3");
         println("after creating Class3 ref");
         println(Class3.nonStaticFinal);
+        new Class1();
     }
 }
 /* Output :
@@ -84,4 +85,5 @@ Class2 static code block
 Class3 static code block
 after creating Class3 ref
 247
+Class1 code block
  */
