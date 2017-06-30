@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
+ * Predicate 接口只有一个参数，返回boolean类型。该接口包含多种默认方法来将Predicate组合成其他复杂的逻辑（比如：与，或，非）
+ * <p>
  * Created by sun on 2017/6/29.
  *
  * @author sunfuchang03@126.com
