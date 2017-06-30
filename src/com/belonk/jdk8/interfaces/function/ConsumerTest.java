@@ -1,29 +1,33 @@
 package com.belonk.jdk8.interfaces.function;
 
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
-class User {
+class Person {
     private String id;
 
-    public User() {
+    public Person() {
     }
 
-    public User(String id) {
+    public Person(String id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Person{" +
                 "id='" + id + '\'' +
                 '}';
+    }
+
+    public String getId() {
+        return id;
     }
 }
 
 /**
- * Supplier 接口返回一个任意范型的值，和Function接口不同的是该接口没有任何参数
+ * Consumer 接口表示执行在单个参数上的操作
  */
-public class SupplierTest {
+public class ConsumerTest {
     //~ Static fields/initializers =====================================================================================
 
 
@@ -35,7 +39,7 @@ public class SupplierTest {
 
     //~ Methods ========================================================================================================
     public static void main(String[] args) {
-        Supplier<User> supplier = User::new;
-        System.out.println(supplier.get());
+        Consumer<Person> personConsumer = p -> System.out.println("id : " + p);
+        personConsumer.accept(new Person("abc"));
     }
 }
