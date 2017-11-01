@@ -1,4 +1,4 @@
-package main.java.com.belonk.io.file;
+package com.belonk.io.file;
 
 /**
  * Created by sun on 2017/9/20.

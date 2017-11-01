@@ -1,6 +1,6 @@
-package main.java.com.belonk.thread.deamon;
+package com.belonk.thread.deamon;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 /**
  * Created by sun on 2017/3/6.

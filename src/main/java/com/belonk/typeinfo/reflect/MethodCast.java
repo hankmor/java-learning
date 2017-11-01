@@ -1,4 +1,4 @@
-package main.java.com.belonk.typeinfo.reflect;
+package com.belonk.typeinfo.reflect;
 
 /**
  * Created by sun on 2017/9/5.
