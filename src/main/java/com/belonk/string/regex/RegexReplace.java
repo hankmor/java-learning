@@ -1,9 +1,9 @@
-package main.java.com.belonk.string.regex;
+package com.belonk.string.regex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * <p>Created by sun on 2016/1/13.

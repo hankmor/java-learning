@@ -1,4 +1,4 @@
-package main.java.com.belonk.util;
+package com.belonk.util;
 
 import java.util.Arrays;
 

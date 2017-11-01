@@ -1,6 +1,6 @@
-package main.java.com.belonk.string.scan;
+package com.belonk.string.scan;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 import java.util.Scanner;
 import java.util.regex.*;
