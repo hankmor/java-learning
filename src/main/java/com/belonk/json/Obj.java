@@ -1,4 +1,4 @@
-package main.java.com.belonk.json;
+package com.belonk.json;
 
 /**
  * Created by sun on 2017/10/18.

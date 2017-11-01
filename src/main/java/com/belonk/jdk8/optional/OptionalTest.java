@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.optional;
+package com.belonk.jdk8.optional;
 
 import java.util.Optional;
 

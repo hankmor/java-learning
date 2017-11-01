@@ -1,12 +1,12 @@
-package main.java.com.belonk.string.regex;
+package com.belonk.string.regex;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static main.java.com.belonk.util.PrintHelper.print;
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.print;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * Created by sun on 16-1-12.

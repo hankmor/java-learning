@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.interfaces.function;
+package com.belonk.jdk8.interfaces.function;
 
 import java.util.Objects;
 import java.util.function.Predicate;

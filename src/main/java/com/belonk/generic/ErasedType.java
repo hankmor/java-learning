@@ -1,4 +1,4 @@
-package main.java.com.belonk.generic;
+package com.belonk.generic;
 
 import java.util.*;
 

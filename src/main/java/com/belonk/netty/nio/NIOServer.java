@@ -1,4 +1,4 @@
-package main.java.com.belonk.netty.nio;
+package com.belonk.netty.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
