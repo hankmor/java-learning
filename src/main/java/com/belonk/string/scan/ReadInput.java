@@ -1,8 +1,8 @@
-package main.java.com.belonk.string.scan;
+package com.belonk.string.scan;
 
 import java.util.Scanner;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * <p>Created by sun on 2016/1/13.

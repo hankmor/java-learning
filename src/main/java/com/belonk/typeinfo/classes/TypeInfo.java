@@ -1,8 +1,8 @@
-package main.java.com.belonk.typeinfo.classes;
+package com.belonk.typeinfo.classes;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 interface Action {
 

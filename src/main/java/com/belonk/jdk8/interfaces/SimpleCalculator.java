@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.interfaces;
+package com.belonk.jdk8.interfaces;
 
 import java.util.Random;
 

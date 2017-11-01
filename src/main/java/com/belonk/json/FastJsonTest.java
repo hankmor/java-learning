@@ -1,4 +1,4 @@
-package main.java.com.belonk.json;
+package com.belonk.json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

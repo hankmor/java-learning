@@ -1,12 +1,12 @@
-package main.java.com.belonk.typeinfo.reflect;
+package com.belonk.typeinfo.reflect;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * <p>Created by sun on 2016/1/19.

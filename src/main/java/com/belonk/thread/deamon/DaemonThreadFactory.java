@@ -1,4 +1,4 @@
-package main.java.com.belonk.thread.deamon;
+package com.belonk.thread.deamon;
 
 import java.util.concurrent.ThreadFactory;
 

@@ -1,4 +1,4 @@
-package main.java.com.belonk.io.file;
+package com.belonk.io.file;
 
 import java.io.*;
 import java.nio.MappedByteBuffer;

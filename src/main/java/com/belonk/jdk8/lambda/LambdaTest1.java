@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.lambda;
+package com.belonk.jdk8.lambda;
 
 /**
  * Created by sun on 2017/6/29.

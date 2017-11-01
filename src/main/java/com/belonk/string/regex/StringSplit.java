@@ -1,8 +1,8 @@
-package main.java.com.belonk.string.regex;
+package com.belonk.string.regex;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * <p>Created by Dendy on 2016/1/12.
