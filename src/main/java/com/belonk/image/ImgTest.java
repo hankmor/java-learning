@@ -34,6 +34,7 @@ public class ImgTest {
         read();
 //        read1();
 //        thumbnail();
+//        convertByBase64();
     }
 
     public static void thumbnail() throws FileNotFoundException {
