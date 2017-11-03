@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.interfaces.function;
+package com.belonk.jdk8.interfaces.function;
 
 import java.util.function.Function;
 

@@ -1,6 +1,6 @@
-package main.java.com.belonk.thread.basic;
+package com.belonk.thread.basic;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 // 内部类实现线程
 class InnerThread1 {
