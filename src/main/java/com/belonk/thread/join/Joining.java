@@ -1,6 +1,6 @@
-package main.java.com.belonk.thread.join;
+package com.belonk.thread.join;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 class Sleepper extends Thread {
     private int sleepTime;

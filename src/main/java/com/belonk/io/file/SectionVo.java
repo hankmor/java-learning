@@ -1,4 +1,4 @@
-package main.java.com.belonk.io.file;
+package com.belonk.io.file;
 
 /**
  * 特价机票使用航班的区间信息

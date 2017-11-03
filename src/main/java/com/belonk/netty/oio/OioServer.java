@@ -1,4 +1,4 @@
-package main.java.com.belonk.netty.oio;
+package com.belonk.netty.oio;
 
 import java.io.IOException;
 import java.io.InputStream;

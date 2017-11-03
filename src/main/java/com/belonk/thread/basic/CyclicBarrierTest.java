@@ -1,4 +1,4 @@
-package main.java.com.belonk.thread.basic;
+package com.belonk.thread.basic;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
