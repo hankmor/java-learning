@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.interfaces.function;
+package com.belonk.jdk8.interfaces.function;
 
 /**
  * 而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。

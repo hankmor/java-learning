@@ -1,6 +1,6 @@
-package main.java.com.belonk.thread.sleep;
+package com.belonk.thread.sleep;
 
-import main.java.com.belonk.thread.basic.LiftOff;
+import com.belonk.thread.basic.LiftOff;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

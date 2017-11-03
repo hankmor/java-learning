@@ -1,4 +1,4 @@
-package main.java.com.belonk.netty.hello;
+package com.belonk.netty.hello;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

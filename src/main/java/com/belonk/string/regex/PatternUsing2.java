@@ -1,11 +1,11 @@
-package main.java.com.belonk.string.regex;
+package com.belonk.string.regex;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static main.java.com.belonk.util.PrintHelper.println;
+import static com.belonk.util.PrintHelper.println;
 
 /**
  * Created by sun on 16-1-12.

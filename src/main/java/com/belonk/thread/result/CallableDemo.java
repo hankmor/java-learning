@@ -1,4 +1,4 @@
-package main.java.com.belonk.thread.result;
+package com.belonk.thread.result;
 
 import java.util.ArrayList;
 import java.util.List;

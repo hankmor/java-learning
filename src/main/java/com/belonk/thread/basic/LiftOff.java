@@ -1,4 +1,4 @@
-package main.java.com.belonk.thread.basic;
+package com.belonk.thread.basic;
 
 /**
  * Created by sun on 2017/3/5.

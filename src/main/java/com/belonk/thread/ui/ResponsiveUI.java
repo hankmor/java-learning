@@ -1,4 +1,4 @@
-package main.java.com.belonk.thread.ui;
+package com.belonk.thread.ui;
 
 import java.io.IOException;
 
