@@ -69,7 +69,7 @@ public class ClassInitialization {
         // 非final的静态字段，非编译器常量，需要初始化
         println(Class2.nonStaticFinal);
         // 立即初始化类
-        Class class3 = Class.forName("main.java com.belonk.typeinfo.classes.Class3");
+        Class class3 = Class.forName("com.belonk.typeinfo.classes.Class3");
         println("after creating Class3 ref");
         println(Class3.nonStaticFinal);
         new Class1();
