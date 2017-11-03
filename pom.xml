@@ -8,24 +8,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <!--公用属性定义-->
-    <properties>
-        <mysql.path>/Users/ting/work/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar</mysql.path>
-
-        <mysql.jdbc.url>localhost:3306/hmp</mysql.jdbc.url>
-        <mysql.jdbc.username>root</mysql.jdbc.username>
-        <mysql.jdbc.password>123456</mysql.jdbc.password>
-        <!-- 文件拷贝时的编码 -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- 编译时的编码 -->
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <application.context.ip>118.178.225.32</application.context.ip>
-        <!-- spring security -->
-        <spring.security.version>3.2.2.RELEASE</spring.security.version>
-        <com.belonk.commons.util>1.0-SNAPSHOT</com.belonk.commons.util>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -63,61 +45,32 @@
             <artifactId>com.springsource.javax.media.jai.codec</artifactId>
             <version>1.1.3</version>
         </dependency>
+        <!--图片处理扩展包-->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-tiff</artifactId>
+            <version>3.3.2</version> <!-- Alternatively, build your own version -->
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-pnm</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>[0.4, 0.5)</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>JavaLearn</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/*</exclude>
-                </excludes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
-            <!--   =================== mybatis generator  ==================  -->
-            <!--<plugin>-->
-                <!--<groupId>org.mybatis.generator</groupId>-->
-                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
-                <!--<version>1.3.2</version>-->
-                <!--<configuration>-->
-                    <!--<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>-->
-                    <!--<verbose>true</verbose>-->
-                    <!--<overwrite>true</overwrite>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>Generate MyBatis Artifacts</id>-->
-                        <!--<goals>-->
-                            <!--<goal>generate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.mybatis.generator</groupId>-->
-                        <!--<artifactId>mybatis-generator-core</artifactId>-->
-                        <!--<version>1.3.2</version>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
-            <!--</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <!-- this is relative to the pom.xml directory -->
-                            <directory>src/main/resources</directory>
-                            <targetPath>WEB-INF/classes/</targetPath>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-
             <!-- 定义编译项目所需的maven版本，java版本，os配置，文件系统的配置 -->
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
