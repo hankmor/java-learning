@@ -1,4 +1,4 @@
-package main.java.com.belonk.generic;
+package com.belonk.generic;
 
 /**
  * <p>Created by sun on 2016/6/28.

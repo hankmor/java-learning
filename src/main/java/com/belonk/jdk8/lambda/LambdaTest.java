@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.lambda;
+package com.belonk.jdk8.lambda;
 
 import java.util.Arrays;
 import java.util.Collections;

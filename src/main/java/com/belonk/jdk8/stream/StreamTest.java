@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.stream;
+package com.belonk.jdk8.stream;
 
 import java.util.ArrayList;
 import java.util.Collection;

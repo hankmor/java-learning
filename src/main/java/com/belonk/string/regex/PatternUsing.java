@@ -1,6 +1,6 @@
-package main.java.com.belonk.string.regex;
+package com.belonk.string.regex;
 
-import main.java.com.belonk.util.PrintHelper;
+import com.belonk.util.PrintHelper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

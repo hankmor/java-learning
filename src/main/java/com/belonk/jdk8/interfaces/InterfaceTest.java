@@ -1,4 +1,4 @@
-package main.java.com.belonk.jdk8.interfaces;
+package com.belonk.jdk8.interfaces;
 
 /**
  * Created by sun on 2017/6/29.
