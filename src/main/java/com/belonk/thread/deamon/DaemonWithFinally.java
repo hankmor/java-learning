@@ -25,8 +25,8 @@ public class DaemonWithFinally implements Runnable {
     public void run() {
         PrintHelper.println("starting a daemon thread.");
         try {
-            // 睡眠2毫秒，finally不会执行
-            Thread.sleep(2);
+            // 睡眠2秒，finally不会执行
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -38,7 +38,7 @@ public class DaemonWithFinally implements Runnable {
         Thread thread = new Thread(new DaemonWithFinally());
         thread.setDaemon(true);
         thread.start();
-        // 睡眠1毫秒
-        Thread.sleep(1);
+        // 主线程睡眠1秒
+        Thread.sleep(1000);
     }
 }
