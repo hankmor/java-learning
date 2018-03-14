@@ -37,12 +37,16 @@ public class DaemonFromFactory implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        ExecutorService executorService = Executors.newCachedThreadPool(new DaemonThreadFactory());
-        for (int i = 0; i < 10; i++) {
-            executorService.execute(new DaemonFromFactory());
-        }
-        PrintHelper.println("All daemons started");
-        // 由于创建的都是后台线程，一旦main函数执行完成，程序退出
-        Thread.sleep(1000);
+//        ExecutorService executorService = Executors.newCachedThreadPool(new DaemonThreadFactory());
+//        for (int i = 0; i < 10; i++) {
+//            executorService.execute(new DaemonFromFactory());
+//        }
+//        PrintHelper.println("All daemons started");
+//        // 由于创建的都是后台线程，一旦main函数执行完成，程序退出
+//        Thread.sleep(1000);
+        String s = "酒店郑州高铁东站店.............................................................................................";
+        System.out.println(s.getBytes().length);
+        s="美宿洲际酒店合肥宝业东城广场店...........................................................................";
+        System.out.println(s.getBytes().length);
     }
 }
