@@ -94,4 +94,22 @@ public class RedisTest {
         System.out.println("写入完成，耗时：" + (end - start) + "ms");
         // 118ms
     }
+
+    @Test
+    public void testRPush1() {
+        String data = "{\"i\":" + 11263 + ",\"o\":2,\"r\":0,\"t\":10}";
+        client.rpush("es_data_sync", data);
+    }
+
+    @Test
+    public void testRPush() {
+        String[] ss = new String[1000];
+        int id = 11263;
+        for (int i = 0; i < 1000; i++) {
+            id += i;
+            String data = "{\"i\":" + id + ",\"o\":2,\"r\":0,\"t\":10}";
+            ss[i] = data;
+        }
+        client.rpush("es_data_sync", ss);
+    }
 }
