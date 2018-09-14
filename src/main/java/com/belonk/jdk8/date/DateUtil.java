@@ -1,11 +1,10 @@
 package com.belonk.jdk8.date;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sun on 2018/2/9.
@@ -38,5 +37,10 @@ public class DateUtil {
         LocalDateTime localDateTime = LocalDateTime.parse(datetimeStr, dateTimeFormatter);
         Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
         return Date.from(instant);
+    }
+
+    public static void main(String[] args) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        System.out.println(LocalDateTime.now().format(dateFormatter));
     }
 }
