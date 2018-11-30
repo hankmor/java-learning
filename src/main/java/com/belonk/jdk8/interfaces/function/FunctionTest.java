@@ -1,5 +1,6 @@
 package com.belonk.jdk8.interfaces.function;
 
+import java.math.BigDecimal;
 import java.util.function.Function;
 
 /**
@@ -22,6 +23,7 @@ public class FunctionTest {
 
 
     //~ Methods ========================================================================================================
+
     public static void main(String[] args) {
         Function<String, Integer> integerFunction = Integer::valueOf;
         Integer res = integerFunction.apply("123");
@@ -30,5 +32,13 @@ public class FunctionTest {
         Function<String, String> stringFunction = integerFunction.andThen(String::valueOf);
         String s = stringFunction.apply("109");
         System.out.println(s);
+
+        Function<String, Double> doubleFunction = Double::valueOf;
+        Double d = doubleFunction.apply("123");
+        System.out.println(d);
+
+        Function<String, BigDecimal> decimalFunction = doubleFunction.andThen(BigDecimal::new);
+        BigDecimal decimal = decimalFunction.apply("123.3");
+        System.out.println(decimal);
     }
 }
