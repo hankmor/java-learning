@@ -23,7 +23,7 @@ public class ClassFactoryTest {
 
     //~ Methods ========================================================================================================
     public static void main(String[] args) {
-        System.out.println(new Holder<HasColor>(new HasColor.AnimalFactory()));
+        System.out.println(new Holder<Animal>(new Animal.AnimalFactory()));
         System.out.println(new Holder<Integer>(new IntegerFactory()));
     }
 }
@@ -42,10 +42,10 @@ class Holder<T> {
 }
 
 class Animal {
-    public static class AnimalFactory implements ClassFactory<HasColor> {
+    public static class AnimalFactory implements ClassFactory<Animal> {
         @Override
-        public HasColor create() {
-            return new HasColor();
+        public Animal create() {
+            return new Animal();
         }
     }
 }
