@@ -1,4 +1,4 @@
-package com.belonk.json;
+package com.belonk.json.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
