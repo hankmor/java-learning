@@ -1,4 +1,4 @@
-package com.belonk.json;
+package com.belonk.json.fastjson;
 
 /**
  * Created by sun on 2017/10/18.
