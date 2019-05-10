@@ -1,9 +1,9 @@
 package com.belonk.jdk8.stream;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * java.util.Stream 表示能应用在一组元素上一次执行的操作序列。Stream 操作分为中间操作或者最终操作两种，
@@ -93,11 +93,110 @@ public class StreamTest {
         System.out.println(noneMatchZ); //true
     }
 
+    public void map1() {
+        prepareData()
+                .stream()
+                .mapToInt(new ToIntFunction<String>() {
+                    @Override
+                    public int applyAsInt(String value) {
+                        return value.charAt(0);
+                    }
+                })
+                .sorted()
+                .forEach(System.out::println);
+    }
+
+    public void map2() {
+        List<Integer> integers = Stream.of(Arrays.asList(1, 2, 3), Arrays.asList(1, 2, 4, 5))
+                .flatMap(integers1 -> integers1.stream())
+                .collect(Collectors.toList());
+        System.out.println(integers);
+    }
+
+    public void map3() {
+        List<User> users = Arrays.asList(new User("zhangsan", 19), new User("zhangsan", 20),
+                new User("wangwu", 22));
+        Map<String, List<User>> map = users.stream().collect(Collectors.groupingBy(User::getName));
+        System.out.println(map);
+    }
+
+    public static class User {
+        private String name;
+        private int age;
+
+        public User(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+    }
+
     public static void main(String[] args) {
         StreamTest streamTest = new StreamTest();
 //        streamTest.filter();
 //        streamTest.sort();
 //        streamTest.map();
 //        streamTest.match();
+//         streamTest.map1();
+//         streamTest.map2();
+        streamTest.map3();
+
+
+        Pojo pojo1 = new Pojo("a", "value1");
+        Pojo pojo2 = new Pojo("a", "value2");
+        Pojo pojo3 = new Pojo("b", "value3");
+        Pojo pojo4 = new Pojo("b", "value4");
+
+        System.out.println(Stream.of(pojo1, pojo2, pojo3, pojo4)
+                .collect(Collectors.groupingBy(p -> p.getKey(), Collectors.mapping(t -> t.getValue(), Collectors.toList()))));
+    }
+
+
+    static class Pojo {
+
+        private String key;
+
+        private String value;
+
+        Pojo(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return key + " : " + value;
+        }
     }
 }
