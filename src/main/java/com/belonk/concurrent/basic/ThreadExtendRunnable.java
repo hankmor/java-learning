@@ -77,7 +77,7 @@ class MyThread extends Thread {
 	}
 }
 
-// 实现Runabble
+// 实现Runnable
 
 class MySubThread extends MyThread implements Runnable {
 	public MySubThread(MySubThread runnable) {
