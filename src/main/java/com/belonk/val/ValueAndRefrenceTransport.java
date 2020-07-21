@@ -72,7 +72,8 @@ public class ValueAndRefrenceTransport {
 		User user3 = new User("bbb");
 		// user3引用复制给user2
 		user2 = user3;
-		// user2改变名称
+		// user2改变名称，其实更改的是user3引用指向的User实例名称，原user2不变
+		// 如果注释掉前边两行代码，那么users指向的实例是引用类型，所以user2的name会被改为ccc
 		user2.setName("ccc");
 	}
 
