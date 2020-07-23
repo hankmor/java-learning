@@ -10,6 +10,7 @@ public class CompletableFutureTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
+        // 正常执行，无异常信息
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
         executorService.execute(new TestTask(completableFuture));
 
