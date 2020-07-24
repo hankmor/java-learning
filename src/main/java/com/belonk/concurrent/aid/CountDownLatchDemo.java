@@ -3,6 +3,7 @@ package com.belonk.concurrent.aid;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by sun on 2020/7/23.
@@ -28,6 +29,10 @@ public class CountDownLatchDemo {
 		System.out.println("==============");
 		Driver2 driver2 = new Driver2();
 		driver2.doWork();
+		System.out.println("==============");
+		Driver3 driver3 = new Driver3();
+		driver3.doWork();
+
 	}
 }
 
@@ -135,6 +140,78 @@ class Worker2 implements Runnable {
 			doneSignal.countDown();
 		} catch (InterruptedException ex) {
 		}
+	}
+
+	void doWork() {
+		System.out.println(Thread.currentThread().getName() + "/t开始工作了...");
+	}
+}
+
+class Driver3 {
+	public void doWork() throws InterruptedException {
+		int threadCount = 10;
+		CountDownLatch doneSignal = new CountDownLatch(threadCount);
+		System.out.println("创建第一组分支线程...");
+		// 创建并启动分支线程
+		for (int i = 0; i < threadCount; ++i)
+			new Thread(new Worker3(doneSignal)).start();
+
+		// 等待分支线程全部工作完成
+		doneSignal.await();
+		// 主线程再执行一些逻辑
+		doSomethingElse();
+		System.out.println("主线程和分支线程全部工作完成");
+
+		// 注意以下是错误示例
+
+		System.out.println("====2秒后第二组开始====");
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("创建第二组分支线程");
+		// 创建并启动分支线程
+		for (int i = 0; i < threadCount; ++i)
+			new Thread(new Worker3(doneSignal)).start();
+
+		// 等待分支线程全部工作完成
+		doneSignal.await();
+		// 主线程再执行一些逻辑
+		doSomethingElse();
+		System.out.println("主线程和分支线程全部工作完成");
+
+		/*!
+		 * 可能的结果如下：
+		 * 做一些其他工作...
+		 * 主线程和分支线程全部工作完成
+		 * Thread-19/t开始工作了...
+		 *
+		 * 可以看到，重用CountDownLatch后，结果不正确！doneSignal已经不能控制线程的等待了，分支线程可能在主线程完成后才开始执行。
+		 *
+		 * 所以，CountDownLatch是不能重用的，计数器减为0过后，不能保证线程的相互等待状态了
+		 */
+	}
+
+	private void doSomethingElse() {
+		System.out.println("做一些其他工作...");
+	}
+}
+
+class Worker3 implements Runnable {
+	private final CountDownLatch doneSignal;
+
+	Worker3(CountDownLatch doneSignal) {
+		this.doneSignal = doneSignal;
+	}
+
+	public void run() {
+		// 线程开始工作
+		doWork();
+		// 当前线程工作完成，latch减1
+		doneSignal.countDown();
+		System.out.println("当前计数器值：" + doneSignal.getCount());
 	}
 
 	void doWork() {
