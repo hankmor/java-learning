@@ -1,4 +1,4 @@
-package com.belonk.concurrent.basic;
+package com.belonk.concurrent.thread;
 
 /**
  * Created by sun on 2017/3/5.
