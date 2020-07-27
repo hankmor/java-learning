@@ -1,4 +1,9 @@
-package com.belonk.concurrent.basic;
+package com.belonk.concurrent.threadpool;
+
+import com.belonk.concurrent.thread.LiftOff;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by sun on 2017/3/5.
@@ -7,7 +12,7 @@ package com.belonk.concurrent.basic;
  * @version 1.0
  * @since 1.0
  */
-public class MoreBasicThreads {
+public class FixedThreadPool {
     //~ Static fields/initializers =====================================================================================
 
 
@@ -18,10 +23,12 @@ public class MoreBasicThreads {
 
 
     //~ Methods ========================================================================================================
+
     public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
         for (int i = 0; i < 5; i++) {
-            new Thread(new LiftOff()).start();
+            executorService.execute(new LiftOff());
         }
-        System.out.println("Waiting for LiftOff");
+        executorService.shutdown();
     }
 }

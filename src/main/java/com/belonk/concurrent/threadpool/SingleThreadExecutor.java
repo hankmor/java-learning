@@ -1,6 +1,6 @@
-package com.belonk.concurrent.executor;
+package com.belonk.concurrent.threadpool;
 
-import com.belonk.concurrent.basic.LiftOff;
+import com.belonk.concurrent.thread.LiftOff;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
