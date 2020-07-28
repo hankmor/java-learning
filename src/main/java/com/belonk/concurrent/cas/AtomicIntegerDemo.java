@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *         do {
  *             // 从对象上获取属性的值
  *             var5 = this.getIntVolatile(var1, var2);
- *             // compareAndSwapInt：一个native方法，保证了原子性操作
+ *             // compareAndSwapInt：一个native方法，保证了原子性操作（通过CPU的原子指令（cmpxchg指令）保证原子性）
  *             // 比较并交换，如果var1对象上var2位置属性的值为var5，那么比较成功，将字段的值设置为var5+var4，返回true
  *             // 否则比较失败，返回false，然后进入循环一直比较，直到比较成功
  *         } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
@@ -68,7 +68,7 @@ public class AtomicIntegerDemo {
 
 	//~ Methods
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoSuchFieldException {
 		atomicCounterTest();
 	}
 
@@ -99,6 +99,8 @@ class AtomicCounter {
 
 	public void increment() {
 		counter.getAndIncrement();
+		// CAS: 比对期望值expect，相同则更新为update值并返回true，否则更新失败，返回false
+		// counter.compareAndSet(expect, update)
 	}
 
 	public int getCount() {
