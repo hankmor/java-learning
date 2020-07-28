@@ -4,11 +4,44 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 并发编程三大特性：
+ * <ul>
+ *     <li>原子性：一系列操作，要么全部执行完成，要么都不执行，不允许部分成功</li>
+ *     <li>可见性：通知操作某一数据的多个线程，某线程修改了数据，其他线程能够立即看到修改后的值</li>
+ *     <li>有序性：程序执行的顺序按照代码编写的先后顺序执行</li>
+ * </ul>
+ * JMM: java内存模型，每个线程都有自己的工作内存，首先会将操作数据从JVM内存(主内存)拷贝到自己的工作内存中，操作完成再写回主内存。
+ * <p>
+ * 由于在并发环境下，多个线程进行资源抢占，可能出现写覆盖，一个线程写入数据时将其他线程的值给覆盖了，比如：
+ * <pre>
+ * class UnsafeCounter {
+ *     private int count;
+ *
+ *     // 两个线程a、b同时调用此方法，首先从主内存中拷贝count的值到自己的工作内存，比如此时的值为0；
+ *     // 然后，a线程在自己的工作内容修改count的值为1并写入到主内存中，但是b线程并不知道a已经修改了count的值，b线程在自己的工作内容修改
+ *     // count的值也为1，写入到主内存时，将a已经修改的值给覆盖掉了
+ *     public void increment() {
+ *         count++;
+ *     }
+ *
+ *     public int getCount() {
+ *         return count;
+ *     }
+ * }
+ * </pre>
+ * <p>
+ * Volatile可以解决上述线程间数据修改后可见性的问题，它可以保证线程修改了共享变量的值会立即刷新到主内存，并通知其他线程该值已经更改，
+ * 其他线程直接从主内存读取值。
+ * <p>
  * Volatile是轻量级的同步机制，可以保证数据可见性、禁止指令重排（有序性），但是不能保证原子性。
  * <ul>
  * <li>可见性：某个线程修改了数据，其他线程能够立即看到修改后的值
  * <li>有序性：禁止jvm对执行代码进行指令重排序，按照代码编写顺序执行，见{@link InstructionReorderingDemo}。
  * </ul>
+ * <p>
+ * <p>
+ * volatile底层的实现原理：https://mp.weixin.qq.com/s/keaORK_ePM3x2GLcrFZZHw
+ * <p>
  * Created by sun on 2020/7/26.
  *
  * @author sunfuchang03@126.com
@@ -188,8 +221,10 @@ class UnsafeCounter2 {
 	// 添加了volatile关键字
 	private volatile int count;
 
-	// 方法没有加锁，不能保证原子操作，那么volatile关键字能否保证原子性？答案是否定的
+	// 方法调用不能保证原子操作，那么volatile关键字能否保证原子性？答案是否定的
 	public void increment() {
+		// 这行代码有三个操作：先从主内存拷贝值到工作内存，然后将其加1，最后，再写回主内存
+		// 这三个操作并不是原子性的，可能产生写覆盖
 		count++;
 	}
 
