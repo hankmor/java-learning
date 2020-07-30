@@ -39,6 +39,13 @@ package com.belonk.concurrent.cas;
  * <li>对象终结规则：<b>一个对象的初始化完成先行发生于他的finalize()方法的开始。</b>
  * </ol>
  * <p>
+ * <p>
+ * 指令重排底层是A通过内存屏障实现的，内存屏障是通过CPU指令控制重排序和内存可见性。
+ * LoadLoad屏障：对于这样的语句Load1; LoadLoad; Load2，在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。
+ * StoreStore屏障：对于这样的语句Store1; StoreStore; Store2，在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。
+ * LoadStore屏障：对于这样的语句Load1; LoadStore; Store2，在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。
+ * StoreLoad屏障：对于这样的语句Store1; StoreLoad; Load2，在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。它的开销是四种屏障中最大的。
+ * <p>
  * Created by sun on 2020/7/27.
  *
  * @author sunfuchang03@126.com
@@ -118,8 +125,8 @@ class A {
 
 class B {
 	// volatile关键字可以禁止指令重排
-	private volatile int a = 0;
-	private volatile boolean flag = false;
+	private /*volatile*/ int a = 0;
+	private /*volatile*/ boolean flag = false;
 
 	public void f1() {
 		// 多个线程调用该方法，如果指令重排，可能出现flag = true先于 a = 1执行
