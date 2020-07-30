@@ -111,7 +111,7 @@ public class ABADemo {
 		}, "resolve aba thread2").start();
 
 		// 以下这个demo在jdk8不能成功执行，只有第一次更新能够修改成功，其他都是失败
-		// 原因：期望值与原始值比较使用的是"=="，值超过127时，== 比较返回false
+		// 原因：期望值与原始值比较使用的是"=="，即Integer与int比较，值超过127时，== 比较返回false
 		// 因为-128到127之间的Integer会进行缓存，存在常量池中，直接取值，==比较返回true，超过127则需要new Integer()，==比较返回false。
 		// 所以需要使用stampedReference.getReference()来获取当前值再进行修改
 
