@@ -33,7 +33,7 @@ class AirCondition {
 	// 必须加锁，才能保证wait、notifyAll方法使用同一个监视器
 	public synchronized void temperatureUp() throws InterruptedException {
 		// 假设温度不为0时，不能调高温度
-		// 多线程的判断，存在虚假唤醒，所以必须使用while循环来判断条件，而不能用if判断
+		// 多线程的判断，存在虚假唤醒，必须使用while循环来判断条件，而不能用if判断
 		// if (temperature != 0) {
 		while (temperature != 0) {
 			// 睡眠，等待被唤醒
