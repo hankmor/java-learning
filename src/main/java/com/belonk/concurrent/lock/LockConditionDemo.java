@@ -23,8 +23,7 @@ public class LockConditionDemo {
 	//~ Methods
 
 	/**
-	 * 题目：三个线程A、B、C，按顺序分别打印5、10、15次，然后重复10次。
-	 * 不能使用sleep。
+	 * 题目：使用Condition完成三个线程A、B、C，按顺序分别打印5、10、15次，然后重复10次。
 	 */
 	public static void main(String[] args) {
 		Resource resource = new Resource();
