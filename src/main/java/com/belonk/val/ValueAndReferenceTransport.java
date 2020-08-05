@@ -6,7 +6,7 @@ package com.belonk.val;
  * @author sunfuchang03@126.com
  * @since 1.0
  */
-public class ValueAndRefrenceTransport {
+public class ValueAndReferenceTransport {
 	/*
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 *
@@ -78,7 +78,7 @@ public class ValueAndRefrenceTransport {
 	}
 
 	public static void main(String[] args) {
-		ValueAndRefrenceTransport vart = new ValueAndRefrenceTransport();
+		ValueAndReferenceTransport vart = new ValueAndReferenceTransport();
 		// 输出1
 		System.out.println(vart.val());
 		// 输出aaa
