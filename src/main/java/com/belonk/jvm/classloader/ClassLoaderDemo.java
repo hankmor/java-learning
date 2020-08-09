@@ -26,6 +26,7 @@ public class ClassLoaderDemo {
 	 * 2、ExtClassloader：加载JAVA_HOME/jre/ext目录下的jar，用于扩展类的加载
 	 * 3、AppClassLoader：加载CLASSPATH中的jar
 	 * 4、自定义类加载器：继承Java.lang.ClassLoader
+	 * 加载类时从下到上进行委派，顶层类加载不到再从上到下顺序加载，称为双亲委派机制。
 	 * <p>
 	 * 双亲委派机制：委托机制，子类加载器持有其父类加载引用，自身先不加载类，而是委托给父类加载器加载，如果父类加载不能加载，
 	 * 则继续向上委托给父类加载，知道bootstrap class loader为止。如果直到bootstrap class loader仍然不能加载类，则从bootstrap
