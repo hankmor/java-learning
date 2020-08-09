@@ -6,7 +6,8 @@ package java.lang;
  * @author sunfuchang03@126.com
  * @since 1.0
  */
-public class String {
+// 测试用，该类会导致与String类冲突，故改名为String1，测试时应为String
+public class String1 {
 	//~ Static fields/constants/initializer
 
 
