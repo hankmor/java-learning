@@ -84,7 +84,7 @@ public class AtomicIntegerDemo {
 
 	public static void atomicCounterTest() {
 		AtomicCounter counter = new AtomicCounter();
-		// 10个线程，每个线程技术1000此，期望的结果是10000
+		// 10个线程，每个线程执行1000次，期望的结果是10000
 		for (int i = 0; i < 10; i++) {
 			new Thread(() -> {
 				for (int j = 0; j < 1000; j++) {
