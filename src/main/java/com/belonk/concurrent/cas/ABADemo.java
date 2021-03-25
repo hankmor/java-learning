@@ -29,6 +29,9 @@ public class ABADemo {
 
 	/**
 	 * 展示ABA问题
+	 * <p>
+	 * CAS的ABA问题：变量x的原值设为A，某一个线程将其改为了B，然后又从B改为了A，其他线程修改x的值时发现是A，以为没有修改过，其实此时
+	 * x的值已经被改过了。
 	 */
 	static void showABA() {
 		AtomicInteger integer = new AtomicInteger(100);
@@ -72,7 +75,7 @@ public class ABADemo {
 			 */
 			System.out.println(Thread.currentThread().getName() + "修改前版本号：" + stampedReference.getStamp());
 			System.out.println(Thread.currentThread().getName() + "修改前值：" + stampedReference.getReference());
-			// 不要使用compareAndSet(100,200,...)，虽然第一次可以，但是后续再次执行会新建Pair对象并与持有的pir进行CAS, 它们是不同的对象，造成更新失败
+			// 不要使用compareAndSet(100,200,...)，虽然第一次可以，但是后续再次执行会新建Pair对象并与持有的pair进行CAS, 它们是不同的对象，造成更新失败
 			boolean b = stampedReference.compareAndSet(stampedReference.getReference(), 200, stampedReference.getStamp(), stampedReference.getStamp() + 1);
 			System.out.println(Thread.currentThread().getName() + "将值改为200，成功: " + b
 					+ ", 当前版本号为: " + stampedReference.getStamp());
@@ -111,19 +114,12 @@ public class ABADemo {
 		}, "resolve aba thread2").start();
 
 		// 以下这个demo在jdk8不能成功执行，只有第一次更新能够修改成功，其他都是失败
-		// 原因：期望值与原始值比较使用的是"=="，即Integer与int比较，值超过127时，== 比较返回false
+		// ！原因：期望值与原始值比较使用的是"=="，即Integer与int比较，值超过127时，== 比较返回false
 		// 因为-128到127之间的Integer会进行缓存，存在常量池中，直接取值，==比较返回true，超过127则需要new Integer()，==比较返回false。
 		// 所以需要使用stampedReference.getReference()来获取当前值再进行修改
 
 		// AtomicStampedReference<Integer> stampedReference = new AtomicStampedReference<>(100, 0);
 		// new Thread(() -> {
-		// 	// 先改为200
-		// 	/* 四个参数：
-		// 	 * expectedReference: 期望的值，用来比较
-		// 	 * newReference: 更新的新值
-		// 	 * expectedStamp: 期望的原始标记（版本号）
-		// 	 * newStamp: 更新的新版本号
-		// 	 */
 		// 	System.out.println("修改前版本号：" + stampedReference.getStamp());
 		// 	System.out.println("修改前值：" + stampedReference.getReference());
 		// 	boolean b = stampedReference.compareAndSet(100, 128, stampedReference.getStamp(), stampedReference.getStamp() + 1);

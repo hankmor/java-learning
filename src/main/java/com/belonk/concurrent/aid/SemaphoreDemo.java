@@ -21,22 +21,29 @@ public class SemaphoreDemo {
 
 	//~ Methods
 
-
+	// 信号量：控制许可数量，持有一个许可总数，并设置每次允许执行的许可数量。常用来控制允许执行的线程数量
 	public static void main(String[] args) {
-		test1();
+		// test1();
 		// testPool();
-		// testPark();
+		// testParkWrong(); // 逻辑错误的示例：没有同步加锁，导致数据错误（剩余车位数量不正确）
+		testPark(); // 正确示例
 	}
 
 	public static void test1() {
-		int permits = 5;
+		int permits = 6;
 		int acquirePermits = 2;
+		// permit：初始总数量
 		Semaphore semaphore = new Semaphore(permits);
-		for (int i = 0; i < permits * 3; i++) {
+		for (int i = 0; i < permits * 2; i++) {
 			new Thread(() -> {
 				try {
+					int availablePermits = semaphore.availablePermits();
+					if (availablePermits == 0) {
+						System.out.println(Thread.currentThread().getName() + "\t没有可用的许可数量，需要阻塞等待其他线程释放许可.");
+					}
+					// 获取许可数量：acquirePermits，被允许的许可数量。如果没有可用的数量，则阻塞，直到线程被中断
 					semaphore.acquire(acquirePermits);
-					System.out.println(Thread.currentThread().getName() + "\t获得许可，可用许可数量：" + semaphore.availablePermits());
+					System.out.println(Thread.currentThread().getName() + "\t【获得】许可，可用许可数量：" + semaphore.availablePermits());
 					try {
 						TimeUnit.SECONDS.sleep(3);
 					} catch (InterruptedException e) {
@@ -45,10 +52,20 @@ public class SemaphoreDemo {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
+					// 释放许可数量，放回semaphore中
 					semaphore.release(acquirePermits);
-					System.out.println(Thread.currentThread().getName() + "\t释放许可，可用许可数量：" + semaphore.availablePermits());
+					System.out.println(Thread.currentThread().getName() + "\t【释放】许可，可用许可数量：" + semaphore.availablePermits());
 				}
 			}, "t" + i).start();
+		}
+	}
+
+	public static void testParkWrong() {
+		int stallNumber = 10;
+		int cars = 20;
+		ParkWrong parkWrong = new ParkWrong(stallNumber);
+		for (int i = 0; i < cars; i++) {
+			new Thread(parkWrong::parking, "car" + i).start();
 		}
 	}
 
@@ -139,28 +156,22 @@ class Pool {
 	}
 }
 
-
 // 停车场
-class Park {
+class ParkWrong {
 	// 车位数量
 	private final int stallNumber;
+	private final Semaphore semaphore;
 
-	private Semaphore semaphore;
-
-	public Park(int stallNumber) {
-		System.out.println("车场车位数量：" + stallNumber);
+	public ParkWrong(int stallNumber) {
 		this.stallNumber = stallNumber;
+		System.out.println("车场车位数量：" + this.stallNumber);
 		// 两个参数:
 		// permits: 许可数量，可能为负数，表示：许可释放必须先于获取
 		// fair: 是否公平竞争，true：公平，即等待时间越久的线程越先获取许可，false：非公平，默认为false
 		// 默认为false，车辆抢占车位顺序是无序的
-		this.semaphore = new Semaphore(stallNumber);
+		this.semaphore = new Semaphore(stallNumber, false);
 		// 设置为true，可以看到车辆按顺序抢占车位
 		// this.semaphore = new Semaphore(stallNumber, true);
-	}
-
-	public int getStallNumber() {
-		return stallNumber;
 	}
 
 	// 停车
@@ -169,14 +180,15 @@ class Park {
 			// 获取许可，如果不能获取就阻塞
 			System.out.println(Thread.currentThread().getName() + "\t正在等待车位...");
 			semaphore.acquire();
-			// TODO 这里的空余车位：semaphore.availablePermits()，为什么会出现错误如下：
+			// 这里的空余车位：semaphore.availablePermits()，为什么会出现错误如下：
 			// car0	抢到车位，当前空余车位：8
 			// car1	抢到车位，当前空余车位：8
 			// 这里的car0和car1抢车位，车位剩余都是8？？
+			// ！！原因：Semaphore acquire，release方法并不能保证原子性，不持有任何同步锁，需要业务本身自己维护同步锁。
 			System.out.println(Thread.currentThread().getName() + "\t抢到车位，当前空余车位：" + semaphore.availablePermits());
-			// if (semaphore.availablePermits() == 0) {
-			// 	System.out.println("====车位已满====");
-			// }
+			if (semaphore.availablePermits() == 0) {
+				System.out.println("====车位已满====");
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
@@ -189,6 +201,66 @@ class Park {
 			// 离场
 			semaphore.release();
 			System.out.println(Thread.currentThread().getName() + "\t离开了车位, 停车时间" + time + "秒, 当前空余车位：" + semaphore.availablePermits());
+		}
+	}
+}
+
+class Park {
+	// 初始空余车位数量
+	private volatile int stallNumber;
+	// 停车数控制，假设每次只能停一辆车
+	private final Semaphore semaphore;
+	private static final Object enterLock = new Object();
+	private static final Object leaveLock = new Object();
+
+	public Park(int stallNumber) {
+		this.stallNumber = stallNumber;
+		System.out.println("车场当前空余车位数量：" + this.stallNumber);
+		// 公平排队等待车位
+		this.semaphore = new Semaphore(stallNumber, false);
+	}
+
+	// 入场停车
+	public void enter() throws InterruptedException {
+		// 假设，每次只能停一辆车，默认参数是1
+		semaphore.acquire();
+		synchronized (enterLock) {
+			stallNumber--;
+			if (stallNumber == 0) {
+				System.out.println(Thread.currentThread().getName() + "\t抢到车位，当前没有空余车位");
+			} else {
+				System.out.println(Thread.currentThread().getName() + "\t抢到车位，当前空余车位：" + stallNumber);
+			}
+		}
+	}
+
+	// 离场出车
+	public void leave() {
+		// 模拟停车时间
+		long time = (long) (Math.random() * 10 + 2);
+		try {
+			TimeUnit.SECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		// 加锁
+		synchronized (leaveLock) {
+			stallNumber++;
+			System.out.println(Thread.currentThread().getName() + "\t离开了车位, 停车时间" + time + "秒, 当前空余车位：" + this.stallNumber);
+		}
+		semaphore.release();
+	}
+
+	// 停车
+	public void parking() {
+		try {
+			// 入场
+			enter();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			// 离场
+			leave();
 		}
 	}
 }

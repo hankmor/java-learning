@@ -162,7 +162,7 @@ class Driver3 {
 		doSomethingElse();
 		System.out.println("主线程和分支线程全部工作完成");
 
-		// 注意以下是错误示例
+		// 注意以下是错误示例：重用CountDownLatch后，结果不正确
 
 		System.out.println("====2秒后第二组开始====");
 		try {

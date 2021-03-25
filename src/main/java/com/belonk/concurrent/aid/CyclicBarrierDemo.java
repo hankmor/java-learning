@@ -26,20 +26,20 @@ public class CyclicBarrierDemo {
 	//~ Methods ========================================================================================================
 
 	public void test1() {
-		int N = 4;
-		CyclicBarrier barrier = new CyclicBarrier(N);
-		for (int i = 0; i < N; i++)
+		int n = 4;
+		CyclicBarrier barrier = new CyclicBarrier(n);
+		for (int i = 0; i < n; i++)
 			new Writer(barrier).start();
 	}
 
 	public void test2() {
-		int N = 4;
+		int n = 4;
 		// N为线程数量，所有线程都需要调用CyclicBarrier.await后才能继续执行，否则阻塞
 		// 第二个参数为所有线程到达屏障点过后执行的逻辑，Runnable内的代码会由CyclicBarrier选择某一个线程来执行，然后才会释放所有线程
-		CyclicBarrier barrier = new CyclicBarrier(N, () -> System.out.println("最后执行的线程：" + Thread.currentThread().getName()));
+		CyclicBarrier barrier = new CyclicBarrier(n, () -> System.out.println("最后执行的线程：" + Thread.currentThread().getName()));
 
 		System.out.println("第一组线程");
-		for (int i = 0; i < N; i++)
+		for (int i = 0; i < n; i++)
 			new Writer(barrier).start();
 
 		System.out.println("等待2秒");
@@ -51,7 +51,7 @@ public class CyclicBarrierDemo {
 
 		// 等待2秒后，重用CyclicBarrier
 		System.out.println("第二组线程，重用CyclicBarrier");
-		for (int i = 0; i < N; i++)
+		for (int i = 0; i < n; i++)
 			new Writer(barrier).start();
 	}
 
@@ -63,8 +63,8 @@ public class CyclicBarrierDemo {
 	public static void main(String[] args) throws InterruptedException {
 		CyclicBarrierDemo cyclicBarrierTest = new CyclicBarrierDemo();
 		// cyclicBarrierTest.test1();
-		cyclicBarrierTest.test2();
-		// cyclicBarrierTest.test3();
+		// cyclicBarrierTest.test2();
+		cyclicBarrierTest.test3();
 	}
 
 }
@@ -85,7 +85,7 @@ class Writer extends Thread {
 			System.out.println("线程" + Thread.currentThread().getName() + "写入数据完毕，等待其他线程写入完毕");
 			// 执行完就等待其他线程到达屏障点
 			int await = cyclicBarrier.await();
-			System.out.println("当前等到的线程数：" + await);
+			System.out.println("当前等待的线程数：" + await);
 		} catch (InterruptedException | BrokenBarrierException e) {
 			e.printStackTrace();
 		}
@@ -93,17 +93,17 @@ class Writer extends Thread {
 }
 
 class Solver {
-	final int N;
+	final int n;
 	final float[][] data;
 	final CyclicBarrier barrier;
 
 	public Solver(float[][] matrix) throws InterruptedException {
 		data = matrix;
-		N = matrix.length;
-		barrier = new CyclicBarrier(N, this::mergeRows);
+		n = matrix.length;
+		barrier = new CyclicBarrier(n, this::mergeRows);
 
-		List<Thread> threads = new ArrayList<>(N);
-		for (int i = 0; i < N; i++) {
+		List<Thread> threads = new ArrayList<>(n);
+		for (int i = 0; i < n; i++) {
 			Thread thread = new Thread(new Worker(i));
 			threads.add(thread);
 			thread.start();
