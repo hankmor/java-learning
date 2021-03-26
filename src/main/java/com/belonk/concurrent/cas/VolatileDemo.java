@@ -248,7 +248,7 @@ class Counter {
 }
 
 class SafeCounter2 {
-	private AtomicInteger counter = new AtomicInteger();
+	private final AtomicInteger counter = new AtomicInteger();
 
 	public void increment() {
 		counter.getAndIncrement();

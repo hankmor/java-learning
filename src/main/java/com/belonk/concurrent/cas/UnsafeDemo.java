@@ -34,22 +34,37 @@ public class UnsafeDemo {
 		// Unsafe unsafe = Unsafe.getUnsafe();
 		// 使用反射获取Unsafe类
 		Unsafe unsafe = getUnsafe();
-		ForUnsafe forUnsafe = new ForUnsafe();
+		assert unsafe != null;
+		ForUnsafe forUnsafe = new ForUnsafe(100, 200);
 		System.out.println("forUnsafe: " + forUnsafe.toString());
-		// valueOffset
+		// valueOffset：内存地址中的偏移量
 		long valueOffsetA = unsafe.objectFieldOffset(forUnsafe.getClass().getDeclaredField("a"));
 		long valueOffsetB = unsafe.objectFieldOffset(forUnsafe.getClass().getDeclaredField("b"));
 		// offset a:12
 		// offset b:16
-		System.out.println("offset a:" + valueOffsetA);
-		System.out.println("offset b:" + valueOffsetB);
+		System.out.println("属性a在内存中的偏移量：" + valueOffsetA);
+		System.out.println("属性b在内存中的偏移量：" + valueOffsetB);
+		System.out.println("=== CAS修改一次 ===");
+		System.out.println("修改前：" + forUnsafe);
+		boolean b1 = unsafe.compareAndSwapInt(forUnsafe, valueOffsetA, 100, 101);
+		boolean b2 = unsafe.compareAndSwapInt(forUnsafe, valueOffsetB, 200, 201);
+		System.out.println("属性a修改结果：" + b1); // true
+		System.out.println("属性b修改结果：" + b2); // true
+		System.out.println("修改后：" + forUnsafe);
+		System.out.println("=== CAS再修改一次 ===");
+		boolean b3 = unsafe.compareAndSwapInt(forUnsafe, valueOffsetA, 101, 102);
+		boolean b4 = unsafe.compareAndSwapInt(forUnsafe, valueOffsetB, 200, 202);
+		System.out.println("属性a修改结果：" + b3); // true
+		System.out.println("属性b修改结果：" + b4); // false
+		System.out.println("修改后：" + forUnsafe);
 	}
 
 	private static Unsafe getUnsafe() {
 		try {
+			// theUnsafe: private static final Unsafe theUnsafe，存储了Unsafe的实例对象
 			Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
 			theUnsafe.setAccessible(true);
-			return (Unsafe) theUnsafe.get(null);
+			return (Unsafe) theUnsafe.get(null); // 静态属性的get方法，返回实例对象
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
@@ -60,6 +75,11 @@ public class UnsafeDemo {
 class ForUnsafe {
 	private int a;
 	private int b;
+
+	public ForUnsafe(int a, int b) {
+		this.a = a;
+		this.b = b;
+	}
 
 	public int getA() {
 		return a;
@@ -75,5 +95,13 @@ class ForUnsafe {
 
 	public void setB(int b) {
 		this.b = b;
+	}
+
+	@Override
+	public String toString() {
+		return "ForUnsafe{" +
+				"a=" + a +
+				", b=" + b +
+				'}';
 	}
 }
