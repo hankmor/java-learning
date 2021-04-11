@@ -1,6 +1,6 @@
 package com.belonk.concurrent.sleep;
 
-import com.belonk.concurrent.basic.LiftOff;
+import com.belonk.concurrent.thread.LiftOff;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

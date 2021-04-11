@@ -1,4 +1,4 @@
-package com.belonk.concurrent.executor;
+package com.belonk.concurrent.threadpool;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
