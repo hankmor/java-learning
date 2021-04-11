@@ -1,4 +1,4 @@
-package com.belonk.concurrent.basic;
+package com.belonk.concurrent.thread;
 
 import org.junit.Test;
 
