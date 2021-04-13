@@ -1,4 +1,4 @@
-package com.belonk.concurrent.join;
+package com.belonk.concurrent.thread.join;
 
 import com.belonk.util.PrintHelper;
 

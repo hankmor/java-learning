@@ -1,4 +1,4 @@
-package com.belonk.concurrent.priority;
+package com.belonk.concurrent.thread.priority;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

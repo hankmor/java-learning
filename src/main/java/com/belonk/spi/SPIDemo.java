@@ -1,4 +1,4 @@
-package com.belonk.concurrent.spi;
+package com.belonk.spi;
 
 import java.util.ServiceLoader;
 

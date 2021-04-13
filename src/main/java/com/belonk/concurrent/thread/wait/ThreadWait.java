@@ -1,13 +1,13 @@
-package com.belonk.concurrent.dl;
+package com.belonk.concurrent.thread.wait;
 
 /**
- * Created by sun on 2018/4/20.
+ * Created by sun on 2018/5/22.
  *
  * @author sunfuchang03@126.com
  * @version 1.0
  * @since 1.0
  */
-public class DeadLockTest {
+public class ThreadWait {
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *
@@ -16,8 +16,7 @@ public class DeadLockTest {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private static Object lock1 = new Object();
-    private static Object lock2 = new Object();
+    
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,8 +47,39 @@ public class DeadLockTest {
      */
 
     public static void main(String[] args) {
-        new Thread(new MyThread1(lock1, lock2)).start();
-        new Thread(new MyThread2(lock1, lock2)).start();
+        Object lock = new Object();
+        new Thread(() -> {
+            synchronized (lock) {
+                while (true) {
+                    System.out.println("enter thread1");
+                    try {
+                        System.out.println("thread1 waiting");
+                        Thread.sleep(5000);
+                        lock.notify();
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("thread1 finished");
+                }
+            }
+        }).start();
+        new Thread(() -> {
+            synchronized (lock) {
+                while (true) {
+                    System.out.println("enter thread2");
+                    try {
+                        System.out.println("thread2 waiting");
+                        Thread.sleep(5000);
+                        lock.notify();
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("thread2 finished");
+                }
+            }
+        }).start();
     }
     
     /*
@@ -61,46 +91,4 @@ public class DeadLockTest {
      */
 
 
-}
-
-class MyThread1 implements Runnable {
-    private Object lock1;
-    private Object lock2;
-    public MyThread1(Object lock1, Object lock2) {
-        this.lock1 = lock1;
-        this.lock2 = lock2;
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            synchronized (lock1) {
-                System.out.println("using lock1");
-                synchronized (lock2) {
-                    System.out.println("using lock2");
-                }
-            }
-        }
-    }
-}
-
-class MyThread2 implements Runnable {
-    private Object lock1;
-    private Object lock2;
-    public MyThread2(Object lock1, Object lock2) {
-        this.lock1 = lock1;
-        this.lock2 = lock2;
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            synchronized (lock2) {
-                System.out.println("using lock2");
-                synchronized (lock1) {
-                    System.out.println("using lock1");
-                }
-            }
-        }
-    }
 }

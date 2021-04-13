@@ -1,6 +1,6 @@
-package com.belonk.concurrent.deamon;
+package com.belonk.concurrent.threadpool;
 
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.Callable;
 
 /**
  * Created by sun on 2017/3/5.
@@ -9,22 +9,22 @@ import java.util.concurrent.ThreadFactory;
  * @version 1.0
  * @since 1.0
  */
-public class DaemonThreadFactory implements ThreadFactory {
+public class TaskWithResult implements Callable<String> {
     //~ Static fields/initializers =====================================================================================
 
 
     //~ Instance fields ================================================================================================
-
+    private int id;
 
     //~ Constructors ===================================================================================================
-
+    public TaskWithResult(int id) {
+        this.id = id;
+    }
 
     //~ Methods ========================================================================================================
 
     @Override
-    public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r);
-        thread.setDaemon(true);
-        return thread;
+    public String call() throws Exception {
+        return "Result is : " + id;
     }
 }
