@@ -1,4 +1,4 @@
-package com.belonk.concurrent.sleep;
+package com.belonk.concurrent.thread.sleep;
 
 import com.belonk.concurrent.thread.LiftOff;
 

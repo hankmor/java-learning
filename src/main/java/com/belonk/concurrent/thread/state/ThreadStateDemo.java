@@ -1,6 +1,4 @@
-package com.belonk.concurrent.ts;
-
-import jdk.nashorn.internal.ir.Block;
+package com.belonk.concurrent.thread.state;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,9 +31,10 @@ public class ThreadStateDemo {
 		 * 5、TERMINATED: 线程执行完成
 		 */
 		// 查看线程状态：jps, jstack [pid]
-		// 新创建线程，但是没有调用start启动，无法监视到
-		new Thread(new New(), "new-thread");
-		Thread thread = new Thread(new New(), "runnable-thread");
+		// 新创建线程，但是没有调用start启动，无法通过jstack监视到
+		Thread newThread = new Thread(new New(), "new-thread");
+		System.out.println(newThread.getState()); // 通过打印线程的状态，可以看到处于NEW状态
+		Thread thread = new Thread(new ThreadRunnable(), "runnable-thread");
 		thread.setPriority(Thread.MIN_PRIORITY);
 		thread.start();
 		// Object.wait()后，现场处于等待状态
@@ -113,8 +112,7 @@ class ThreadRunnable implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			// 使得当前线程一直等待调度，这样就可以看到RUNNABLE状态
-			Thread.yield();
+			// 使得当前线程一直y=运行，这样就可以看到RUNNABLE状态
 		}
 	}
 }

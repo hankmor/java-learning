@@ -188,6 +188,7 @@ public class ThreadVariations {
 
     //~ Methods ========================================================================================================
     public static void main(String[] args) {
+        // 线程实现的多种方式
         new InnerThread1("InnerThread1");
         new InnerThread2("InnerThread2");
         new InnerRunnable1("InnerRunnable1");
