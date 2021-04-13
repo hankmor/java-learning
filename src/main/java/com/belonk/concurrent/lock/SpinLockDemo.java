@@ -23,13 +23,16 @@ public class SpinLockDemo {
 
 
 	public static void main(String[] args) {
+		/*
+		 * 自旋锁演示示例
+		 */
 		SpinLock lock = new SpinLock();
 		// 创建线程，模拟抢占锁的情况
 		for (int i = 1; i <= 5; i++) {
 			new Thread(() -> {
+				// 加锁
+				lock.lock();
 				try {
-					// 加锁
-					lock.lock();
 					// 模拟执行业务逻辑
 					System.out.println(Thread.currentThread().getName() + "已获取锁");
 					TimeUnit.MILLISECONDS.sleep((long) ((Math.random() * 1000) + 2));

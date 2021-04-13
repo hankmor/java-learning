@@ -1,4 +1,4 @@
-package com.belonk.concurrent.wait;
+package com.belonk.concurrent.thread.wait;
 
 /**
  * Created by sun on 2020/7/31.
@@ -45,7 +45,7 @@ class AirCondition {
 		this.notifyAll();
 	}
 
-	// 升高温度，当温度为0的时候，需要等待其他线程将温度升高才能在升高
+	// 降低温度，当温度为0的时候，需要等待其他线程将温度升高才能在降低温度
 	// 必须加锁，才能保证wait、notifyAll方法使用同一个监视器
 	public synchronized void temperatureDown() throws InterruptedException {
 		// 假设温度为0时，不能再调低温度
