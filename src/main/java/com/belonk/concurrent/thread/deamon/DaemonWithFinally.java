@@ -1,4 +1,4 @@
-package com.belonk.concurrent.deamon;
+package com.belonk.concurrent.thread.deamon;
 
 import com.belonk.util.PrintHelper;
 
