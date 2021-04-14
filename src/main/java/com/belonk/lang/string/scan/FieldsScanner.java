@@ -1,11 +1,11 @@
 package com.belonk.lang.string.scan;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/13.
@@ -45,12 +45,12 @@ public class FieldsScanner {
     public static void main(String[] args) {
         String str = "sun, 1, 10, 100.0, 88.01234";
         FieldsScanner fieldsScanner = new FieldsScanner(str);
-        PrintHelper.println(fieldsScanner);
+        Printer.println(fieldsScanner);
         // 交换顺序
         str = "sun, " + Integer.toString(10) + ", " + Long.toString(1L)
                 + ", " + new BigDecimal("88.01234").toString() + ", " + Double.toString(100.0d);
         fieldsScanner = new FieldsScanner(str);
-        PrintHelper.println(fieldsScanner);
+        Printer.println(fieldsScanner);
     }
 
     public String getName() {

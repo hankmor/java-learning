@@ -1,8 +1,8 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by Dendy on 2016/1/12.
@@ -22,13 +22,13 @@ public class StringSplit {
 
     public static void main(String[] args) {
         // 以空格分割
-        PrintHelper.println(words.split(" "));
+        Printer.println(words.split(" "));
         // 以非单词分割，这里为空格，,和.
-        PrintHelper.println(words.split("\\W+"));
+        Printer.println(words.split("\\W+"));
         // 以n后边跟一个非单词分割，此处为“n ”、“n,”、“n.”
-        PrintHelper.println(words.split("n\\W+"));
+        Printer.println(words.split("n\\W+"));
         // 以一个或多个元音字母分割
-        PrintHelper.println(words.split("[aeiou]+"));
+        Printer.println(words.split("[aeiou]+"));
     }
 }
 /* Output:

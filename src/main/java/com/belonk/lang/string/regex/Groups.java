@@ -1,6 +1,6 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,9 +33,9 @@ public class Groups {
             // 一共5个组
             for (int i = 0; i <= matcher.groupCount(); i++) {
                 String s = matcher.group(i);
-                PrintHelper.print("[" + s + "]");
+                Printer.print("[" + s + "]");
             }
-            PrintHelper.println();
+            Printer.println();
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.deamon;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 /**
  * 大量生产线程
@@ -25,10 +25,10 @@ class Daemon implements Runnable {
         for (int i = 0; i < threads.length; i++) {
             threads[i] = new Thread(new DaemonSpawn());
             threads[i].start();
-            PrintHelper.println("DaemonSpawn " + i + " started.");
+            Printer.println("DaemonSpawn " + i + " started.");
         }
         for (int i = 0; i < threads.length; i++) {
-            PrintHelper.println("threads[" + i + "].isDaemon() = " + threads[i].isDaemon());
+            Printer.println("threads[" + i + "].isDaemon() = " + threads[i].isDaemon());
         }
         while (true) {
             Thread.yield();
@@ -59,7 +59,7 @@ public class Daemons {
         Thread thread = new Thread(new Daemon());
         thread.setDaemon(true);
         thread.start();
-        PrintHelper.println("concurrent.isDaemon() = " + thread.isDaemon());
+        Printer.println("concurrent.isDaemon() = " + thread.isDaemon());
         Thread.sleep(10);
     }
 }
