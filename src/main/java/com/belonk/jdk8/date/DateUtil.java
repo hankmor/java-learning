@@ -1,10 +1,11 @@
 package com.belonk.jdk8.date;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by sun on 2018/2/9.
@@ -14,33 +15,39 @@ import java.util.List;
  * @since 1.0
  */
 public class DateUtil {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    //~ Instance fields ================================================================================================
-
-
-    //~ Constructors ===================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Constructors ===================================================================================================
 
-    public static String dateToStr(Date date) {
-        Instant instant = date.toInstant();
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return localDateTime.format(dateTimeFormatter);
-    }
 
-    public static Date strToDate(String datetimeStr) {
-        LocalDateTime localDateTime = LocalDateTime.parse(datetimeStr, dateTimeFormatter);
-        Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
-        return Date.from(instant);
-    }
+	//~ Methods ========================================================================================================
 
-    public static void main(String[] args) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        System.out.println(LocalDateTime.now().format(dateFormatter));
-    }
+	public static String format(Date date, String format) {
+		Instant instant = date.toInstant();
+		LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		return dateTime.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public static String dateToStr(Date date) {
+		Instant instant = date.toInstant();
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		return localDateTime.format(dateTimeFormatter);
+	}
+
+	public static Date strToDate(String datetimeStr) {
+		LocalDateTime localDateTime = LocalDateTime.parse(datetimeStr, dateTimeFormatter);
+		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+		return Date.from(instant);
+	}
+
+	public static void main(String[] args) {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		System.out.println(LocalDateTime.now().format(dateFormatter));
+	}
 }
