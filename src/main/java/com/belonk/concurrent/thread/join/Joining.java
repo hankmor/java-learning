@@ -16,8 +16,8 @@ class Sleepper extends Thread {
         try {
             sleep(sleepTime);
         } catch (InterruptedException e) {
-            PrintHelper.println(getName() + " war interrupted, isInterrupted : " + isInterrupted());
-            return; // 终端过后直接返回
+            PrintHelper.println(getName() + " was interrupted, isInterrupted : " + isInterrupted());
+            return; // 中断过后直接返回
         }
         // 睡眠时间到后唤醒
         PrintHelper.println(getName() + " has awakened.");
@@ -70,7 +70,7 @@ public class Joining {
         sleepperB.interrupt(); // 中断join方法
     }
     /*
-     sleeperB war interrupted, isInterrupted : false
+     sleeperB was interrupted, isInterrupted : false
      joinerB join completed.
      sleeperA has awakened.
      joinerA join completed.
