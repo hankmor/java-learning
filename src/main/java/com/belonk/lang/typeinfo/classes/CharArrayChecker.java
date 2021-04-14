@@ -1,8 +1,8 @@
 package com.belonk.lang.typeinfo.classes;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/14.
@@ -20,20 +20,20 @@ public class CharArrayChecker {
 
     static void check(char[] chars) {
         Class aClass = chars.getClass();
-        PrintHelper.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
-        PrintHelper.println("chars instanceof Object : " + (chars instanceof Object));
-        PrintHelper.println("chars instanceof char[] : " + (chars instanceof char[]));
+        Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
+        Printer.println("chars instanceof Object : " + (chars instanceof Object));
+        Printer.println("chars instanceof char[] : " + (chars instanceof char[]));
     }
 
     static void checkChar() {
         Class aClass = char.class;
-        PrintHelper.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
+        Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
     }
 
     public static void main(String[] args) {
         char[] chars = {'a', 'b', 'c'};
         check(chars);
-        PrintHelper.println();
+        Printer.println();
         checkChar();
     }
 }

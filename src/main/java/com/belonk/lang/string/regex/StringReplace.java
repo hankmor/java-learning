@@ -1,6 +1,6 @@
 package com.belonk.lang.string.regex;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by Dendy on 2016/1/12.

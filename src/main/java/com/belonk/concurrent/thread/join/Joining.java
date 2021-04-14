@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.join;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 class Sleepper extends Thread {
     private int sleepTime;
@@ -16,11 +16,11 @@ class Sleepper extends Thread {
         try {
             sleep(sleepTime);
         } catch (InterruptedException e) {
-            PrintHelper.println(getName() + " was interrupted, isInterrupted : " + isInterrupted());
+            Printer.println(getName() + " was interrupted, isInterrupted : " + isInterrupted());
             return; // 中断过后直接返回
         }
         // 睡眠时间到后唤醒
-        PrintHelper.println(getName() + " has awakened.");
+        Printer.println(getName() + " has awakened.");
     }
 }
 
@@ -38,9 +38,9 @@ class Joiner extends Thread {
         try {
             sleepper.join();
         } catch (InterruptedException e) {
-            PrintHelper.println(sleepper.getName() + " interrupted.");
+            Printer.println(sleepper.getName() + " interrupted.");
         }
-        PrintHelper.println(getName() + " join completed.");
+        Printer.println(getName() + " join completed.");
     }
 }
 

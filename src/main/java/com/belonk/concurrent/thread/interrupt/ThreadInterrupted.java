@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.interrupt;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,10 +50,10 @@ public class ThreadInterrupted {
 		sleeper.interrupt(); // 睡眠中的线程，被Main线程中断，抛出InterruptedException
 		busier.interrupt();
 		clearInterrupteStatus.interrupt();
-		PrintHelper.println(finished.getName() + " interrupted: " + finished.isInterrupted()); // false，线程终结，即是之前被中断也返回false
-		PrintHelper.println(sleeper.getName() + " interrupted: " + sleeper.isInterrupted()); // false，说明中断标记被清除
-		PrintHelper.println(busier.getName() + " interrupted: " + busier.isInterrupted()); // true，线程被中断，只能说明中断标记设置了，但是线程仍然在运行(因为while(true))
-		PrintHelper.println(clearInterrupteStatus.getName() + " interrupted: " + clearInterrupteStatus.isInterrupted()); // false，说明中断标记被清除
+		Printer.println(finished.getName() + " interrupted: " + finished.isInterrupted()); // false，线程终结，即是之前被中断也返回false
+		Printer.println(sleeper.getName() + " interrupted: " + sleeper.isInterrupted()); // false，说明中断标记被清除
+		Printer.println(busier.getName() + " interrupted: " + busier.isInterrupted()); // true，线程被中断，只能说明中断标记设置了，但是线程仍然在运行(因为while(true))
+		Printer.println(clearInterrupteStatus.getName() + " interrupted: " + clearInterrupteStatus.isInterrupted()); // false，说明中断标记被清除
 		System.out.println("after interrupt state -> finished: " + finished.getState());
 		System.out.println("after interrupt state -> sleeper : " + sleeper.getState());
 		System.out.println("after interrupt state -> busier : " + busier.getState());

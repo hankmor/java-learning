@@ -1,6 +1,6 @@
 package com.belonk.lang.string.scan;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.Scanner;
 import java.util.regex.*;
@@ -27,13 +27,13 @@ public class RegExpScanner {
         String regex = "(?i)\\b\\w*[aei]\\w*\\b";
         Matcher matcher = Pattern.compile(regex).matcher(POEM);
         while (matcher.find())
-            PrintHelper.print(matcher.group() + " ");
-        PrintHelper.println();
+            Printer.print(matcher.group() + " ");
+        Printer.println();
         // 仅仅针对下一个输入匹配，如果不匹配返回false，此处匹配到my时失败
         while(scanner.hasNext(regex)) {
             scanner.next(regex);
             MatchResult mr = scanner.match();
-            PrintHelper.print(mr.group() + " ");
+            Printer.print(mr.group() + " ");
         }
     }
 }

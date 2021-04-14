@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.PrintHelper.print;
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.print;
+import static com.belonk.util.Printer.println;
 
 /**
  * Created by sun on 16-1-12.

@@ -1,8 +1,8 @@
 package com.belonk.lang.typeinfo.classes;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 interface Action {
 
@@ -48,9 +48,9 @@ public class TypeInfo {
      * @param aClass
      */
     static void printInfo(Class aClass) {
-        PrintHelper.println("Class     name : " + aClass.getName() + " is interface? [" + aClass.isInterface() + "]");
-        PrintHelper.println("Simple    name : " + aClass.getSimpleName());
-        PrintHelper.println("Canonical name : " + aClass.getCanonicalName());
+        Printer.println("Class     name : " + aClass.getName() + " is interface? [" + aClass.isInterface() + "]");
+        Printer.println("Simple    name : " + aClass.getSimpleName());
+        Printer.println("Canonical name : " + aClass.getCanonicalName());
     }
 
     public static void main(String[] args) {
@@ -60,24 +60,24 @@ public class TypeInfo {
             // 自动初始化类
             c = Class.forName(className);
         } catch (ClassNotFoundException e) {
-            PrintHelper.println(className + " not fount.");
+            Printer.println(className + " not fount.");
         }
         printInfo(c);
-        PrintHelper.println();
+        Printer.println();
         for (Class aClass : c.getInterfaces()) {
             printInfo(aClass);
         }
-        PrintHelper.println();
+        Printer.println();
         Class superClass = c.getSuperclass();
         Object obj = null;
         try {
             obj = superClass.newInstance();
         } catch (InstantiationException e) {
             // 如果注释掉Toy的默认构造器，无法成功创建
-            PrintHelper.println("Super class can not instantiate.");
+            Printer.println("Super class can not instantiate.");
             System.exit(1);
         } catch (IllegalAccessException e) {
-            PrintHelper.println("Super class can not access.");
+            Printer.println("Super class can not access.");
             System.exit(1);
         }
         printInfo(obj.getClass());

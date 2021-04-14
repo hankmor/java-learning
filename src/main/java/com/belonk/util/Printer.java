@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @version 0.1
  * @since 0.1
  */
-public class PrintHelper {
+public class Printer {
     //~ Static fields/initializers =====================================================================================
 
     //~ Instance fields ================================================================================================

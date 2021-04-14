@@ -1,7 +1,7 @@
 package com.belonk.concurrent.thread.interrupt;
 
 import com.belonk.concurrent.util.SleeperUtil;
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 /**
  * Created by sun on 2021/4/14.
@@ -57,7 +57,7 @@ class StopThread implements Runnable {
 			i++;
 		}
 		// 打印输出
-		PrintHelper.println(Thread.currentThread().getName() + " i = " + i);
+		Printer.println(Thread.currentThread().getName() + " i = " + i);
 	}
 
 	public void cancel() {

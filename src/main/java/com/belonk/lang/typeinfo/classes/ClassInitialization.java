@@ -2,7 +2,7 @@ package com.belonk.lang.typeinfo.classes;
 
 import java.util.Random;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 class Class1 {
     static final int staticFinal = 47;
