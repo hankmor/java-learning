@@ -1,6 +1,6 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,11 +38,11 @@ public class PatternUsing {
     public static void match(String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(words);
-        PrintHelper.print(regex + " : ");
+        Printer.print(regex + " : ");
         while (matcher.find()) {
-            PrintHelper.print(matcher.group());
+            Printer.print(matcher.group());
         }
-        PrintHelper.println();
+        Printer.println();
     }
 }
 /* Output :

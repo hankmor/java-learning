@@ -1,11 +1,11 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/13.
@@ -30,7 +30,7 @@ public class PatternMode {
         Pattern pattern = Pattern.compile("^very", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(s);
         while (matcher.find()) {
-            PrintHelper.println(matcher.group());
+            Printer.println(matcher.group());
         }
     }
 }

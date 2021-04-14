@@ -3,7 +3,7 @@ package com.belonk.lang.string.regex;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.PrintHelper.*;
+import static com.belonk.util.Printer.*;
 
 /**
  * Created by sun on 16-1-12.

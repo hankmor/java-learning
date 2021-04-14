@@ -1,8 +1,8 @@
 package com.belonk.concurrent.thread.deprecate;
 
 import com.belonk.concurrent.util.SleeperUtil;
-import com.belonk.jdk8.date.DateUtil;
-import com.belonk.util.PrintHelper;
+import com.belonk.util.DateUtil;
+import com.belonk.util.Printer;
 
 import java.util.Date;
 
@@ -38,17 +38,17 @@ public class DeprecatedApi {
 		// 运行一段时间后，暂停线程
 		SleeperUtil.seconds(2);
 		thread.suspend();
-		PrintHelper.println(thread.getName() + " is suspended : " + DateUtil.format(new Date(), "HH:mm:ss"));
+		Printer.println(thread.getName() + " is suspended : " + DateUtil.format(new Date(), "HH:mm:ss"));
 
 		// 运行一段时间后，恢复线程
 		SleeperUtil.seconds(2);
 		thread.resume();
-		PrintHelper.println(thread.getName() + " is resumed : " + DateUtil.format(new Date(), "HH:mm:ss"));
+		Printer.println(thread.getName() + " is resumed : " + DateUtil.format(new Date(), "HH:mm:ss"));
 
 		// 运行一段时间后，终止线程
 		SleeperUtil.seconds(2);
 		thread.stop();
-		PrintHelper.println(thread.getName() + " is stopped : " + DateUtil.format(new Date(), "HH:mm:ss"));
+		Printer.println(thread.getName() + " is stopped : " + DateUtil.format(new Date(), "HH:mm:ss"));
 
 		// 不立即退出
 		SleeperUtil.seconds(2);
@@ -138,20 +138,20 @@ public class DeprecatedApi {
 		thread.start();
 		// 充分运行
 		SleeperUtil.seconds(2);
-		PrintHelper.println(Thread.currentThread().getName() + " : " + Thread.currentThread().getState()); // RUNNABLE
+		Printer.println(Thread.currentThread().getName() + " : " + Thread.currentThread().getState()); // RUNNABLE
 
 		// 一个线程暂停
 		new Thread(() -> {
 			SleeperUtil.seconds(4);
 			thread.suspend();
-			PrintHelper.println(Thread.currentThread().getName() + " suspends " + thread.getName() + ": " + DateUtil.format(new Date(), "HH:mm:ss.S"));
+			Printer.println(Thread.currentThread().getName() + " suspends " + thread.getName() + ": " + DateUtil.format(new Date(), "HH:mm:ss.S"));
 		}).start();
 
 		// 一个线程恢复
 		new Thread(() -> {
 			SleeperUtil.seconds(3);
 			thread.resume();
-			PrintHelper.println(Thread.currentThread().getName() + " resumes " + thread.getName() + ": " + DateUtil.format(new Date(), "HH:mm:ss.S"));
+			Printer.println(Thread.currentThread().getName() + " resumes " + thread.getName() + ": " + DateUtil.format(new Date(), "HH:mm:ss.S"));
 		}).start();
 
 		/*
@@ -186,9 +186,9 @@ public class DeprecatedApi {
 		SleeperUtil.seconds(2);
 		// 调用stop过后，线程立即终止，造成数据与期望的不一致
 		thread.stop();
-		PrintHelper.println(thread.getState());
-		PrintHelper.println("y = " + insecureStop.x + ", expect x = 10");
-		PrintHelper.println("y = " + insecureStop.y + ", expect y = 11");
+		Printer.println(thread.getState());
+		Printer.println("y = " + insecureStop.x + ", expect x = 10");
+		Printer.println("y = " + insecureStop.y + ", expect y = 11");
 		/*
 		y = 10, expect x = 10
 		y = 2, expect y = 11
@@ -200,7 +200,7 @@ class DeprecatedClass implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			PrintHelper.println(Thread.currentThread().getName() + " is running : " + DateUtil.format(new Date(), "HH:mm:ss"));
+			Printer.println(Thread.currentThread().getName() + " is running : " + DateUtil.format(new Date(), "HH:mm:ss"));
 			SleeperUtil.seconds(1);
 		}
 	}
@@ -210,7 +210,7 @@ class DeadLockBySuspend implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			PrintHelper.println(Thread.currentThread().getName() + " is running : " + DateUtil.format(new Date(), "HH:mm:ss"));
+			Printer.println(Thread.currentThread().getName() + " is running : " + DateUtil.format(new Date(), "HH:mm:ss"));
 			SleeperUtil.seconds(1);
 		}
 	}

@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.deamon;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 /**
  * Created by sun on 2017/3/6.
@@ -23,14 +23,14 @@ public class DaemonWithFinally implements Runnable {
 
     @Override
     public void run() {
-        PrintHelper.println("starting a daemon concurrent.");
+        Printer.println("starting a daemon concurrent.");
         try {
             // 睡眠2秒，finally不会执行
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            PrintHelper.println("Finally may not run.");
+            Printer.println("Finally may not run.");
         }
     }
 

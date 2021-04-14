@@ -1,6 +1,6 @@
 package com.belonk.quartz;
 
-import com.belonk.jdk8.date.DateUtil;
+import com.belonk.util.DateUtil;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.calendar.HolidayCalendar;
@@ -62,8 +62,8 @@ public class CalendarTest {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
         // 定义一个假期日历，排除不调调度的日期
-        Date excludedDate1 = DateUtil.strToDate("2018-03-15 00:00:00");
-        Date excludedDate2 = DateUtil.strToDate("2018-03-16 00:00:00");
+        Date excludedDate1 = DateUtil.parse("2018-03-15 00:00:00");
+        Date excludedDate2 = DateUtil.parse("2018-03-16 00:00:00");
         HolidayCalendar holidayCalendar = new HolidayCalendar();
         holidayCalendar.addExcludedDate(excludedDate1);
         holidayCalendar.addExcludedDate(excludedDate2);

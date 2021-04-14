@@ -1,12 +1,12 @@
 package com.belonk.lang.typeinfo.reflect;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/19.
@@ -34,19 +34,19 @@ public class MethodsViewer {
         Method[] method = aClass.getMethods();
         for (Method m : method) {
             if (partName == null || "".equals(partName))
-                PrintHelper.println(pattern.matcher(m.toString()).replaceAll(""));
+                Printer.println(pattern.matcher(m.toString()).replaceAll(""));
             else {
                 if (m.toString().contains(partName))
-                    PrintHelper.println(pattern.matcher(m.toString()).replaceAll(""));
+                    Printer.println(pattern.matcher(m.toString()).replaceAll(""));
             }
         }
         Constructor[] constructors = aClass.getConstructors();
         for (Constructor constructor : constructors) {
             if (partName == null || "".equals(partName))
-                PrintHelper.println(pattern.matcher(constructor.toString()).replaceAll(""));
+                Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
             else {
                 if (constructor.toString().contains(partName))
-                    PrintHelper.println(pattern.matcher(constructor.toString()).replaceAll(""));
+                    Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
             }
         }
     }
@@ -54,7 +54,7 @@ public class MethodsViewer {
     public static void main(String[] args) {
         MethodsViewer methodsViewer = new MethodsViewer(MethodsViewer.class);
         methodsViewer.showMethods(null);
-        PrintHelper.println();
+        Printer.println();
         methodsViewer.showMethods("show");
     }
 }

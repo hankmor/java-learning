@@ -1,4 +1,4 @@
-package com.belonk.jdk8.date;
+package com.belonk.util;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -18,7 +18,11 @@ public class DateUtil {
 	//~ Static fields/initializers =====================================================================================
 
 
-	private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	private static final DateTimeFormatter dateTimeMsFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+	private static final DateTimeFormatter timeMsFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.S");
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	//~ Instance fields ================================================================================================
 
@@ -28,19 +32,39 @@ public class DateUtil {
 
 	//~ Methods ========================================================================================================
 
+	public static String date(Date date) {
+		return format(date, dateFormatter);
+	}
+
+	public static String timeMs(Date date) {
+		return format(date, timeMsFormatter);
+	}
+
+	public static String time(Date date) {
+		return format(date, timeFormatter);
+	}
+
+	public static String dateTime(Date date) {
+		return format(date, dateTimeFormatter);
+	}
+
+	public static String dateTimeMs(Date date) {
+		return format(date, dateTimeMsFormatter);
+	}
+
 	public static String format(Date date, String format) {
 		Instant instant = date.toInstant();
 		LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
 		return dateTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
-	public static String dateToStr(Date date) {
+	private static String format(Date date, DateTimeFormatter formatter) {
 		Instant instant = date.toInstant();
 		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-		return localDateTime.format(dateTimeFormatter);
+		return localDateTime.format(formatter);
 	}
 
-	public static Date strToDate(String datetimeStr) {
+	public static Date parse(String datetimeStr) {
 		LocalDateTime localDateTime = LocalDateTime.parse(datetimeStr, dateTimeFormatter);
 		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
 		return Date.from(instant);
@@ -49,5 +73,9 @@ public class DateUtil {
 	public static void main(String[] args) {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		System.out.println(LocalDateTime.now().format(dateFormatter));
+
+		System.out.println(DateUtil.date(new Date()));
+		System.out.println(DateUtil.time(new Date()));
+		System.out.println(DateUtil.timeMs(new Date()));
 	}
 }

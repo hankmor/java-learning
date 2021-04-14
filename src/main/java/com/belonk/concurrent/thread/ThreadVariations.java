@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 // 内部类实现线程
 class InnerThread1 {
@@ -21,12 +21,12 @@ class InnerThread1 {
         public void run() {
             try {
                 while (true) {
-                    PrintHelper.println(this);
+                    Printer.println(this);
                     if (--countDown == 0) return;
                     sleep(10);
                 }
             } catch (InterruptedException e) {
-                PrintHelper.println("interrupted");
+                Printer.println("interrupted");
             }
         }
 
@@ -49,12 +49,12 @@ class InnerThread2 {
                 while (true) {
                     try {
                         while (true) {
-                            PrintHelper.println(this);
+                            Printer.println(this);
                             if (--countDown == 0) return;
                             sleep(10);
                         }
                     } catch (InterruptedException e) {
-                        PrintHelper.println("interrupted");
+                        Printer.println("interrupted");
                     }
                 }
             }
@@ -87,12 +87,12 @@ class InnerRunnable1 {
         public void run() {
             try {
                 while (true) {
-                    PrintHelper.println(this);
+                    Printer.println(this);
                     if (--countDown == 0) return;
                     Thread.sleep(10);
                 }
             } catch (InterruptedException e) {
-                PrintHelper.println("interrupted");
+                Printer.println("interrupted");
             }
         }
 
@@ -114,12 +114,12 @@ class InnerRunnable2 {
                 while (true) {
                     try {
                         while (true) {
-                            PrintHelper.println(this);
+                            Printer.println(this);
                             if (--countDown == 0) return;
                             Thread.sleep(10);
                         }
                     } catch (InterruptedException e) {
-                        PrintHelper.println("interrupted");
+                        Printer.println("interrupted");
                     }
                 }
             }
@@ -149,12 +149,12 @@ class ThreadMethod {
                     while (true) {
                         try {
                             while (true) {
-                                PrintHelper.println(this);
+                                Printer.println(this);
                                 if (--countDown == 0) return;
                                 sleep(10);
                             }
                         } catch (InterruptedException e) {
-                            PrintHelper.println("interrupted");
+                            Printer.println("interrupted");
                         }
                     }
                 }

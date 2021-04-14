@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.deamon;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 /**
  * Created by sun on 2017/3/5.
@@ -26,10 +26,10 @@ public class DaemonFromFactory implements Runnable {
         try {
             while (true) { // 循环打印输出
                 Thread.sleep(100);
-                PrintHelper.println(Thread.currentThread() + " " + this);
+                Printer.println(Thread.currentThread() + " " + this);
             }
         } catch (InterruptedException e) {
-            PrintHelper.print("sleep() interrupted");
+            Printer.print("sleep() interrupted");
         }
     }
 
