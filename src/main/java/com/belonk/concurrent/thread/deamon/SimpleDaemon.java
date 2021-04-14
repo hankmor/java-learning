@@ -1,6 +1,6 @@
 package com.belonk.concurrent.thread.deamon;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 /**
  * Created by sun on 2017/3/5.
@@ -26,10 +26,10 @@ public class SimpleDaemon implements Runnable {
         try {
             while (true) { // 循环打印输出
                 Thread.sleep(1000);
-                PrintHelper.println(Thread.currentThread() + " " + this);
+                Printer.println(Thread.currentThread() + " " + this);
             }
         } catch (InterruptedException e) {
-            PrintHelper.print("sleep() interrupted");
+            Printer.print("sleep() interrupted");
         }
     }
 
@@ -42,7 +42,7 @@ public class SimpleDaemon implements Runnable {
         // 如果开启一个非后台线程，则程序永远不会终止
         // Thread concurrent = new Thread(new SimpleDaemon());
         // concurrent.start();
-        PrintHelper.println("All daemons started");
+        Printer.println("All daemons started");
         // 由于创建的都是后台线程，一旦main函数执行完成，程序退出
         Thread.sleep(1000);
     }

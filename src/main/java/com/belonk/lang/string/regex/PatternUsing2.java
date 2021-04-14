@@ -1,11 +1,11 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * Created by sun on 16-1-12.
@@ -28,7 +28,7 @@ public class PatternUsing2 {
         String regex = "(?i)((^[aeiou])|(\\s+[aeiou]))\\w+?[aeiou]\\b";
         Matcher matcher = Pattern.compile(regex).matcher(words);
         while (matcher.find()) {
-            PrintHelper.println(matcher.group());
+            Printer.println(matcher.group());
         }
     }
 }

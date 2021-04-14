@@ -2,7 +2,7 @@ package com.belonk.lang.string.scan;
 
 import java.util.Scanner;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/13.

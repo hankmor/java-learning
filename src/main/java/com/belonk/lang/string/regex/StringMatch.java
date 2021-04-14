@@ -1,8 +1,8 @@
 package com.belonk.lang.string.regex;
 
-import com.belonk.util.PrintHelper;
+import com.belonk.util.Printer;
 
-import static com.belonk.util.PrintHelper.println;
+import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by Dendy on 2016/1/12.
@@ -19,11 +19,11 @@ public class StringMatch {
     //~ Methods ========================================================================================================
 
     public static void main(String[] args) {
-        PrintHelper.println("haha".matches("\\w*"));
-        PrintHelper.println("-123456".matches("-?\\d+"));
-        PrintHelper.println("+123456".matches("\\+?\\d+"));
+        Printer.println("haha".matches("\\w*"));
+        Printer.println("-123456".matches("-?\\d+"));
+        Printer.println("+123456".matches("\\+?\\d+"));
         //(-|\+)?\\d+ 以-或+开头或者没有，然后跟一个或多个数字
-        PrintHelper.println("+123456".matches("(-|\\+)?\\d+"));
+        Printer.println("+123456".matches("(-|\\+)?\\d+"));
     }
 }
 /* output:
