@@ -41,7 +41,7 @@ public class Html2PdfDemo {
 		converterProperties.setCharset(StandardCharsets.UTF_8.name());
 		converterProperties.setBaseUri(url.getPath());
 		// 字体
-		FontProvider fontProvider = new FontProvider("Helvetica");
+		FontProvider fontProvider = new FontProvider();
 		// 添加标准字体
 		fontProvider.addStandardPdfFonts();
 		// 添加系统字体，支持中文
