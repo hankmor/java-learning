@@ -56,7 +56,9 @@ public class ThreadWait {
                         System.out.println("thread1 waiting");
                         Thread.sleep(5000);
                         lock.notify();
-                        lock.wait();
+                        System.out.println("thread1 notify");
+                        lock.wait(); // thread2调用了lock.notify后，这里才返回，然后打印下边的一句
+                        System.out.println("thread1 wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -72,7 +74,9 @@ public class ThreadWait {
                         System.out.println("thread2 waiting");
                         Thread.sleep(5000);
                         lock.notify();
+                        System.out.println("thread2 notify");
                         lock.wait();
+                        System.out.println("thread2 wait");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
