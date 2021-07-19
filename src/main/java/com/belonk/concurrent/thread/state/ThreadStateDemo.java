@@ -33,7 +33,7 @@ public class ThreadStateDemo {
 		// 查看线程状态：jps, jstack [pid]
 		// 新创建线程，但是没有调用start启动，无法通过jstack监视到
 		Thread newThread = new Thread(new New(), "new-thread");
-		System.out.println(newThread.getState()); // 通过打印线程的状态，可以看到处于NEW状态
+		System.out.println("new-thread: " + newThread.getState()); // 通过打印线程的状态，可以看到处于NEW状态
 		Thread thread = new Thread(new ThreadRunnable(), "runnable-thread");
 		thread.setPriority(Thread.MIN_PRIORITY);
 		thread.start();
@@ -45,7 +45,15 @@ public class ThreadStateDemo {
 		new Thread(new Blocked(), "blocked-tread1").start();
 		new Thread(new Blocked(), "blocked-tread2").start();
 		// TERMINATED难以捕获，执行完成就被销毁了
-		new Thread(new Terminated(), "terminated-tread2").start();
+		Thread thread1 = new Thread(new Terminated(), "terminated-tread2");
+		thread1.start();
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		// 线程执行完成了，输出 TERMINATED
+		System.out.println("terminated-tread2: " + thread1.getState());
 
 		/*
 		结果：
