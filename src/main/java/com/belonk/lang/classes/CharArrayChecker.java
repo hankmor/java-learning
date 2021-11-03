@@ -1,8 +1,6 @@
-package com.belonk.lang.typeinfo.classes;
+package com.belonk.lang.classes;
 
 import com.belonk.util.Printer;
-
-import static com.belonk.util.Printer.println;
 
 /**
  * <p>Created by sun on 2016/1/14.

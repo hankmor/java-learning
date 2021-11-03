@@ -1,8 +1,6 @@
-package com.belonk.lang.typeinfo.classes;
+package com.belonk.lang.classes;
 
 import com.belonk.util.Printer;
-
-import static com.belonk.util.Printer.println;
 
 interface Action {
 
@@ -54,7 +52,7 @@ public class TypeInfo {
     }
 
     public static void main(String[] args) {
-        String className = "FancyToy";
+        String className = "com.belonk.lang.classes.FancyToy";
         Class c = null;
         try {
             // 自动初始化类
