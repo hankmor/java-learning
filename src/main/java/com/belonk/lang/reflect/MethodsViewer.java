@@ -1,4 +1,4 @@
-package com.belonk.lang.typeinfo.reflect;
+package com.belonk.lang.reflect;
 
 import com.belonk.util.Printer;
 
