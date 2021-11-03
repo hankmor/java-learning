@@ -1,4 +1,4 @@
-package com.belonk.lang.typeinfo.reflect;
+package com.belonk.lang.reflect;
 
 /**
  * Created by sun on 2017/9/5.
