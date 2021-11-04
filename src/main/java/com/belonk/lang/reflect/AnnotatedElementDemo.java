@@ -19,28 +19,30 @@ public class AnnotatedElementDemo {
 	//~ Methods
 
 	/**
+	 * AnnotatedElement是用于获取元素上标注的注解的顶级接口，内部定义了多个获取注解的方法，Class类实现了该接口，故可以通过Class获取元
+	 * 素上标注的注解。
+	 * <p>
 	 * 注解标注存在几种形式：直接存在、间接存在、存在、关联。
 	 * 1、直接存在：注解直接标记在元素上，就说注解直接存在于该元素上
 	 * 2、间接存在：一个被@Repeatable标注的注解标注在元素上，它就与该元素间接存在，因为底层class标注的不是它，而是@Repeatable指向的注解
 	 * 3、存在：注解满足直接存在或者间接存在，或者类上的该注解可以从其父类继承得到，那么可以就说注解存在
 	 * 4、关联：注解满足直接存在或间接存在，或者类的父类与该注解存在关联（直接存在或间接存在），就说该注解与类关联
-	 *
-	 下表总结了在该接口中检查哪种注解存在不同的方法，不同 AnnotatedElement 方法检测到的存在种类概述：
-
-	 方法                                       直接存在    间接存在    存在    关联
-	 T getAnnotation(Class<T>)                                         X
-	 Annotation[] getAnnotations()                                     X
-	 T[] getAnnotationsByType(Class<T>)                                        X
-	 T getDeclaredAnnotation(Class<T>)              X
-	 Annotation[] getDeclaredAnnotations()          X
-	 T[] getDeclaredAnnotationsByType(Class<T>)     X           X
-	 *
+	 * <p>
+	 * 下表总结了在该接口中检查哪种注解存在不同的方法，不同 AnnotatedElement 方法检测到的存在种类概述：
+	 * <p>
+	 * 方法                                       直接存在    间接存在    存在    关联
+	 * T getAnnotation(Class<T>)                                         X
+	 * Annotation[] getAnnotations()                                     X
+	 * T[] getAnnotationsByType(Class<T>)                                        X
+	 * T getDeclaredAnnotation(Class<T>)              X
+	 * Annotation[] getDeclaredAnnotations()          X
+	 * T[] getDeclaredAnnotationsByType(Class<T>)     X           X
 	 */
 	public static void main(String[] args) {
 		AnnotatedElementDemo demo = new AnnotatedElementDemo();
 		demo.getAnnotation();
 		demo.repeatableAnnotation();
-		demo.annotationReflect();
+		demo.annotationApi();
 	}
 
 	/**
@@ -70,9 +72,63 @@ public class AnnotatedElementDemo {
 		 */
 	}
 
-	public void annotationReflect() {
-		// TODO
-		Annotation[] annotations = AnnotatedClass1.class.getAnnotations();
+	public void annotationApi() {
+		System.out.println("==== annotationApi: ");
+		// 获取存在的注解，MyRepeatableAnno是间接存在于AnnotatedClass2上的，同样可以获取到
+		MyRepeatableAnno myRepeatableAnno = AnnotatedClass2.class.getAnnotation(MyRepeatableAnno.class);
+		assert myRepeatableAnno != null;
+		System.out.println(myRepeatableAnno);
+		// MyAnno1注解看似直接记载AnnotatedClass1上，但他是可重复注解，实际上标注的是MyRepeatableAnno注解
+		MyAnno1 myAnno1 = AnnotatedClass1.class.getAnnotation(MyAnno1.class);
+		assert myAnno1 == null;
+
+		// 获取存在的注解，只能获取间接存在的MyRepeatableAnno注解
+		Annotation[] annotations = AnnotatedClass2.class.getAnnotations();
+		assert annotations.length == 1;
+
+		// 可以获取关联的注解，MyRepeatableAnno注解是从父类继承的
+		MyRepeatableAnno[] annotationsByType = AnnotatedClass2.class.getAnnotationsByType(MyRepeatableAnno.class);
+		assert annotationsByType.length == 1;
+
+		// 获取直接注解
+		MyRepeatableAnno declaredAnnotation = AnnotatedClass2.class.getDeclaredAnnotation(MyRepeatableAnno.class);
+		assert declaredAnnotation == null;
+
+		// 获取直接存在的注解，该类上没有标注任何注解
+		Annotation[] declaredAnnotations = AnnotatedClass2.class.getDeclaredAnnotations();
+		assert declaredAnnotations.length == 0;
+
+		/*
+		 * getDeclaredAnnotation(Class)与getDeclaredAnnotationsByType的区别：
+		 * 1、两个都忽略继承的注解，都可获取指定类型的注解
+		 * 2、getDeclaredAnnotation 获取直接存在的和间接存在的注解，不能获取重复注解
+		 * 3、getDeclaredAnnotationsByType 获取直接存在和间接存在的注解，包括重复注解
+		 */
+		// 忽略继承
+		MyRepeatableAnno declaredAnnotation1 = AnnotatedClass2.class.getDeclaredAnnotation(MyRepeatableAnno.class);
+		assert declaredAnnotation1 == null;
+		// 获取间接存在的注解
+		MyRepeatableAnno declaredAnnotation2 = AnnotatedClass1.class.getDeclaredAnnotation(MyRepeatableAnno.class);
+		assert declaredAnnotation2 != null;
+		// 不能获取重复注解
+		MyAnno1 myAnno11 = AnnotatedClass1.class.getDeclaredAnnotation(MyAnno1.class);
+		assert myAnno11 == null;
+		// 忽略继承
+		MyRepeatableAnno[] declaredAnnotationsByType = AnnotatedClass2.class.getDeclaredAnnotationsByType(MyRepeatableAnno.class);
+		assert declaredAnnotationsByType.length == 0;
+		// 获取直接存在的重复注解
+		MyAnno1[] myAnno1s = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyAnno1.class);
+		assert myAnno1s.length == 2;
+		// 获取直接存在的非重复注解
+		MyAnno[] myAnnos = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyAnno.class);
+		assert myAnnos.length == 1;
+		// 获取简介存在的注解
+		MyRepeatableAnno[] myRepeatableAnnos = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyRepeatableAnno.class);
+		assert myRepeatableAnnos.length == 1;
+
+		// 检查是否存在指定注解，效果同getAnnotation(annotationClass) != null
+		boolean annotationPresent = AnnotatedClass2.class.isAnnotationPresent(MyRepeatableAnno.class);
+		assert annotationPresent;
 	}
 }
 
@@ -128,5 +184,12 @@ class AnnotatedClass1 {
 }
 
 class AnnotatedClass2 extends AnnotatedClass1 {
+
+}
+
+@MyAnno1("a")
+@MyAnno1("b")
+@MyAnno
+class AnnotatedClass3 {
 
 }
