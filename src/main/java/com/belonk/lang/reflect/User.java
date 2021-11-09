@@ -15,6 +15,10 @@ public class User extends Id implements Talk {
 
 	//~ Instance fields
 
+	// 包访问
+	double lat;
+	// 子类访问
+	protected float salary;
 	private String name;
 	private int age;
 
@@ -22,6 +26,14 @@ public class User extends Id implements Talk {
 
 	public User() {
 
+	}
+
+	private User(String name) {
+		this.name = name;
+	}
+
+	protected User(int age) {
+		this.age = age;
 	}
 
 	public User(String name, int age) {
@@ -42,6 +54,34 @@ public class User extends Id implements Talk {
 	@Override
 	public void talk(String content) {
 		System.out.println(this.getName() + " is talking: " + content);
+	}
+
+	private void privateMethod() {
+		System.out.println("this is a private method.");
+	}
+
+	protected void protectedMethod() {
+		System.out.println("this is a protected method.");
+	}
+
+	void packageMethod() {
+		System.out.println("this is a package method.");
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public float getSalary() {
+		return salary;
+	}
+
+	public void setSalary(float salary) {
+		this.salary = salary;
 	}
 
 	public String getName() {
