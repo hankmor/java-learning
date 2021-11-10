@@ -1,9 +1,6 @@
 package com.belonk.lang.generic;
 
-import com.belonk.json.fastjson.Obj;
-
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * Java如何创建泛型数组？
@@ -26,6 +23,8 @@ public class GenericArray {
 	//~ Methods
 
 	public static void main(String[] args) {
+		arrayRef();
+
 		GenericArray1<String> genericArray1 = new GenericArray1<>(10);
 		genericArray1.add("item1");
 		genericArray1.add("item2");
@@ -43,16 +42,44 @@ public class GenericArray {
 		// genericArray2.add(1);
 		// ok
 		String item1 = genericArray2.get(0);
+		System.out.println(item1);
 		// ok
 		Object[] array = genericArray2.array();
+		// ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljava.lang.String;
+		// String[] array1 = genericArray2.array1();
 
-		GenericArray3<String> genericArray3 = new GenericArray3<>(String.class, 10);
-		genericArray3.add("item1");
-		genericArray3.add("item2");
+		GenericArray3<String> stringArray = new GenericArray3<>(String.class, 10);
+		stringArray.add("item1");
+		stringArray.add("item2");
 		// ok
-		String item = genericArray3.get(0);
+		String item = stringArray.get(0);
 		// ok
-		String[] stringArray = genericArray3.array();
+		String[] strArray = stringArray.array();
+
+		GenericArray3<Integer> intArray = new GenericArray3<>(Integer.class, 10);
+		intArray.add(1);
+		intArray.add(2);
+		// ok
+		int i = intArray.get(0);
+		// ok
+		Integer[] ints = intArray.array();
+	}
+
+	private static void arrayRef() {
+		Integer[] integers = new Integer[1];
+		integers[0] = 1;
+
+		// ok
+		Object[] os = integers;
+		os[0] = 2;
+		System.out.println(os);
+
+		// 创建Object数组
+		os = new Object[1];
+		os[0] = 3;
+		// 转型失败：ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljava.lang.Integer;
+		// integers = (Integer[]) os;
+		// System.out.println(integers);
 	}
 }
 
@@ -109,6 +136,10 @@ class GenericArray2<T> {
 
 	public Object[] array() {
 		return array;
+	}
+
+	public T[] array1() {
+		return (T[]) array;
 	}
 }
 
