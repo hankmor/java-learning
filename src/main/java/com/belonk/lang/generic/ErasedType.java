@@ -27,6 +27,11 @@ public class ErasedType {
 
     //~ Methods ========================================================================================================
     public static void main(String[] args) {
+        List<String> stringList = new ArrayList<>();
+        List<Integer> integerList = new ArrayList<>();
+        System.out.println(stringList.getClass());
+        System.out.println(stringList.getClass() == integerList.getClass());
+
         List<A> list = new ArrayList<A>();
         Map<A, B> map = new HashMap<A, B>();
         C<A> c = new C<A>();
