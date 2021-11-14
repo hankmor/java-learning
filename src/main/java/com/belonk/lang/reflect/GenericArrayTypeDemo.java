@@ -1,6 +1,7 @@
 package com.belonk.lang.reflect;
 
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -50,9 +51,15 @@ public class GenericArrayTypeDemo {
 			genericArrayType = (GenericArrayType) GenericArrayTypeClass.class.getDeclaredField("numberArray").getGenericType();
 			System.out.println(genericArrayType.getGenericComponentType());
 			System.out.println(genericArrayType.getGenericComponentType().getClass());
+			Type genericComponentType = genericArrayType.getGenericComponentType();
+			assert genericComponentType instanceof ParameterizedType;
+			Type actualTypeArguments = ((ParameterizedType) genericComponentType).getActualTypeArguments()[0];
+			System.out.println(actualTypeArguments);
+			System.out.println(actualTypeArguments.getClass());
 
 			// 非泛型数组，类型是Class
 			Type array0 = GenericArrayTypeClass.class.getDeclaredField("array0").getGenericType();
+			System.out.println(array0);
 			System.out.println(array0.getClass());
 			/*
 			T
@@ -63,6 +70,9 @@ public class GenericArrayTypeDemo {
 			class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
 			java.util.List<? extends java.lang.Number>
 			class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
+			? extends java.lang.Number
+			class sun.reflect.generics.reflectiveObjects.WildcardTypeImpl
+			class [Ljava.lang.String;
 			class java.lang.Class
 			 */
 		} catch (NoSuchFieldException e) {
