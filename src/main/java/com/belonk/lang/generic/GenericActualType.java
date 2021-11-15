@@ -35,8 +35,11 @@ public class GenericActualType {
 		 */
 		GenericActualType genericActualType = new GenericActualType();
 		genericActualType.printType();
+		genericActualType.genericSuperClassAndInterface();
 		genericActualType.printParent();
 		genericActualType.printSub();
+		genericActualType.printSub1();
+		genericActualType.getActualGenericType();
 		genericActualType.parameterizedTypeRef();
 	}
 
@@ -55,6 +58,30 @@ public class GenericActualType {
 		Type listGenericSuperclass = list.getClass().getGenericSuperclass();
 		System.out.println("getGenericSuperclass of ArrayList<String>: " + listGenericSuperclass);
 		System.out.println("class of getGenericSuperclass of ArrayList<String>: " + listGenericSuperclass.getClass());
+		/*
+		E
+		class java.util.ArrayList
+		[class java.lang.Object]
+		E
+		getTypeParameters of ArrayList<String>: [E]
+		getGenericSuperclass of ArrayList<String>: java.util.AbstractList<E>
+		class of getGenericSuperclass of ArrayList<String>: class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
+		 */
+	}
+
+	public void genericSuperClassAndInterface() {
+		System.out.println("====> genericSuperClassAndInterface:");
+		Type genericSuperclass = GenericCls.class.getGenericSuperclass();
+		Type[] genericInterfaces = GenericCls.class.getGenericInterfaces();
+		System.out.println(genericSuperclass.getClass());
+		for (Type genericInterface : genericInterfaces) {
+			System.out.println(genericInterface.getClass());
+		}
+		/*
+		class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
+		class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
+		class sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
+		 */
 	}
 
 	public void printParent() {
@@ -64,7 +91,6 @@ public class GenericActualType {
 		Type genericSuperclass = parent.getClass().getGenericSuperclass();
 		System.out.println(Arrays.toString(parentTypeParameters));
 		System.out.println(genericSuperclass);
-		System.out.println(parent);
 		/*~:
 		[T]
 		class java.lang.Object
@@ -84,7 +110,26 @@ public class GenericActualType {
 		 */
 	}
 
+	public void printSub1() {
+		System.out.println("====> printSub1: ");
+		Sub1 sub1 = new Sub1();
+		Type genericSuperclass = sub1.getClass().getGenericSuperclass();
+		System.out.println(genericSuperclass);
+	}
+
+	public void getActualGenericType() {
+		System.out.println("====> getActualGenericType: ");
+		// List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>() {
+		};
+		Type genericSuperclass = list.getClass().getGenericSuperclass();
+		ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
+		Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+		System.out.println(Arrays.toString(actualTypeArguments));
+	}
+
 	public void parameterizedTypeRef() {
+		System.out.println("====> parameterizedTypeRef:");
 		// 创建匿名子类，泛型通过父类指定
 		ParameterizedTypeRef<String> parameterizedTypeRef = new ParameterizedTypeRef<String>() {
 		};
@@ -105,6 +150,22 @@ class Parent<T> {
 
 class Sub<T> extends Parent<T> {
 
+}
+
+class Sub1 extends Parent<String> {
+
+}
+
+interface GenericInterface1<T> {
+}
+
+interface GenericInterface2<T> {
+}
+
+class GenericSuperClass<T> {
+}
+
+class GenericCls extends GenericSuperClass<Integer> implements GenericInterface1<String>, GenericInterface2<Long> {
 }
 
 // 用作获取泛型具体类型的引用对象，只能创建其子类示例
