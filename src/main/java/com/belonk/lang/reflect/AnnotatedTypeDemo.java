@@ -208,7 +208,7 @@ public class AnnotatedTypeDemo {
 	}
 }
 
-// TYPE_USER：表示使用类型，可以标注在任何类型上，但是，可能影响元素获取注解的方式，例如：注解标注了TYPE_USER，但未标注FIELD，则通过
+// TYPE_USE：表示使用类型，可以标注在任何类型上，但是，可能影响元素获取注解的方式，例如：注解标注了TYPE_USE，但未标注FIELD，则通过
 // Filed上的getXXXAnnotation方法不能获取到注解，只能通过AnnotatedType获取。
 @Retention(RetentionPolicy.RUNTIME)
 @Target({
