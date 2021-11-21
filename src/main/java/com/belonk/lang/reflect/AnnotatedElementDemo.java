@@ -1,5 +1,7 @@
 package com.belonk.lang.reflect;
 
+import com.belonk.util.Assert;
+
 import java.lang.annotation.*;
 import java.util.Arrays;
 
@@ -41,6 +43,7 @@ public class AnnotatedElementDemo {
 	public static void main(String[] args) {
 		AnnotatedElementDemo demo = new AnnotatedElementDemo();
 		demo.getAnnotation();
+		demo.compositeAnnotation();
 		demo.repeatableAnnotation();
 		demo.annotationApi();
 	}
@@ -63,6 +66,17 @@ public class AnnotatedElementDemo {
 		 */
 	}
 
+	public void compositeAnnotation() {
+		System.out.println("==== compositeAnnotation: ");
+		MyAnnos myAnnos = SubAnnotatedClass2.class.getAnnotation(MyAnnos.class);
+		MyAnno[] value = myAnnos.value();
+		System.out.println(Arrays.toString(value));
+
+		/*
+		[@com.belonk.lang.reflect.MyAnno(value=a), @com.belonk.lang.reflect.MyAnno(value=b)]
+		 */
+	}
+
 	public void repeatableAnnotation() {
 		System.out.println("==== repeatableAnnotation: ");
 		System.out.println(Arrays.toString(AnnotatedClass1.class.getAnnotations()));
@@ -76,29 +90,28 @@ public class AnnotatedElementDemo {
 
 	public void annotationApi() {
 		System.out.println("==== annotationApi: ");
+
+		/*
+		getAnnotation于getAnnotationsByType的区别：前者不能获取可重复的注解，而是获取可重复注解下层的组合注解（@Repeatable的value指向的
+		注解）；后者可以获取可重复注解和下层的组合注解。
+		 */
+
 		// 获取存在的注解，MyRepeatableAnno是间接存在于AnnotatedClass2上的，同样可以获取到
 		MyRepeatableAnno myRepeatableAnno = AnnotatedClass2.class.getAnnotation(MyRepeatableAnno.class);
-		assert myRepeatableAnno != null;
-		System.out.println(myRepeatableAnno);
-		// MyAnno1注解看似直接记载AnnotatedClass1上，但他是可重复注解，实际上标注的是MyRepeatableAnno注解
+		Assert.notNull(myRepeatableAnno);
+		// MyAnno1注解看似直接存在于AnnotatedClass1上，但他是可重复注解，实际上标注的是MyRepeatableAnno注解
 		MyAnno1 myAnno1 = AnnotatedClass1.class.getAnnotation(MyAnno1.class);
-		assert myAnno1 == null;
+		Assert.isNull(myAnno1);
 
 		// 获取存在的注解，只能获取间接存在的MyRepeatableAnno注解
 		Annotation[] annotations = AnnotatedClass2.class.getAnnotations();
-		assert annotations.length == 1;
+		Assert.isTrue(annotations.length == 1);
 
 		// 可以获取关联的注解，MyRepeatableAnno注解是从父类继承的
 		MyRepeatableAnno[] annotationsByType = AnnotatedClass2.class.getAnnotationsByType(MyRepeatableAnno.class);
-		assert annotationsByType.length == 1;
-
-		// 获取直接注解
-		MyRepeatableAnno declaredAnnotation = AnnotatedClass2.class.getDeclaredAnnotation(MyRepeatableAnno.class);
-		assert declaredAnnotation == null;
-
-		// 获取直接存在的注解，该类上没有标注任何注解
-		Annotation[] declaredAnnotations = AnnotatedClass2.class.getDeclaredAnnotations();
-		assert declaredAnnotations.length == 0;
+		Assert.isTrue(annotationsByType.length == 1);
+		MyAnno1[] annotationsByType1 = AnnotatedClass2.class.getAnnotationsByType(MyAnno1.class);
+		Assert.isTrue(annotationsByType1.length == 2);
 
 		/*
 		 * getDeclaredAnnotation(Class)与getDeclaredAnnotationsByType的区别：
@@ -106,31 +119,40 @@ public class AnnotatedElementDemo {
 		 * 2、getDeclaredAnnotation 获取直接存在的和间接存在的注解，不能获取重复注解
 		 * 3、getDeclaredAnnotationsByType 获取直接存在和间接存在的注解，包括重复注解
 		 */
-		// 忽略继承
-		MyRepeatableAnno declaredAnnotation1 = AnnotatedClass2.class.getDeclaredAnnotation(MyRepeatableAnno.class);
-		assert declaredAnnotation1 == null;
+
+		// 获取直接注解
+		MyRepeatableAnno declaredAnnotation = AnnotatedClass2.class.getDeclaredAnnotation(MyRepeatableAnno.class);
+		Assert.isNull(declaredAnnotation);
+		// 获取直接存在的注解，该类上没有标注任何注解
+		Annotation[] declaredAnnotations = AnnotatedClass2.class.getDeclaredAnnotations();
+		Assert.isTrue(declaredAnnotations.length == 0);
+		// 获取直接存在的注解，包括可重复注解的组合注解，不包括可重复注解
+		Annotation[] declaredAnnotations1 = AnnotatedClass1.class.getDeclaredAnnotations();
+		Assert.isTrue(declaredAnnotations1.length == 1);
 		// 获取间接存在的注解
 		MyRepeatableAnno declaredAnnotation2 = AnnotatedClass1.class.getDeclaredAnnotation(MyRepeatableAnno.class);
-		assert declaredAnnotation2 != null;
+		Assert.notNull(declaredAnnotation2);
 		// 不能获取重复注解
 		MyAnno1 myAnno11 = AnnotatedClass1.class.getDeclaredAnnotation(MyAnno1.class);
-		assert myAnno11 == null;
+		Assert.isNull(myAnno11);
 		// 忽略继承
 		MyRepeatableAnno[] declaredAnnotationsByType = AnnotatedClass2.class.getDeclaredAnnotationsByType(MyRepeatableAnno.class);
-		assert declaredAnnotationsByType.length == 0;
+		Assert.isTrue(declaredAnnotationsByType.length == 0);
 		// 获取直接存在的重复注解
 		MyAnno1[] myAnno1s = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyAnno1.class);
-		assert myAnno1s.length == 2;
+		Assert.isTrue(myAnno1s.length == 2);
 		// 获取直接存在的非重复注解
 		MyAnno[] myAnnos = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyAnno.class);
-		assert myAnnos.length == 1;
+		Assert.isTrue(myAnnos.length == 1);
 		// 获取简介存在的注解
 		MyRepeatableAnno[] myRepeatableAnnos = AnnotatedClass3.class.getDeclaredAnnotationsByType(MyRepeatableAnno.class);
-		assert myRepeatableAnnos.length == 1;
+		Assert.isTrue(myRepeatableAnnos.length == 1);
 
 		// 检查是否存在指定注解，效果同getAnnotation(annotationClass) != null
 		boolean annotationPresent = AnnotatedClass2.class.isAnnotationPresent(MyRepeatableAnno.class);
-		assert annotationPresent;
+		Assert.isTrue(annotationPresent);
+		boolean annotationPresent1 = AnnotatedClass2.class.isAnnotationPresent(MyAnno1.class);
+		Assert.isTrue(!annotationPresent1);
 	}
 }
 
@@ -139,6 +161,7 @@ public class AnnotatedElementDemo {
 @Target(ElementType.TYPE)
 @Inherited
 @interface MyAnno {
+	String value() default "";
 }
 
 // 标注了注解的父类
@@ -156,6 +179,18 @@ class SubAnnotatedClass extends AnnotatedClass {
 @MyAnno
 // @MyAnno // 编译错误：duplicate annotation.
 class SubAnnotatedClass1 extends AnnotatedClass {
+
+}
+
+// 组合注解，可以定义多个MyAnno注解
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@interface MyAnnos {
+	MyAnno[] value() default {};
+}
+
+@MyAnnos({@MyAnno("a"), @MyAnno("b")})
+class SubAnnotatedClass2 extends AnnotatedClass {
 
 }
 
