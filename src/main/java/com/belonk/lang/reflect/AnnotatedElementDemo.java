@@ -54,10 +54,12 @@ public class AnnotatedElementDemo {
 		System.out.println(Arrays.toString(AnnotatedClass.class.getAnnotations()));
 		System.out.println(Arrays.toString(SubAnnotatedClass.class.getAnnotations()));
 		System.out.println(Arrays.toString(SubAnnotatedClass.class.getDeclaredAnnotations()));
+		System.out.println(Arrays.toString(SubAnnotatedClass1.class.getAnnotations()));
 		/*
 		[@com.belonk.lang.reflect.MyAnno()]
 		[@com.belonk.lang.reflect.MyAnno()]
 		[]
+		[@com.belonk.lang.reflect.MyAnno()]
 		 */
 	}
 
@@ -145,10 +147,15 @@ class AnnotatedClass {
 
 }
 
+// 注解继承
+class SubAnnotatedClass extends AnnotatedClass {
+
+}
+
 // 子类
 @MyAnno
 // @MyAnno // 编译错误：duplicate annotation.
-class SubAnnotatedClass extends AnnotatedClass {
+class SubAnnotatedClass1 extends AnnotatedClass {
 
 }
 
