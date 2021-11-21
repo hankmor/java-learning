@@ -1,5 +1,7 @@
 package com.belonk.util;
 
+import com.belonk.json.fastjson.Obj;
+
 /**
  * Created by sun on 2021/11/8.
  *
@@ -20,11 +22,16 @@ public final class Assert {
 
 	public static void isTrue(boolean bool) {
 		if (!bool)
-			throw new RuntimeException("assert failed, except TRUE, but get FALSE.");
+			throw new IllegalStateException("assert failed, except TRUE, but get FALSE.");
 	}
 
 	public static void notNull(Object obj) {
 		if (obj == null)
 			throw new NullPointerException("assert failed, except non-null object.");
+	}
+
+	public static void isNull(Object obj) {
+		if (obj != null)
+			throw new IllegalStateException("assert failed, except null object.");
 	}
 }
