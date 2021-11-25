@@ -58,6 +58,8 @@ public class AnnotatedTypeDemo {
 		annotatedTypeVariable();
 		annotatedArrayType();
 		annotatedWildcardType();
+		annotatedMethodType();
+		annotatedLocalVariable();
 	}
 
 	public static void annotatedParameterizedType() {
@@ -115,18 +117,23 @@ public class AnnotatedTypeDemo {
 			Assert.isTrue(declaredAnnotations.length == 1);
 			System.out.println(Arrays.toString(declaredAnnotations));
 
+			// 根据域的泛型类型，获取该泛型类型（定义在类上）的注解
 			Field field = AnnotationClass.class.getDeclaredField("type");
 			AnnotatedType annotatedType = field.getAnnotatedType();
+			// 是一个AnnotatedTypeVariable类型，表示被注解标注的类型变量
 			Assert.isTrue(annotatedType instanceof AnnotatedTypeVariable);
 			AnnotatedTypeVariable annotatedTypeVariable = (AnnotatedTypeVariable) annotatedType;
 			// 获取字段上定义的注解：@MyAnno2("field")
 			declaredAnnotations = annotatedTypeVariable.getDeclaredAnnotations();
-			System.out.println(Arrays.toString(declaredAnnotations));
 			Assert.isTrue(declaredAnnotations.length == 1);
+			System.out.println(Arrays.toString(declaredAnnotations));
+			// 获取类型变量 T 上的注解，getType获取到的是一个TypeVariable，通过它可以获取注解
+			TypeVariable<?> typeVariable = (TypeVariable<?>) annotatedTypeVariable.getType();
+			System.out.println(Arrays.toString(typeVariable.getAnnotations()));
 
 			// 获取定义的泛型变量T的边界的注解类型
 			// 变量T在Class定义：@MyAnno2("type-parameter") T extends @MyAnno2("type-use-class") Number & Serializable
-			// 边界类为Number和Serializable，其中Number上标注了注解
+			// 边界类为Number和Serializable
 			AnnotatedType[] annotatedBounds = annotatedTypeVariable.getAnnotatedBounds();
 			for (AnnotatedType annotatedBound : annotatedBounds) {
 				// 注解类型
@@ -143,8 +150,9 @@ public class AnnotatedTypeDemo {
 			[@com.belonk.lang.reflect.MyAnno2(value=[super-class-2])]
 			[@com.belonk.lang.reflect.MyAnno2(value=[item])]
 			[@com.belonk.lang.reflect.MyAnno2(value=[field])]
-			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@404b9385 - class java.lang.Number - [@com.belonk.lang.reflect.MyAnno2(value=[type-use-class])]
-			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@6d311334 - interface java.io.Serializable - []
+			[@com.belonk.lang.reflect.MyAnno2(value=[type-parameter-class])]
+			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@816f27d - class java.lang.Number - [@com.belonk.lang.reflect.MyAnno2(value=[type-use-class-number])]
+			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@87aac27 - interface java.io.Serializable - [@com.belonk.lang.reflect.MyAnno2(value=[type-use-serializable])]
 			 */
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
@@ -197,36 +205,72 @@ public class AnnotatedTypeDemo {
 			AnnotatedParameterizedType annotatedParameterizedType = (AnnotatedParameterizedType) list1;
 			// 获取实际的AnnotatedType，申明了通配符，那么实际类型是AnnotatedWildcardType
 			AnnotatedType[] annotatedActualTypeArguments = annotatedParameterizedType.getAnnotatedActualTypeArguments();
-			for (AnnotatedType annotatedActualTypeArgument : annotatedActualTypeArguments) {
-				System.out.println(annotatedActualTypeArgument);
-				if (annotatedActualTypeArgument instanceof AnnotatedWildcardType) {
-					AnnotatedWildcardType annotatedWildcardType = (AnnotatedWildcardType) annotatedActualTypeArgument;
-					// 打印这个歌泛型类型参数的注解信息：MyAnno2(value=[type-use-wildcard])]
-					Annotation[] declaredAnnotations = annotatedWildcardType.getDeclaredAnnotations();
-					Assert.isTrue(declaredAnnotations.length == 1);
-					System.out.println(Arrays.toString(declaredAnnotations));
-					// 获取下界的AnnotatedType，这里只定义了上界Number
-					AnnotatedType[] annotatedLowerBounds = annotatedWildcardType.getAnnotatedLowerBounds();
-					Assert.isTrue(annotatedLowerBounds.length == 0);
-					// 定义了上界Number，打印申明的注解信息：MyAnno2(value=[type-use-number])]
-					AnnotatedType[] annotatedUpperBounds = annotatedWildcardType.getAnnotatedUpperBounds();
-					Assert.isTrue(annotatedUpperBounds.length == 1);
-					for (AnnotatedType annotatedUpperBound : annotatedUpperBounds) {
-						declaredAnnotations = annotatedUpperBound.getDeclaredAnnotations();
-						Assert.isTrue(declaredAnnotations.length == 1);
-						System.out.println(Arrays.toString(declaredAnnotations));
-					}
-				}
+			AnnotatedWildcardType annotatedWildcardType = (AnnotatedWildcardType) annotatedActualTypeArguments[0];
+			// 打印这个歌泛型类型参数的注解信息：MyAnno2(value=[type-use-wildcard])]
+			Annotation[] declaredAnnotations = annotatedWildcardType.getDeclaredAnnotations();
+			Assert.isTrue(declaredAnnotations.length == 1);
+			System.out.println(Arrays.toString(declaredAnnotations));
+			// 获取下界的AnnotatedType，这里只定义了上界Number
+			AnnotatedType[] annotatedLowerBounds = annotatedWildcardType.getAnnotatedLowerBounds();
+			Assert.isTrue(annotatedLowerBounds.length == 0);
+			// 定义了上界Number，打印申明的注解信息：MyAnno2(value=[type-use-number])]
+			AnnotatedType[] annotatedUpperBounds = annotatedWildcardType.getAnnotatedUpperBounds();
+			Assert.isTrue(annotatedUpperBounds.length == 1);
+			for (AnnotatedType annotatedUpperBound : annotatedUpperBounds) {
+				declaredAnnotations = annotatedUpperBound.getDeclaredAnnotations();
+				Assert.isTrue(declaredAnnotations.length == 1);
+				System.out.println(Arrays.toString(declaredAnnotations));
 			}
 			/*
-			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedParameterizedTypeImpl@448139f0
-			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedWildcardTypeImpl@7cca494b
 			[@com.belonk.lang.reflect.MyAnno2(value=[type-use-wildcard])]
 			[@com.belonk.lang.reflect.MyAnno2(value=[type-use-number])]
 			 */
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void annotatedMethodType() {
+		System.out.println("==== annotatedMethodType: ");
+
+		try {
+			// 获取返回类型，这里为void
+			Method method = AnnotationClass.class.getMethod("method", List.class, List.class);
+			AnnotatedType annotatedReturnType = method.getAnnotatedReturnType();
+			System.out.println(annotatedReturnType.getType()); // void
+
+			// 获取方法泛型类型上的注解
+			TypeVariable<Method>[] typeParameters = method.getTypeParameters();
+			for (TypeVariable<Method> typeParameter : typeParameters) {
+				System.out.println(Arrays.toString(typeParameter.getAnnotations()));
+			}
+
+			// 获取参数注解
+			AnnotatedType[] annotatedParameterTypes = method.getAnnotatedParameterTypes();
+			for (AnnotatedType annotatedParameterType : annotatedParameterTypes) {
+				AnnotatedParameterizedType annotatedParameterizedType = (AnnotatedParameterizedType) annotatedParameterType;
+				System.out.println(Arrays.toString(annotatedParameterizedType.getAnnotations()));
+				AnnotatedType[] annotatedActualTypeArguments = annotatedParameterizedType.getAnnotatedActualTypeArguments();
+				for (AnnotatedType annotatedActualTypeArgument : annotatedActualTypeArguments) {
+					AnnotatedTypeVariable annotatedTypeVariable = (AnnotatedTypeVariable) annotatedActualTypeArgument;
+					System.out.println(Arrays.toString(annotatedTypeVariable.getAnnotations()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		/*
+		void
+		[@com.belonk.lang.reflect.MyAnno2(value=[type-parameter-method])]
+		[@com.belonk.lang.reflect.MyAnno2(value=[parameter])]
+		[@com.belonk.lang.reflect.MyAnno2(value=[type-use-method])]
+		[]
+		[]
+		 */
+	}
+
+	public static void annotatedLocalVariable() {
+		// TODO JDK1.8目前的ElementType.LOCAL_VARIABLE暂时没有用到，未找到反射获取方式
 	}
 }
 
@@ -243,8 +287,7 @@ public class AnnotatedTypeDemo {
 	String[] value() default "";
 }
 
-// TODO 怎么获取注解@MyAnno2("type-parameter-class")
-class AnnotationClass<@MyAnno2("type-parameter-class") T extends @MyAnno2("type-use-class") Number & Serializable> {
+class AnnotationClass<@MyAnno2("type-parameter-class") T extends @MyAnno2("type-use-class-number") Number & @MyAnno2("type-use-serializable") Serializable> {
 	@MyAnno2("item")
 	private Object item;
 
@@ -264,7 +307,7 @@ class AnnotationClass<@MyAnno2("type-parameter-class") T extends @MyAnno2("type-
 
 	public <@MyAnno2("type-parameter-method") I> void method(@MyAnno2("parameter") List<@MyAnno2("type-use-method") T> list, List<I> list1) {
 		@MyAnno2("local-variable")
-		int var = 1;
+		int i = 1;
 	}
 }
 
