@@ -1,5 +1,7 @@
 package com.belonk.lang.reflect;
 
+import com.belonk.util.Assert;
+
 import java.io.Serializable;
 import java.lang.annotation.*;
 import java.lang.reflect.*;
@@ -64,7 +66,7 @@ public class AnnotatedTypeDemo {
 			// getAnnotatedType：获取属性的AnnotatedType，这是一个AnnotatedParameterizedType
 			AnnotatedType annotatedType = AnnotationClass.class.getDeclaredField("list").getAnnotatedType();
 			System.out.println(annotatedType);
-			assert annotatedType instanceof AnnotatedParameterizedType;
+			Assert.isTrue(annotatedType instanceof AnnotatedParameterizedType);
 			// 拿到AnnotatedParameterizedType
 			AnnotatedParameterizedType annotatedParameterizedType = (AnnotatedParameterizedType) annotatedType;
 			// 获取实际类型参数，其实就是@MyAnno2("type-use") T部分
@@ -86,23 +88,41 @@ public class AnnotatedTypeDemo {
 	public static void annotatedTypeVariable() {
 		System.out.println("==== annotatedTypeVariable:");
 		// AnnotationClass上定义的泛型：@MyAnno2("type-parameter-class") T extends @MyAnno2("type-use-class") Number & Serializable
-		// TODO 不能直接获取Class的 AnnotatedTypeVariable？
+		// 不能直接获取Class的 AnnotatedTypeVariable，只能通过泛型子类获取
 		try {
+			// 获取泛型子类的泛型父类上泛型的注解
+			AnnotatedType annotatedType1 = AnnotationSubClass1.class.getAnnotatedSuperclass();
+			Assert.isTrue(annotatedType1 instanceof AnnotatedParameterizedType);
+			AnnotatedParameterizedType apt = (AnnotatedParameterizedType) annotatedType1;
+			AnnotatedType[] annotatedActualTypeArguments = apt.getAnnotatedActualTypeArguments();
+			// 只有一个泛型参数
+			AnnotatedTypeVariable annotatedTypeVariable1 = (AnnotatedTypeVariable) annotatedActualTypeArguments[0];
+			Annotation[] annotations = annotatedTypeVariable1.getAnnotations();
+			System.out.println(Arrays.toString(annotations));
+
+			// 获取非泛型子类的泛型父类的注解
+			AnnotatedType annotatedType2 = AnnotationSubClass2.class.getAnnotatedSuperclass();
+			Assert.isTrue(annotatedType2 instanceof AnnotatedParameterizedType);
+			AnnotatedParameterizedType apt2 = (AnnotatedParameterizedType) annotatedType2;
+			AnnotatedType[] annotatedActualTypeArguments1 = apt2.getAnnotatedActualTypeArguments();
+			AnnotatedType annotatedType3 = annotatedActualTypeArguments1[0];
+			System.out.println(Arrays.toString(annotatedType3.getAnnotations()));
+
 			// 获取普通属性的注解，注意注解的Target必须申明Element.FIELD
 			Field itemField = AnnotationClass.class.getDeclaredField("item");
 			// 获取字段上定义的注解：@MyAnno2("field")
 			Annotation[] declaredAnnotations = itemField.getDeclaredAnnotations();
-			assert declaredAnnotations.length == 1;
+			Assert.isTrue(declaredAnnotations.length == 1);
 			System.out.println(Arrays.toString(declaredAnnotations));
 
 			Field field = AnnotationClass.class.getDeclaredField("type");
 			AnnotatedType annotatedType = field.getAnnotatedType();
-			assert annotatedType instanceof AnnotatedTypeVariable;
+			Assert.isTrue(annotatedType instanceof AnnotatedTypeVariable);
 			AnnotatedTypeVariable annotatedTypeVariable = (AnnotatedTypeVariable) annotatedType;
 			// 获取字段上定义的注解：@MyAnno2("field")
 			declaredAnnotations = annotatedTypeVariable.getDeclaredAnnotations();
 			System.out.println(Arrays.toString(declaredAnnotations));
-			assert declaredAnnotations.length == 1;
+			Assert.isTrue(declaredAnnotations.length == 1);
 
 			// 获取定义的泛型变量T的边界的注解类型
 			// 变量T在Class定义：@MyAnno2("type-parameter") T extends @MyAnno2("type-use-class") Number & Serializable
@@ -115,14 +135,16 @@ public class AnnotatedTypeDemo {
 				System.out.print(annotatedBound.getType() + " - ");
 				// 查看定义的注解信息
 				declaredAnnotations = annotatedBound.getDeclaredAnnotations();
-				assert declaredAnnotations.length == 1;
+				Assert.isTrue(declaredAnnotations.length == 1);
 				System.out.println(Arrays.toString(declaredAnnotations));
 			}
 			/*
-		[@com.belonk.lang.reflect.MyAnno2(value=[item])]
-		[@com.belonk.lang.reflect.MyAnno2(value=[field])]
-		sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@404b9385 - class java.lang.Number - [@com.belonk.lang.reflect.MyAnno2(value=[type-use-class])]
-		sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@6d311334 - interface java.io.Serializable - []
+			[@com.belonk.lang.reflect.MyAnno2(value=[super-class-1])]
+			[@com.belonk.lang.reflect.MyAnno2(value=[super-class-2])]
+			[@com.belonk.lang.reflect.MyAnno2(value=[item])]
+			[@com.belonk.lang.reflect.MyAnno2(value=[field])]
+			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@404b9385 - class java.lang.Number - [@com.belonk.lang.reflect.MyAnno2(value=[type-use-class])]
+			sun.reflect.annotation.AnnotatedTypeFactory$AnnotatedTypeBaseImpl@6d311334 - interface java.io.Serializable - []
 			 */
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
@@ -134,13 +156,13 @@ public class AnnotatedTypeDemo {
 		try {
 			// 拿到数组属性上的AnnotatedType
 			AnnotatedType annotatedType = AnnotationClass.class.getDeclaredField("array").getAnnotatedType();
-			assert annotatedType instanceof AnnotatedArrayType;
+			Assert.isTrue(annotatedType instanceof AnnotatedArrayType);
 			AnnotatedArrayType annotatedArrayType = (AnnotatedArrayType) annotatedType;
 			// 获取数组类型的潜在注释通用组件类型，数组使用类型变量T，该类型变量定义在Class上，故这里为AnnotatedTypeVariable类型
 			AnnotatedTypeVariable annotatedTypeVariable = (AnnotatedTypeVariable) annotatedArrayType.getAnnotatedGenericComponentType();
 			// 获取array属性上标注的注解信息
 			Annotation[] declaredAnnotations = annotatedTypeVariable.getDeclaredAnnotations();
-			assert declaredAnnotations.length == 1;
+			Assert.isTrue(declaredAnnotations.length == 1);
 			System.out.println(Arrays.toString(declaredAnnotations));
 			// 获取定义的泛型变量T的边界的注解类型
 			// 变量T在Class定义：@MyAnno2("type-parameter") T extends @MyAnno2("type-use-class") Number & Serializable
@@ -153,7 +175,7 @@ public class AnnotatedTypeDemo {
 				System.out.print(annotatedBound.getType() + " - ");
 				// 查看定义的注解信息
 				declaredAnnotations = annotatedBound.getDeclaredAnnotations();
-				assert declaredAnnotations.length == 1;
+				Assert.isTrue(declaredAnnotations.length == 1);
 				System.out.println(Arrays.toString(declaredAnnotations));
 			}
 			/*
@@ -181,17 +203,17 @@ public class AnnotatedTypeDemo {
 					AnnotatedWildcardType annotatedWildcardType = (AnnotatedWildcardType) annotatedActualTypeArgument;
 					// 打印这个歌泛型类型参数的注解信息：MyAnno2(value=[type-use-wildcard])]
 					Annotation[] declaredAnnotations = annotatedWildcardType.getDeclaredAnnotations();
-					assert declaredAnnotations.length == 1;
+					Assert.isTrue(declaredAnnotations.length == 1);
 					System.out.println(Arrays.toString(declaredAnnotations));
 					// 获取下界的AnnotatedType，这里只定义了上界Number
 					AnnotatedType[] annotatedLowerBounds = annotatedWildcardType.getAnnotatedLowerBounds();
-					assert annotatedLowerBounds.length == 0;
+					Assert.isTrue(annotatedLowerBounds.length == 0);
 					// 定义了上界Number，打印申明的注解信息：MyAnno2(value=[type-use-number])]
 					AnnotatedType[] annotatedUpperBounds = annotatedWildcardType.getAnnotatedUpperBounds();
-					assert annotatedUpperBounds.length == 1;
+					Assert.isTrue(annotatedUpperBounds.length == 1);
 					for (AnnotatedType annotatedUpperBound : annotatedUpperBounds) {
 						declaredAnnotations = annotatedUpperBound.getDeclaredAnnotations();
-						assert declaredAnnotations.length == 1;
+						Assert.isTrue(declaredAnnotations.length == 1);
 						System.out.println(Arrays.toString(declaredAnnotations));
 					}
 				}
@@ -212,9 +234,9 @@ public class AnnotatedTypeDemo {
 // Filed上的getXXXAnnotation方法不能获取到注解，只能通过AnnotatedType获取。
 @Retention(RetentionPolicy.RUNTIME)
 @Target({
-		ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE/*, ElementType.TYPE_PARAMETER*/
-		,
-		ElementType.TYPE_USE
+		ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE
+		//, ElementType.TYPE_PARAMETER
+		, ElementType.TYPE_USE
 })
 @Inherited
 @interface MyAnno2 {
@@ -243,5 +265,82 @@ class AnnotationClass<@MyAnno2("type-parameter-class") T extends @MyAnno2("type-
 	public <@MyAnno2("type-parameter-method") I> void method(@MyAnno2("parameter") List<@MyAnno2("type-use-method") T> list, List<I> list1) {
 		@MyAnno2("local-variable")
 		int var = 1;
+	}
+}
+
+class AnnotationSubClass1<T extends Number> extends AnnotationClass<@MyAnno2("super-class-1") T> {
+
+}
+
+class AnnotationSubClass2 extends AnnotationClass<@MyAnno2("super-class-2") Long> {
+
+}
+
+// ==== 测试注解可标记的TYPE_PARAMETER位置
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE_PARAMETER})
+@Inherited
+@interface TypeParamAnno {
+	String[] value() default "";
+}
+
+// '@TypeParamAnno' not applicable to type
+/*@TypeParamAnno*/
+// '@TypeParamAnno' not applicable to type use
+class NumberHolder<@TypeParamAnno T extends /*@TypeParamAnno*/ Number> {
+	// @TypeParamAnno' not applicable to field
+	/*@TypeParamAnno*/ T number;
+	// @TypeParamAnno' not applicable to type use
+	List</*@TypeParamAnno*/ ? extends /*@TypeParamAnno*/ Number> numbers;
+
+	// '@TypeParamAnno' not applicable to parameter
+	// '@TypeParamAnno' not applicable to method
+	public /*@TypeParamAnno*/ T add(/*@TypeParamAnno*/ T number) {
+		return null;
+	}
+
+	// '@TypeParamAnno' not applicable to parameter
+	public <@TypeParamAnno E> void m1(/*@TypeParamAnno*/ E e) {
+	}
+
+	// '@TypeParamAnno' not applicable to parameter
+	public <@TypeParamAnno E extends Number> void m2(/*@TypeParamAnno*/ E e) {
+
+	}
+
+	// '@TypeParamAnno' not applicable to type use
+	public void m2(List</*@TypeParamAnno*/ ? extends Number> e) {
+
+	}
+}
+
+// ==== 测试注解可标记的TYPE_USE位置
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE_USE})
+@Inherited
+@interface TypeAnno {
+	String[] value() default "";
+}
+
+@TypeAnno
+class NumberHolder1<@TypeAnno T extends @TypeAnno Number> {
+	@TypeAnno T number;
+	List<@TypeAnno ? extends @TypeAnno Number> numbers;
+
+	public @TypeAnno T add(@TypeAnno T number) {
+		return null;
+	}
+
+	public <@TypeAnno E> void m1(@TypeAnno E e) {
+	}
+
+	public <@TypeAnno E extends Number> void m2(@TypeAnno E e) {
+
+	}
+
+	public void m2(List<@TypeAnno ? extends Number> e) {
+
 	}
 }
