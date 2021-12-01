@@ -7,7 +7,8 @@ import java.util.TreeMap;
 
 /**
  * SortedMap: 继承自Map接口，确保键可以排序（自然顺序获取提供比较器），comparator方法可以返回当前使用的比较器，自然顺序排序则返回null。
- * 可以通过 subMap、headMap、tailMap返回一个子map，它仅仅是原有map的视图，所有的修改都反映到原有map当中。
+ * 可以通过 subMap、headMap、tailMap返回一个子map，它仅仅是原有map的视图，所有的修改都反映到原有map当中, 子Map的操作只能在自身的范围
+ * 内，超出会抛出IllegalArgumentException: key out of range。
  * <p>
  * Created by sun on 2021/12/1.
  *
