@@ -44,6 +44,8 @@ public class SortedMapDemo {
 		Printer.println("low: " + low);
 		Printer.println("high: " + high);
 
+		// 所有子map是原始map的一个视图，子map的修改会映射到原始map上
+
 		// 第10到第20（不包含）个元素的子map
 		SortedMap<Integer, String> subMap = sortedMap.subMap(low, high);
 		Printer.println(subMap);
