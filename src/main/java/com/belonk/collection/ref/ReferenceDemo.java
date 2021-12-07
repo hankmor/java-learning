@@ -68,6 +68,9 @@ public class ReferenceDemo {
 	public static void main(String[] args) {
 		References refs = new References();
 		refs.test();
+		/*
+		可以看到，对象即使后边有引用也会被GC回收掉，幻象引用get方法返回的总是null
+		 */
 	}
 }
 
