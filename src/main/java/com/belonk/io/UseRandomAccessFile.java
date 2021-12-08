@@ -23,9 +23,31 @@ public class UseRandomAccessFile {
 	//~ Methods
 
 	public static void main(String[] args) throws IOException {
-		String file = "src/main/java/com/belonk/io/rdata.dt";
-		UseRandomAccessFile randomAccessFile = new UseRandomAccessFile();
-		randomAccessFile.write(new File(file));
+		String outFile = "src/main/java/com/belonk/io/rdata.dt";
+		UseRandomAccessFile.write(new File(outFile));
+		// 删除文件
+		File file = new File(outFile);
+		if (file.exists())
+			file.delete();
+
+		/*
+		0.0
+		3.1415926
+		6.2831852
+		9.424777800000001
+		12.5663704
+		15.707963
+		18.849555600000002
+		写完了
+		0.0
+		3.1415926
+		6.2831852
+		1.1234
+		12.5663704
+		15.707963
+		18.849555600000002
+		写完了
+		 */
 	}
 
 	static void write(File file) throws IOException {
