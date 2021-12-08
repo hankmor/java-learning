@@ -28,6 +28,7 @@ public class MemoryInput {
 	public static void main(String[] args) throws IOException {
 		String file = "src/main/java/com/belonk/io/MemoryInput.java";
 		String content = BufferedInputFile.read(file);
+		// StringReader替换了早期的 StringBufferInputStream，用来读取字符串
 		StringReader stringReader = new StringReader(content);
 		int c;
 		// 按照字符逐个读取，结果输出为char
