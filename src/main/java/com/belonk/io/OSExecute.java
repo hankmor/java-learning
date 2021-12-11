@@ -32,6 +32,7 @@ public class OSExecute {
 	public static void main(String[] args) throws IOException {
 		String cmd;
 
+		// TODO 无法执行，找不到echo
 		// System.out.println("echo测试：");
 		// if (isWindows()) {
 		// 	cmd = "C/:'Program Files'/Git/usr/bin/echo.exe %path%";
