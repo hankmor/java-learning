@@ -40,12 +40,13 @@ Buffer称为缓冲区。除了内容之外，缓冲区中包含几个参数：
 
 此类中没有返回值的方法被指定为返回调用它们的缓冲区。这允许链式方法调用； 
 例如，语句序列 
-
+```java
 b.flip(); 
 b.position(23); 
 b.limit(42); 
+```
 
-可以写为：b.flip().position(23).limit(42);
+可以写为：`b.flip().position(23).limit(42);`
 
 # ByteBuffer
 
@@ -80,10 +81,12 @@ ByteBuffer继承自Buffer，它是一个字节缓冲区。此类定义了对字�
 
 为了访问异构二进制数据，即不同类型的值序列，该类为每种类型定义了一系列绝对和相对的get和put方法。 例如，对于 32 位浮点值，此类定义：
 
+```java
 float  getFloat()
 float  getFloat(int index)
 void  putFloat(float f)
 void  putFloat(int index, float f)
+```
 
 为char 、 short 、 int 、 long和double类型定义了相应的方法。 绝对get和put方法的索引参数以字节为单位，而不是以正在读取或写入的类型为单位。
 
@@ -96,13 +99,17 @@ void  putFloat(int index, float f)
 
 视图缓冲区的字节顺序固定为创建视图时其字节缓冲区的字节顺序。
 
-## 调用链
+## 链式调用
 
-此类中没有返回值的方法被指定为返回调用它们的缓冲区。 这允许链接方法调用。 陈述的顺序
+此类中没有返回值的方法被指定为返回调用它们的缓冲区，这允许链式方法调用。比如如下的代码：
 
+```java
 bb.putInt(0xCAFEBABE);
 bb.putShort(3);
 bb.putShort(45);
+```
 
 例如，可以替换为单个语句
+```java
 bb.putInt(0xCAFEBABE).putShort(3).putShort(45);
+```
