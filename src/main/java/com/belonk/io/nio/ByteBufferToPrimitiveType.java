@@ -1,7 +1,6 @@
 package com.belonk.io.nio;
 
 import java.nio.*;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Created by sun on 2021/12/12.
@@ -23,6 +22,8 @@ public class ByteBufferToPrimitiveType {
 
 	/*
 	 * ByteBuffer与基础类型的存储和获取操作。
+	 *
+	 * 使用ByteBuffer写入基本数据类型最简单快速的方法时使用ByteBuffer的视图。
 	 *
 	 * ByteBuffer提供了asCharBuffer()、asShortBuffer()、asIntBuffer()、asFloatBuffer()、asLongBuffer()、asDoubleBuffer()等方法，
 	 * 他们都返回一个新的缓冲区视图，更改其内容会反映到ByteBuffer中，但是新的缓冲区视图的位置(position)、限制(limit)、标记(mark)都是独立的，
