@@ -1,8 +1,6 @@
 package com.belonk.io.nio;
 
 import java.nio.ByteBuffer;
-import java.time.Year;
-import java.util.Arrays;
 
 /**
  * Created by sun on 2021/12/13.
@@ -24,6 +22,8 @@ public class ByteBufferPutAndGet {
 
 	/*
 	 * ByteBuffer put过后值的变化
+	 *
+	 * 使用position()更改位置后，在调用put，缓冲区将从该位置开始写入，位置上原有的数据会被覆盖。
 	 */
 
 	static int size = 5;
