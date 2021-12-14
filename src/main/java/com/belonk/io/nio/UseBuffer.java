@@ -22,7 +22,10 @@ public class UseBuffer {
 	//~ Methods
 
 	/*
-	 * 交换每两个字符串的位置
+	 * 交换每两个字符串的位置。配套使用两个方法：
+	 *
+	 * mark()方法: 将当前的position设置为mark
+	 * reset()方法：将position重置为mark，即回到原位
 	 */
 
 	public static void main(String[] args) {
