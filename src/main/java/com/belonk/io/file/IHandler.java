@@ -8,5 +8,5 @@ package com.belonk.io.file;
  * @since 1.0
  */
 public interface IHandler {
-    void handle(String line);
+	void handle(String line);
 }

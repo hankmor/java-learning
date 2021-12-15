@@ -6,8 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
-import static com.belonk.util.Printer.println;
-
 /**
  * <p>Created by sun on 2016/1/19.
  *
@@ -16,47 +14,47 @@ import static com.belonk.util.Printer.println;
  * @since 2.2.3
  */
 public class MethodsViewer {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    private Class aClass;
-    // 过滤掉类型前缀
-    private Pattern pattern = Pattern.compile("\\w+\\.");
+	private Class aClass;
+	// 过滤掉类型前缀
+	private Pattern pattern = Pattern.compile("\\w+\\.");
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public MethodsViewer(Class aClass) {
-        this.aClass = aClass;
-    }
+	public MethodsViewer(Class aClass) {
+		this.aClass = aClass;
+	}
 
-    public void showMethods(String partName) {
-        Method[] method = aClass.getMethods();
-        for (Method m : method) {
-            if (partName == null || "".equals(partName))
-                Printer.println(pattern.matcher(m.toString()).replaceAll(""));
-            else {
-                if (m.toString().contains(partName))
-                    Printer.println(pattern.matcher(m.toString()).replaceAll(""));
-            }
-        }
-        Constructor[] constructors = aClass.getConstructors();
-        for (Constructor constructor : constructors) {
-            if (partName == null || "".equals(partName))
-                Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
-            else {
-                if (constructor.toString().contains(partName))
-                    Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
-            }
-        }
-    }
+	public void showMethods(String partName) {
+		Method[] method = aClass.getMethods();
+		for (Method m : method) {
+			if (partName == null || "".equals(partName))
+				Printer.println(pattern.matcher(m.toString()).replaceAll(""));
+			else {
+				if (m.toString().contains(partName))
+					Printer.println(pattern.matcher(m.toString()).replaceAll(""));
+			}
+		}
+		Constructor[] constructors = aClass.getConstructors();
+		for (Constructor constructor : constructors) {
+			if (partName == null || "".equals(partName))
+				Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
+			else {
+				if (constructor.toString().contains(partName))
+					Printer.println(pattern.matcher(constructor.toString()).replaceAll(""));
+			}
+		}
+	}
 
-    public static void main(String[] args) {
-        MethodsViewer methodsViewer = new MethodsViewer(MethodsViewer.class);
-        methodsViewer.showMethods(null);
-        Printer.println();
-        methodsViewer.showMethods("show");
-    }
+	public static void main(String[] args) {
+		MethodsViewer methodsViewer = new MethodsViewer(MethodsViewer.class);
+		methodsViewer.showMethods(null);
+		Printer.println();
+		methodsViewer.showMethods("show");
+	}
 }
 /* Output:
 public void showMethods(String)

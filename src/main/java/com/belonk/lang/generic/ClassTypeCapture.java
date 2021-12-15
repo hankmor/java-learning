@@ -7,30 +7,30 @@ package com.belonk.lang.generic;
  * @since 1.0
  */
 public class ClassTypeCapture<T> {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
-    Class<T> kind;
+	//~ Instance fields ================================================================================================
+	Class<T> kind;
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public ClassTypeCapture(Class<T> kind) {
-        this.kind = kind;
-    }
+	public ClassTypeCapture(Class<T> kind) {
+		this.kind = kind;
+	}
 
-    public boolean capture(Object arg) {
-        return kind.isInstance(arg);
-    }
+	public boolean capture(Object arg) {
+		return kind.isInstance(arg);
+	}
 
-    public static void main(String[] args) {
-        ClassTypeCapture<Person> personClassTypeCapture = new ClassTypeCapture<Person>(Person.class);
-        System.out.println(personClassTypeCapture.capture(new Person()));
-        System.out.println(personClassTypeCapture.capture(new Jim()));
+	public static void main(String[] args) {
+		ClassTypeCapture<Person> personClassTypeCapture = new ClassTypeCapture<Person>(Person.class);
+		System.out.println(personClassTypeCapture.capture(new Person()));
+		System.out.println(personClassTypeCapture.capture(new Jim()));
 
-        ClassTypeCapture<Jim> jimClassTypeCapture = new ClassTypeCapture<Jim>(Jim.class);
-        System.out.println(jimClassTypeCapture.capture(new Person()));
-        System.out.println(jimClassTypeCapture.capture(new Jim()));
-    }
+		ClassTypeCapture<Jim> jimClassTypeCapture = new ClassTypeCapture<Jim>(Jim.class);
+		System.out.println(jimClassTypeCapture.capture(new Person()));
+		System.out.println(jimClassTypeCapture.capture(new Jim()));
+	}
 }
 
 

@@ -1,10 +1,5 @@
 package com.belonk.lang.reflect;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
  * Created by sun on 2021/11/21.
  *

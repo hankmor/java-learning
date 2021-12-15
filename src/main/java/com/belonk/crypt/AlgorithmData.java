@@ -1,14 +1,14 @@
 package com.belonk.crypt;
 
 public class AlgorithmData {
-	
+
 	private String key;
-	
+
 	private String dataMing;
-	
+
 	private String dataMi;
-	
-	private boolean doDisplay =true;//true-需要做显示处理，false-不需要做显示处理
+
+	private boolean doDisplay = true;//true-需要做显示处理，false-不需要做显示处理
 
 	public boolean isDoDisplay() {
 		return doDisplay;
@@ -40,6 +40,6 @@ public class AlgorithmData {
 
 	public void setDataMi(String dataMi) {
 		this.dataMi = dataMi;
-	}	
+	}
 
 }

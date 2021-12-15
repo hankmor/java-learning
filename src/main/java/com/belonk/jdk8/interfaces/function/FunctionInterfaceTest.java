@@ -11,36 +11,36 @@ package com.belonk.jdk8.interfaces.function;
  */
 @FunctionalInterface
 interface FuncInterface {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
-    void say(String word);
+	//~ Methods ========================================================================================================
+	void say(String word);
 
-    // 多于一个抽象方法，编译错误
+	// 多于一个抽象方法，编译错误
 //    void speak(String word);
 
-    // 扩展方法非抽象，可以有多个
-    default void speak(String word) {
-        System.out.println(word);
-    }
+	// 扩展方法非抽象，可以有多个
+	default void speak(String word) {
+		System.out.println(word);
+	}
 }
 
 public class FunctionInterfaceTest {
-    public static void main(String[] args) {
-        // 将lambda表达式映射到一个单方法的接口上
-        FuncInterface funcInterface = word -> System.out.println(word);
-        funcInterface.say("hello");
-        funcInterface.speak("world");
+	public static void main(String[] args) {
+		// 将lambda表达式映射到一个单方法的接口上
+		FuncInterface funcInterface = word -> System.out.println(word);
+		funcInterface.say("hello");
+		funcInterface.speak("world");
 
-        funcInterface = System.out::println;
-        funcInterface.say("hello");
-        funcInterface.speak("world");
-    }
+		funcInterface = System.out::println;
+		funcInterface.say("hello");
+		funcInterface.speak("world");
+	}
 }
