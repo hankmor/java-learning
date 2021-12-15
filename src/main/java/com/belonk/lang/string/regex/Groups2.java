@@ -16,36 +16,36 @@ import static com.belonk.util.Printer.println;
  * @since 1.0
  */
 public class Groups2 {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    /**
-     * 查询不以大写字母开头的单词，并统计每词的数量
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        String words = Groups.POEM;
-        // 不以大写字母开头的单词
-        String regex = "\\b([a-z]\\w*)\\b";
-        Matcher matcher = Pattern.compile(regex).matcher(words);
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        while (matcher.find()) {
-            String s = matcher.group(1);
-            Integer cnt = map.get(s);
-            if (cnt == null)
-                cnt = 0;
-            map.put(s, ++cnt);
-            print("[" + s + "]");
-        }
-        println();
-        for (String s : map.keySet()) {
-            println(s + " : " + map.get(s));
-        }
-    }
+	/**
+	 * 查询不以大写字母开头的单词，并统计每词的数量
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String words = Groups.POEM;
+		// 不以大写字母开头的单词
+		String regex = "\\b([a-z]\\w*)\\b";
+		Matcher matcher = Pattern.compile(regex).matcher(words);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		while (matcher.find()) {
+			String s = matcher.group(1);
+			Integer cnt = map.get(s);
+			if (cnt == null)
+				cnt = 0;
+			map.put(s, ++cnt);
+			print("[" + s + "]");
+		}
+		println();
+		for (String s : map.keySet()) {
+			println(s + " : " + map.get(s));
+		}
+	}
 }
 /* Output :
 [quietly][take][my][leave][quietly][as][came][here][wave][good][bye][the][rosy][clouds][in][the][western][sky]

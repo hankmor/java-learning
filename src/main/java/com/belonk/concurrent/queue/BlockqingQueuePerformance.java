@@ -2,7 +2,8 @@ package com.belonk.concurrent.queue;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by sun on 2021/4/28.

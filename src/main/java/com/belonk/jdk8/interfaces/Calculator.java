@@ -8,10 +8,10 @@ package com.belonk.jdk8.interfaces;
  * @since 1.0
  */
 public interface Calculator {
-    double calc(int n);
+	double calc(int n);
 
-    // 默认方法，扩展方法
-    default double sqrt(int n) {
-        return Math.sqrt(n);
-    }
+	// 默认方法，扩展方法
+	default double sqrt(int n) {
+		return Math.sqrt(n);
+	}
 }

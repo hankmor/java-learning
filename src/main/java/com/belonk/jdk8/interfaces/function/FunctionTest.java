@@ -13,32 +13,32 @@ import java.util.function.Function;
  * @since 1.0
  */
 public class FunctionTest {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public static void main(String[] args) {
-        Function<String, Integer> integerFunction = Integer::valueOf;
-        Integer res = integerFunction.apply("123");
-        System.out.println(res);
+	public static void main(String[] args) {
+		Function<String, Integer> integerFunction = Integer::valueOf;
+		Integer res = integerFunction.apply("123");
+		System.out.println(res);
 
-        Function<String, String> stringFunction = integerFunction.andThen(String::valueOf);
-        String s = stringFunction.apply("109");
-        System.out.println(s);
+		Function<String, String> stringFunction = integerFunction.andThen(String::valueOf);
+		String s = stringFunction.apply("109");
+		System.out.println(s);
 
-        Function<String, Double> doubleFunction = Double::valueOf;
-        Double d = doubleFunction.apply("123");
-        System.out.println(d);
+		Function<String, Double> doubleFunction = Double::valueOf;
+		Double d = doubleFunction.apply("123");
+		System.out.println(d);
 
-        Function<String, BigDecimal> decimalFunction = doubleFunction.andThen(BigDecimal::new);
-        BigDecimal decimal = decimalFunction.apply("123.3");
-        System.out.println(decimal);
-    }
+		Function<String, BigDecimal> decimalFunction = doubleFunction.andThen(BigDecimal::new);
+		BigDecimal decimal = decimalFunction.apply("123.3");
+		System.out.println(decimal);
+	}
 }
