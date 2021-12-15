@@ -10,30 +10,30 @@ import com.belonk.util.Printer;
  * @since 2.2.3
  */
 public class CharArrayChecker {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    static void check(char[] chars) {
-        Class aClass = chars.getClass();
-        Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
-        Printer.println("chars instanceof Object : " + (chars instanceof Object));
-        Printer.println("chars instanceof char[] : " + (chars instanceof char[]));
-    }
+	static void check(char[] chars) {
+		Class aClass = chars.getClass();
+		Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
+		Printer.println("chars instanceof Object : " + (chars instanceof Object));
+		Printer.println("chars instanceof char[] : " + (chars instanceof char[]));
+	}
 
-    static void checkChar() {
-        Class aClass = char.class;
-        Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
-    }
+	static void checkChar() {
+		Class aClass = char.class;
+		Printer.println("aClass.isPrimitive()    : " + aClass.isPrimitive());
+	}
 
-    public static void main(String[] args) {
-        char[] chars = {'a', 'b', 'c'};
-        check(chars);
-        Printer.println();
-        checkChar();
-    }
+	public static void main(String[] args) {
+		char[] chars = {'a', 'b', 'c'};
+		check(chars);
+		Printer.println();
+		checkChar();
+	}
 }
 /* Output :
 aClass.isPrimitive()    : false

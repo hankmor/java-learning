@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 /**
  * Comparator 是老Java中的经典接口， Java 8在此之上添加了多种默认方法
- *
+ * <p>
  * Created by sun on 2017/6/30.
  *
  * @author sunfuchang03@126.com
@@ -12,25 +12,25 @@ import java.util.Comparator;
  * @since 1.0
  */
 public class ComparatorTest {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
 //        Comparator<Person> comparator = (p1, p2) -> p1.getId().compareTo(p2.getId());
-        Comparator<Person> comparator = Comparator.comparing(Person::getId);
-        Person p1 = new Person("a");
-        Person p2 = new Person("b");
-        int res = comparator.compare(p1, p2);
-        System.out.println(res);
-        res = comparator.reversed().compare(p1, p2);
-        System.out.println(res);
+		Comparator<Person> comparator = Comparator.comparing(Person::getId);
+		Person p1 = new Person("a");
+		Person p2 = new Person("b");
+		int res = comparator.compare(p1, p2);
+		System.out.println(res);
+		res = comparator.reversed().compare(p1, p2);
+		System.out.println(res);
 
-    }
+	}
 }

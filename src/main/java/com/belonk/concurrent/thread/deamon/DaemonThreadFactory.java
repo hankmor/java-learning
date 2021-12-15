@@ -10,21 +10,21 @@ import java.util.concurrent.ThreadFactory;
  * @since 1.0
  */
 public class DaemonThreadFactory implements ThreadFactory {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    @Override
-    public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r);
-        thread.setDaemon(true);
-        return thread;
-    }
+	@Override
+	public Thread newThread(Runnable r) {
+		Thread thread = new Thread(r);
+		thread.setDaemon(true);
+		return thread;
+	}
 }

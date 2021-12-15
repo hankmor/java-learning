@@ -18,92 +18,92 @@ import java.util.Date;
  * @since 1.0
  */
 public class CalendarTest {
-    /*
-     * =================================================================================================================
-     *
-     * Static fields/constants
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Static fields/constants
+	 *
+	 * =================================================================================================================
+	 */
 
-    private static Logger log = LoggerFactory.getLogger(CalendarTest.class);
+	private static Logger log = LoggerFactory.getLogger(CalendarTest.class);
 
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    /*
-     * =================================================================================================================
-     *
-     * Instance fields
-     *
-     * =================================================================================================================
-     */
-
-
-
-    /*
-     * =================================================================================================================
-     *
-     * Constructors
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Instance fields
+	 *
+	 * =================================================================================================================
+	 */
 
 
 
-    /*
-     * =================================================================================================================
-     *
-     * Public Methods
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Constructors
+	 *
+	 * =================================================================================================================
+	 */
 
-    public static void main(String[] args) throws SchedulerException {
-        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-        // 定义一个假期日历，排除不调调度的日期
-        Date excludedDate1 = DateUtil.parse("2018-03-15 00:00:00");
-        Date excludedDate2 = DateUtil.parse("2018-03-16 00:00:00");
-        HolidayCalendar holidayCalendar = new HolidayCalendar();
-        holidayCalendar.addExcludedDate(excludedDate1);
-        holidayCalendar.addExcludedDate(excludedDate2);
 
-        scheduler.addCalendar("myHolidays", holidayCalendar, false, false);
+	/*
+	 * =================================================================================================================
+	 *
+	 * Public Methods
+	 *
+	 * =================================================================================================================
+	 */
 
-        JobDetail jobDetail1 = JobBuilder.newJob(MyJob.class)
-                .withIdentity("job1", "group1")
-                .build();
+	public static void main(String[] args) throws SchedulerException {
+		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-        Trigger trigger1 = TriggerBuilder.newTrigger()
-                .withIdentity("trigger1")
-                .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(9, 30)) // 每天的9:300调度
-                .modifiedByCalendar("myHolidays") // 按照日历修改调度日期
-                .build();
+		// 定义一个假期日历，排除不调调度的日期
+		Date excludedDate1 = DateUtil.parse("2018-03-15 00:00:00");
+		Date excludedDate2 = DateUtil.parse("2018-03-16 00:00:00");
+		HolidayCalendar holidayCalendar = new HolidayCalendar();
+		holidayCalendar.addExcludedDate(excludedDate1);
+		holidayCalendar.addExcludedDate(excludedDate2);
 
-        scheduler.scheduleJob(jobDetail1, trigger1);
+		scheduler.addCalendar("myHolidays", holidayCalendar, false, false);
 
-        scheduler.start();
-    }
-    
-    /*
-     * =================================================================================================================
-     *
-     * Private Methods
-     *
-     * =================================================================================================================
-     */
+		JobDetail jobDetail1 = JobBuilder.newJob(MyJob.class)
+				.withIdentity("job1", "group1")
+				.build();
 
-    /*
-     * =================================================================================================================
-     *
-     * Inner classes
-     *
-     * =================================================================================================================
-     */
-    public static class MyJob implements Job {
-        @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
-            System.out.println("myjob is executing...");
-        }
-    }
+		Trigger trigger1 = TriggerBuilder.newTrigger()
+				.withIdentity("trigger1")
+				.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(9, 30)) // 每天的9:300调度
+				.modifiedByCalendar("myHolidays") // 按照日历修改调度日期
+				.build();
+
+		scheduler.scheduleJob(jobDetail1, trigger1);
+
+		scheduler.start();
+	}
+
+	/*
+	 * =================================================================================================================
+	 *
+	 * Private Methods
+	 *
+	 * =================================================================================================================
+	 */
+
+	/*
+	 * =================================================================================================================
+	 *
+	 * Inner classes
+	 *
+	 * =================================================================================================================
+	 */
+	public static class MyJob implements Job {
+		@Override
+		public void execute(JobExecutionContext context) throws JobExecutionException {
+			System.out.println("myjob is executing...");
+		}
+	}
 }

@@ -3,10 +3,8 @@ package com.belonk.io.nio;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by sun on 2021/12/14.
