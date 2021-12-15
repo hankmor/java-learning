@@ -19,50 +19,50 @@ import java.nio.file.attribute.BasicFileAttributes;
  * @since 1.0
  */
 public class FindFileVisitor extends SimpleFileVisitor<Path> {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods =======================================================================================================
+	//~ Methods =======================================================================================================
 
-    @Override
-    public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
-        // 访问文件夹时调用
-        System.out.println("Just visited " + dir);
-        return FileVisitResult.CONTINUE;
-    }
+	@Override
+	public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
+		// 访问文件夹时调用
+		System.out.println("Just visited " + dir);
+		return FileVisitResult.CONTINUE;
+	}
 
-    @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        // 访问文件夹之前调用
-        System.out.println("About to visit " + dir);
-        return FileVisitResult.CONTINUE;
-    }
+	@Override
+	public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+		// 访问文件夹之前调用
+		System.out.println("About to visit " + dir);
+		return FileVisitResult.CONTINUE;
+	}
 
-    @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        // 访问文件后调用
-        if (attrs.isRegularFile())
-            System.out.print("Regular File:");
-        System.out.println(file);
-        return FileVisitResult.CONTINUE;
-    }
+	@Override
+	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+		// 访问文件后调用
+		if (attrs.isRegularFile())
+			System.out.print("Regular File:");
+		System.out.println(file);
+		return FileVisitResult.CONTINUE;
+	}
 
-    @Override
-    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-        // 文件不可访问时调用
-        System.out.println(exc.getMessage());
-        return FileVisitResult.CONTINUE;
-    }
+	@Override
+	public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+		// 文件不可访问时调用
+		System.out.println(exc.getMessage());
+		return FileVisitResult.CONTINUE;
+	}
 
-    public static void main(String[] args) throws IOException {
-        Path fileDir = Paths.get("D:\\work\\roomPics\\roomPics");
-        FindFileVisitor visitor = new FindFileVisitor();
-        Files.walkFileTree(fileDir, visitor);
-    }
+	public static void main(String[] args) throws IOException {
+		Path fileDir = Paths.get("D:\\work\\roomPics\\roomPics");
+		FindFileVisitor visitor = new FindFileVisitor();
+		Files.walkFileTree(fileDir, visitor);
+	}
 }

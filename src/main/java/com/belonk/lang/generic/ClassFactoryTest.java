@@ -1,12 +1,12 @@
 package com.belonk.lang.generic;
 
 interface ClassFactory<T> {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    T create();
+	//~ Methods ========================================================================================================
+	T create();
 }
 
 
@@ -17,15 +17,15 @@ interface ClassFactory<T> {
  * @since 1.0
  */
 public class ClassFactoryTest {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        System.out.println(new Holder<Animal>(new Animal.AnimalFactory()));
-        System.out.println(new Holder<Integer>(new IntegerFactory()));
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		System.out.println(new Holder<Animal>(new Animal.AnimalFactory()));
+		System.out.println(new Holder<Integer>(new IntegerFactory()));
+	}
 }
 
 /**
@@ -34,25 +34,25 @@ public class ClassFactoryTest {
  * @param <T>
  */
 class Holder<T> {
-    T t;
+	T t;
 
-    public <F extends ClassFactory<T>> Holder(F factory) {
-        t = factory.create();
-    }
+	public <F extends ClassFactory<T>> Holder(F factory) {
+		t = factory.create();
+	}
 }
 
 class Animal {
-    public static class AnimalFactory implements ClassFactory<Animal> {
-        @Override
-        public Animal create() {
-            return new Animal();
-        }
-    }
+	public static class AnimalFactory implements ClassFactory<Animal> {
+		@Override
+		public Animal create() {
+			return new Animal();
+		}
+	}
 }
 
 class IntegerFactory implements ClassFactory<Integer> {
-    @Override
-    public Integer create() {
-        return new Integer(0);
-    }
+	@Override
+	public Integer create() {
+		return new Integer(0);
+	}
 }

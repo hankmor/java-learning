@@ -10,18 +10,18 @@ import static com.belonk.util.Printer.println;
  * @since 0.1
  */
 public class StringReplace {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        String s = StringSplit.words;
-        // 用*替换第一个元音字母
-        println(s.replaceFirst("[aeiou]", "*"));
-        s = StringSplit.words;
-        println(s.replaceAll("[aeiou]", "*"));
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		String s = StringSplit.words;
+		// 用*替换第一个元音字母
+		println(s.replaceFirst("[aeiou]", "*"));
+		s = StringSplit.words;
+		println(s.replaceAll("[aeiou]", "*"));
+	}
 }
 /* Output:
 Wh*n at Rome, do as Roman does.

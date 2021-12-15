@@ -13,138 +13,138 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  */
 public class DataMapQuartz {
-    /*
-     * =================================================================================================================
-     *
-     * Static fields/constants
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Static fields/constants
+	 *
+	 * =================================================================================================================
+	 */
 
-    private static Logger log = LoggerFactory.getLogger(DataMapQuartz.class);
+	private static Logger log = LoggerFactory.getLogger(DataMapQuartz.class);
 
-    /*
-     * =================================================================================================================
-     *
-     * Instance fields
-     *
-     * =================================================================================================================
-     */
-
-
-
-    /*
-     * =================================================================================================================
-     *
-     * Constructors
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Instance fields
+	 *
+	 * =================================================================================================================
+	 */
 
 
 
-    /*
-     * =================================================================================================================
-     *
-     * Public Methods
-     *
-     * =================================================================================================================
-     */
+	/*
+	 * =================================================================================================================
+	 *
+	 * Constructors
+	 *
+	 * =================================================================================================================
+	 */
 
-    public static void main(String[] args) throws SchedulerException, InterruptedException {
-        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-        scheduler.start();
 
-        Data data = new Data();
-        data.setName("dt");
-        JobDataMap map = new JobDataMap();
-        map.put("data", data);
-        String groupName = "group1";
-        JobDetail jobDetail = JobBuilder.newJob(DumbJob.class).withIdentity("dumbJob", groupName)
-                // 绑定数据
-                .usingJobData("strValue", "this is a string.")
-                .usingJobData("floatValue", 6.66f)
-                .usingJobData("intValue", 66)
-                .usingJobData(map)
-                .build();
+	/*
+	 * =================================================================================================================
+	 *
+	 * Public Methods
+	 *
+	 * =================================================================================================================
+	 */
 
-        Trigger trigger = TriggerBuilder.newTrigger().withIdentity("dumbTrigger", groupName)
-                .startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever())
-                .build();
+	public static void main(String[] args) throws SchedulerException, InterruptedException {
+		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-        scheduler.scheduleJob(jobDetail, trigger);
+		scheduler.start();
 
-        Thread.sleep(10 * 1000);
-        scheduler.shutdown();
-    }
-    
-    /*
-     * =================================================================================================================
-     *
-     * Private Methods
-     *
-     * =================================================================================================================
-     */
+		Data data = new Data();
+		data.setName("dt");
+		JobDataMap map = new JobDataMap();
+		map.put("data", data);
+		String groupName = "group1";
+		JobDetail jobDetail = JobBuilder.newJob(DumbJob.class).withIdentity("dumbJob", groupName)
+				// 绑定数据
+				.usingJobData("strValue", "this is a string.")
+				.usingJobData("floatValue", 6.66f)
+				.usingJobData("intValue", 66)
+				.usingJobData(map)
+				.build();
 
-    /*
-     * =================================================================================================================
-     *
-     * Inner classes
-     *
-     * =================================================================================================================
-     */
+		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("dumbTrigger", groupName)
+				.startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever())
+				.build();
 
-    public static class DumbJob implements Job {
-        private String strValue;
+		scheduler.scheduleJob(jobDetail, trigger);
 
-        // 提供set方法，JobDetail会自动合并值
-        public void setStrValue(String strValue) {
-            this.strValue = strValue;
-        }
+		Thread.sleep(10 * 1000);
+		scheduler.shutdown();
+	}
 
-        @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
-            JobKey key = context.getJobDetail().getKey();
-            // JobKey : group1.dumbJob
-            System.out.println("JobKey : " + key);
+	/*
+	 * =================================================================================================================
+	 *
+	 * Private Methods
+	 *
+	 * =================================================================================================================
+	 */
 
-            JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-            Data data = (Data) dataMap.get("data");
-            // Data : dt
-            System.out.println("Data : " + data.getName());
+	/*
+	 * =================================================================================================================
+	 *
+	 * Inner classes
+	 *
+	 * =================================================================================================================
+	 */
 
-            String str = dataMap.getString("strValue");
-            Float f = dataMap.getFloat("floatValue");
-            Integer integer = dataMap.getInt("intValue");
+	public static class DumbJob implements Job {
+		private String strValue;
 
-            // string : this is a string.; float : 6.660000; integer : 66;
-            System.out.println(String.format("string : %s; float : %f; integer : %d;", str, f, integer));
+		// 提供set方法，JobDetail会自动合并值
+		public void setStrValue(String strValue) {
+			this.strValue = strValue;
+		}
 
-            // 获取属性合并到当前Job对象实现
-            dataMap = context.getMergedJobDataMap();
-            str = dataMap.getString("strValue");
-            f = dataMap.getFloat("floatValue");
-            integer = dataMap.getInt("intValue");
+		@Override
+		public void execute(JobExecutionContext context) throws JobExecutionException {
+			JobKey key = context.getJobDetail().getKey();
+			// JobKey : group1.dumbJob
+			System.out.println("JobKey : " + key);
 
-            // string : this is a string.; float : 6.660000; integer : 66;
-            System.out.println(String.format("string : %s; float : %f; integer : %d;", str, f, integer));
+			JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+			Data data = (Data) dataMap.get("data");
+			// Data : dt
+			System.out.println("Data : " + data.getName());
 
-            str = this.strValue;
-            // String from JobDetail : this is a string.
-            System.out.println("String from JobDetail : " + str);
-        }
-    }
+			String str = dataMap.getString("strValue");
+			Float f = dataMap.getFloat("floatValue");
+			Integer integer = dataMap.getInt("intValue");
 
-    public static class Data {
-        private String name;
+			// string : this is a string.; float : 6.660000; integer : 66;
+			System.out.println(String.format("string : %s; float : %f; integer : %d;", str, f, integer));
 
-        public String getName() {
-            return name;
-        }
+			// 获取属性合并到当前Job对象实现
+			dataMap = context.getMergedJobDataMap();
+			str = dataMap.getString("strValue");
+			f = dataMap.getFloat("floatValue");
+			integer = dataMap.getInt("intValue");
 
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
+			// string : this is a string.; float : 6.660000; integer : 66;
+			System.out.println(String.format("string : %s; float : %f; integer : %d;", str, f, integer));
+
+			str = this.strValue;
+			// String from JobDetail : this is a string.
+			System.out.println("String from JobDetail : " + str);
+		}
+	}
+
+	public static class Data {
+		private String name;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
 }

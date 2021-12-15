@@ -10,35 +10,35 @@ import com.belonk.util.Printer;
  * @since 1.0
  */
 public class DaemonWithFinally implements Runnable {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    @Override
-    public void run() {
-        Printer.println("starting a daemon concurrent.");
-        try {
-            // 睡眠2秒，finally不会执行
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            Printer.println("Finally may not run.");
-        }
-    }
+	@Override
+	public void run() {
+		Printer.println("starting a daemon concurrent.");
+		try {
+			// 睡眠2秒，finally不会执行
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			Printer.println("Finally may not run.");
+		}
+	}
 
-    public static void main(String[] args) throws InterruptedException {
-        Thread thread = new Thread(new DaemonWithFinally());
-        thread.setDaemon(true);
-        thread.start();
-        // 主线程睡眠1秒
-        Thread.sleep(1000);
-    }
+	public static void main(String[] args) throws InterruptedException {
+		Thread thread = new Thread(new DaemonWithFinally());
+		thread.setDaemon(true);
+		thread.start();
+		// 主线程睡眠1秒
+		Thread.sleep(1000);
+	}
 }

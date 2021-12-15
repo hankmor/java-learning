@@ -8,27 +8,27 @@ package com.belonk.jdk8.interfaces;
  * @since 1.0
  */
 public class InterfaceTest {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        Calculator calculator = new SimpleCalculator();
-        double d = calculator.calc(10);
-        System.out.println(d);
-        calculator = new Calculator() {
-            @Override
-            public double calc(int n) {
-                return sqrt(n);
-            }
-        };
-        System.out.println(calculator.calc(9));
-        System.out.println(calculator.sqrt(9));
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		Calculator calculator = new SimpleCalculator();
+		double d = calculator.calc(10);
+		System.out.println(d);
+		calculator = new Calculator() {
+			@Override
+			public double calc(int n) {
+				return sqrt(n);
+			}
+		};
+		System.out.println(calculator.calc(9));
+		System.out.println(calculator.sqrt(9));
+	}
 }
