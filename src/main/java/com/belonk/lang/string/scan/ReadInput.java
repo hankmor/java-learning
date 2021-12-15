@@ -12,18 +12,18 @@ import static com.belonk.util.Printer.println;
  * @since 2.2.3
  */
 public class ReadInput {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner("sun\n29 black");
-        println("What's you name?");
-        println(scanner.nextLine());
-        println("How old are you?");
-        println(scanner.nextInt());
-        println("What's you favorite color?");
-        println(scanner.next());
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner("sun\n29 black");
+		println("What's you name?");
+		println(scanner.nextLine());
+		println("How old are you?");
+		println(scanner.nextInt());
+		println("What's you favorite color?");
+		println(scanner.next());
+	}
 }

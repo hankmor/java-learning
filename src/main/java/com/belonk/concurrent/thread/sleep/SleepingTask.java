@@ -14,36 +14,36 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 public class SleepingTask extends LiftOff {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    @Override
-    public void run() {
-        while (countDown-- > 0) {
-            System.out.print(status());
-            try {
-                // 睡眠后，CPU切换到其他线程执行，结果呈现一定的规律性
-                TimeUnit.MICROSECONDS.sleep(100);
+	@Override
+	public void run() {
+		while (countDown-- > 0) {
+			System.out.print(status());
+			try {
+				// 睡眠后，CPU切换到其他线程执行，结果呈现一定的规律性
+				TimeUnit.MICROSECONDS.sleep(100);
 //                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public static void main(String[] args) {
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        for (int i = 0; i < 5; i++) {
-            executorService.execute(new SleepingTask());
-        }
-        executorService.shutdown();
-    }
+	public static void main(String[] args) {
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		for (int i = 0; i < 5; i++) {
+			executorService.execute(new SleepingTask());
+		}
+		executorService.shutdown();
+	}
 }

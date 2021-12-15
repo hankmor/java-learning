@@ -6,7 +6,7 @@ package com.belonk.spi;
  * @author sunfuchang03@126.com
  * @since 1.0
  */
-public class MyFileReader implements Reader{
+public class MyFileReader implements Reader {
 	//~ Static fields/constants/initializer
 
 

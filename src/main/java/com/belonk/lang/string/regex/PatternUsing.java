@@ -13,37 +13,37 @@ import java.util.regex.Pattern;
  * @since 0.1
  */
 public class PatternUsing {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    static String words = "Java now has regular expressions";
+	static String words = "Java now has regular expressions";
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        // 以Java开始
-        match("^Java");
-        // 非单词边界开始
-        match("\\Breg.*");
-        // n后接任意字符 + w后接空格 + h + a或i + s
-        match("n.w\\s+h(a|i)s");
-        match("s?");
-        match("s*");
-        match("s+");
-        match("s{4}");
-        match("s{1}");
-        match("s{0,3}");
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		// 以Java开始
+		match("^Java");
+		// 非单词边界开始
+		match("\\Breg.*");
+		// n后接任意字符 + w后接空格 + h + a或i + s
+		match("n.w\\s+h(a|i)s");
+		match("s?");
+		match("s*");
+		match("s+");
+		match("s{4}");
+		match("s{1}");
+		match("s{0,3}");
+	}
 
-    public static void match(String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(words);
-        Printer.print(regex + " : ");
-        while (matcher.find()) {
-            Printer.print(matcher.group());
-        }
-        Printer.println();
-    }
+	public static void match(String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(words);
+		Printer.print(regex + " : ");
+		while (matcher.find()) {
+			Printer.print(matcher.group());
+		}
+		Printer.println();
+	}
 }
 /* Output :
 ^Java : Java

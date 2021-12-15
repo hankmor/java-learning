@@ -10,21 +10,21 @@ import java.util.concurrent.Callable;
  * @since 1.0
  */
 public class TaskWithResult implements Callable<String> {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
-    private int id;
+	//~ Instance fields ================================================================================================
+	private int id;
 
-    //~ Constructors ===================================================================================================
-    public TaskWithResult(int id) {
-        this.id = id;
-    }
+	//~ Constructors ===================================================================================================
+	public TaskWithResult(int id) {
+		this.id = id;
+	}
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    @Override
-    public String call() throws Exception {
-        return "Result is : " + id;
-    }
+	@Override
+	public String call() throws Exception {
+		return "Result is : " + id;
+	}
 }
