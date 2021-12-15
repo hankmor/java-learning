@@ -6,34 +6,34 @@ import com.belonk.util.Printer;
  * 大量生产线程
  */
 class DaemonSpawn implements Runnable {
-    @Override
-    public void run() {
-        while (true) {
-            Thread.yield();
-        }
-    }
+	@Override
+	public void run() {
+		while (true) {
+			Thread.yield();
+		}
+	}
 }
 
 /**
  * 产生更多线程
  */
 class Daemon implements Runnable {
-    private Thread[] threads = new Thread[10];
+	private Thread[] threads = new Thread[10];
 
-    @Override
-    public void run() {
-        for (int i = 0; i < threads.length; i++) {
-            threads[i] = new Thread(new DaemonSpawn());
-            threads[i].start();
-            Printer.println("DaemonSpawn " + i + " started.");
-        }
-        for (int i = 0; i < threads.length; i++) {
-            Printer.println("threads[" + i + "].isDaemon() = " + threads[i].isDaemon());
-        }
-        while (true) {
-            Thread.yield();
-        }
-    }
+	@Override
+	public void run() {
+		for (int i = 0; i < threads.length; i++) {
+			threads[i] = new Thread(new DaemonSpawn());
+			threads[i].start();
+			Printer.println("DaemonSpawn " + i + " started.");
+		}
+		for (int i = 0; i < threads.length; i++) {
+			Printer.println("threads[" + i + "].isDaemon() = " + threads[i].isDaemon());
+		}
+		while (true) {
+			Thread.yield();
+		}
+	}
 }
 
 /**
@@ -44,22 +44,22 @@ class Daemon implements Runnable {
  * @since 1.0
  */
 public class Daemons {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public static void main(String[] args) throws InterruptedException {
-        Thread thread = new Thread(new Daemon());
-        thread.setDaemon(true);
-        thread.start();
-        Printer.println("concurrent.isDaemon() = " + thread.isDaemon());
-        Thread.sleep(10);
-    }
+	public static void main(String[] args) throws InterruptedException {
+		Thread thread = new Thread(new Daemon());
+		thread.setDaemon(true);
+		thread.start();
+		Printer.println("concurrent.isDaemon() = " + thread.isDaemon());
+		Thread.sleep(10);
+	}
 }

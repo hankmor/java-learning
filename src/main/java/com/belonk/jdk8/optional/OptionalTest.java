@@ -15,26 +15,26 @@ import java.util.Optional;
  * @since 1.0
  */
 public class OptionalTest {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        Optional<String> optional = Optional.of("bam");
-        boolean present = optional.isPresent();           // true
-        System.out.println(present);
-        String value = optional.get();                 // "bam"
-        System.out.println(value);
-        String str = optional.orElse("fallback");    // "bam"
-        System.out.println(str);
-        optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
-        optional = optional.filter(s -> s.length() == 4);
-        System.out.println(optional.isPresent()); // false
-    }
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		Optional<String> optional = Optional.of("bam");
+		boolean present = optional.isPresent();           // true
+		System.out.println(present);
+		String value = optional.get();                 // "bam"
+		System.out.println(value);
+		String str = optional.orElse("fallback");    // "bam"
+		System.out.println(str);
+		optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
+		optional = optional.filter(s -> s.length() == 4);
+		System.out.println(optional.isPresent()); // false
+	}
 }

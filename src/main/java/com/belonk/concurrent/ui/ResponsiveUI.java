@@ -3,14 +3,14 @@ package com.belonk.concurrent.ui;
 import java.io.IOException;
 
 class UnresponsiveUI {
-    private volatile double d = 1d;
+	private volatile double d = 1d;
 
-    public UnresponsiveUI() throws IOException {
-        while (d > 0) {
-            d = d + (Math.E + Math.PI) / d;
-        }
-        System.in.read(); // 不会执行
-    }
+	public UnresponsiveUI() throws IOException {
+		while (d > 0) {
+			d = d + (Math.E + Math.PI) / d;
+		}
+		System.in.read(); // 不会执行
+	}
 }
 
 /**
@@ -23,32 +23,32 @@ class UnresponsiveUI {
  * @since 1.0
  */
 public class ResponsiveUI extends Thread {
-    //~ Static fields/initializers =====================================================================================
-    public static volatile double d = 1d;
+	//~ Static fields/initializers =====================================================================================
+	public static volatile double d = 1d;
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
-    public ResponsiveUI() {
-        setDaemon(true);
-        start();
-    }
+	//~ Constructors ===================================================================================================
+	public ResponsiveUI() {
+		setDaemon(true);
+		start();
+	}
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    // 线程单独执行运算任务
-    @Override
-    public void run() {
-        while (true) {
-            d = d + (Math.PI + Math.E) / d;
-        }
-    }
+	// 线程单独执行运算任务
+	@Override
+	public void run() {
+		while (true) {
+			d = d + (Math.PI + Math.E) / d;
+		}
+	}
 
-    public static void main(String[] args) throws IOException {
-        // new UnresponsiveUI();
-        new ResponsiveUI();
-        System.in.read(); // 等待用户输入
-        System.out.println(d); // 打印线程计算结果
-    }
+	public static void main(String[] args) throws IOException {
+		// new UnresponsiveUI();
+		new ResponsiveUI();
+		System.in.read(); // 等待用户输入
+		System.out.println(d); // 打印线程计算结果
+	}
 }

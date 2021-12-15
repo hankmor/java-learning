@@ -10,31 +10,31 @@ import java.util.Arrays;
  * @since 0.1
  */
 public class Printer {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    public static void println() {
-        System.out.println();
-    }
+	//~ Methods ========================================================================================================
+	public static void println() {
+		System.out.println();
+	}
 
-    public static void println(Object obj) {
-        if (obj.getClass().isArray())
-            System.out.println(Arrays.toString((Object[]) obj));
-        else
-            System.out.println(obj);
-    }
+	public static void println(Object obj) {
+		if (obj.getClass().isArray())
+			System.out.println(Arrays.toString((Object[]) obj));
+		else
+			System.out.println(obj);
+	}
 
-    public static void print(Object obj) {
-        System.out.print(obj);
-    }
+	public static void print(Object obj) {
+		System.out.print(obj);
+	}
 
-    public static void printErr(Object obj) {
-        System.err.print(obj);
-    }
+	public static void printErr(Object obj) {
+		System.err.print(obj);
+	}
 
-    public static void printlnErr(Object obj) {
-        System.err.println(obj);
-    }
+	public static void printlnErr(Object obj) {
+		System.err.println(obj);
+	}
 }

@@ -22,32 +22,32 @@ import java.io.UnsupportedEncodingException;
  * @since 1.0
  */
 public class Base64 {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    private static BASE64Encoder base64Encoder = new BASE64Encoder();
-    private static BASE64Decoder base64Decoder = new BASE64Decoder();
+	private static BASE64Encoder base64Encoder = new BASE64Encoder();
+	private static BASE64Decoder base64Decoder = new BASE64Decoder();
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public static String encode(String encodeStr) throws UnsupportedEncodingException {
-        return base64Encoder.encode(encodeStr.getBytes("utf-8"));
-    }
+	public static String encode(String encodeStr) throws UnsupportedEncodingException {
+		return base64Encoder.encode(encodeStr.getBytes("utf-8"));
+	}
 
-    public static String encode(byte[] encodeBytes) {
-        return base64Encoder.encode(encodeBytes);
-    }
+	public static String encode(byte[] encodeBytes) {
+		return base64Encoder.encode(encodeBytes);
+	}
 
-    public static byte[] decode(String decodeStr) throws IOException {
-        return base64Decoder.decodeBuffer(decodeStr);
-    }
+	public static byte[] decode(String decodeStr) throws IOException {
+		return base64Decoder.decodeBuffer(decodeStr);
+	}
 
-    public static void main(String[] args) throws Exception {
-        String s = "这里是base64测试字符串";
-        String ret = encode(s);
-        System.out.println("加密后：" + ret);
-        byte[] d = decode(ret);
-        System.out.println("解密后：" + new String(d, "utf-8"));
-    }
+	public static void main(String[] args) throws Exception {
+		String s = "这里是base64测试字符串";
+		String ret = encode(s);
+		System.out.println("加密后：" + ret);
+		byte[] d = decode(ret);
+		System.out.println("解密后：" + new String(d, "utf-8"));
+	}
 }

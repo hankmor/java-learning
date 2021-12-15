@@ -13,41 +13,41 @@ import static com.belonk.util.Printer.println;
  * @since 2.2.3
  */
 public class RegexReplace {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
-    //~ Methods ========================================================================================================
-    public static void main(String[] args) {
-        String str = "very quietly i take my leave,\n" +
-                "as quietly as i came here.\n" +
-                "this is a test words.";
-        String regex = "[aeiou]";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
+	//~ Methods ========================================================================================================
+	public static void main(String[] args) {
+		String str = "very quietly i take my leave,\n" +
+				"as quietly as i came here.\n" +
+				"this is a test words.";
+		String regex = "[aeiou]";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
 
-        matcher.find();
-        // matcher.group().toUpperCase() = E，替换第一个元音字母
-        println("replaceFirst : " + matcher.replaceFirst(matcher.group().toUpperCase()));
-        println();
-        // matcher.group().toUpperCase() = E，替换所有的原因字母
-        println("replaceAll : " + matcher.replaceAll(matcher.group().toUpperCase()));
-        println();
+		matcher.find();
+		// matcher.group().toUpperCase() = E，替换第一个元音字母
+		println("replaceFirst : " + matcher.replaceFirst(matcher.group().toUpperCase()));
+		println();
+		// matcher.group().toUpperCase() = E，替换所有的原因字母
+		println("replaceAll : " + matcher.replaceAll(matcher.group().toUpperCase()));
+		println();
 
-        // 重新设置，重新从头开始匹配
-        matcher.reset();
+		// 重新设置，重新从头开始匹配
+		matcher.reset();
 
-        StringBuffer stringBuffer = new StringBuffer();
-        while (matcher.find()) {
-            // 将元音字母转为大写，替换原来的字符串，放入stringBuffer
-            matcher.appendReplacement(stringBuffer, matcher.group().toUpperCase());
-        }
-        println("appendReplacement : " + stringBuffer.toString());
-        println();
-        // 将剩余未匹配的部分添加到stringBuffer
-        matcher.appendTail(stringBuffer);
-        println("appendTail : " + stringBuffer.toString());
-    }
+		StringBuffer stringBuffer = new StringBuffer();
+		while (matcher.find()) {
+			// 将元音字母转为大写，替换原来的字符串，放入stringBuffer
+			matcher.appendReplacement(stringBuffer, matcher.group().toUpperCase());
+		}
+		println("appendReplacement : " + stringBuffer.toString());
+		println();
+		// 将剩余未匹配的部分添加到stringBuffer
+		matcher.appendTail(stringBuffer);
+		println("appendTail : " + stringBuffer.toString());
+	}
 }
 /* Output :
 replaceFirst : vEry quietly i take my leave,

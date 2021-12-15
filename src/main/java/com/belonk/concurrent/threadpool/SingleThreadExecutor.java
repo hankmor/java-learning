@@ -13,25 +13,25 @@ import java.util.concurrent.Executors;
  * @since 1.0
  */
 public class SingleThreadExecutor {
-    //~ Static fields/initializers =====================================================================================
+	//~ Static fields/initializers =====================================================================================
 
 
-    //~ Instance fields ================================================================================================
+	//~ Instance fields ================================================================================================
 
 
-    //~ Constructors ===================================================================================================
+	//~ Constructors ===================================================================================================
 
 
-    //~ Methods ========================================================================================================
+	//~ Methods ========================================================================================================
 
-    public static void main(String[] args) {
-        // 多个任务排队顺序执行
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        for (int i = 0; i < 5; i++) {
-            executorService.execute(new LiftOff());
-        }
-        executorService.shutdown();
-    }
+	public static void main(String[] args) {
+		// 多个任务排队顺序执行
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		for (int i = 0; i < 5; i++) {
+			executorService.execute(new LiftOff());
+		}
+		executorService.shutdown();
+	}
 }
 /**
  * #0(9), #0(8), #0(7), #0(6), #0(5), #0(4), #0(3), #0(2), #0(1), #0(LiftOff!),
