@@ -37,6 +37,17 @@ public class OrnamentalGarden {
 		for (int i = 0; i < 5; i++) {
 			executorService.execute(new Entrance(i));
 		}
+		// executorService.execute(() -> {
+		// 	while (!executorService.isShutdown()) {
+		// 		System.out.println("=== Total: " + Entrance.getTotalCount());
+		// 		System.out.println("=== Sum Entrances: " + Entrance.sumEntrances());
+		// 		try {
+		// 			TimeUnit.MILLISECONDS.sleep(500);
+		// 		} catch (InterruptedException e) {
+		// 			e.printStackTrace();
+		// 		}
+		// 	}
+		// });
 		// 充分执行3秒
 		TimeUnit.SECONDS.sleep(3);
 		// 关闭所有入口
