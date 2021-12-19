@@ -1,4 +1,4 @@
-package com.belonk.concurrent.threadpool;
+package com.belonk.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;
