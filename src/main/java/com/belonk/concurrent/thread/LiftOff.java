@@ -1,5 +1,8 @@
 package com.belonk.concurrent.thread;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Created by sun on 2017/3/5.
  *
@@ -33,16 +36,26 @@ public class LiftOff implements Runnable {
 		}
 	}
 
+	protected int getId() {
+		return id;
+	}
+
 	protected String status() {
 		return "#" + id + "(" + (countDown > 0 ? countDown : "LiftOff!") + "), ";
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 //        LiftOff liftOff = new LiftOff();
 //        liftOff.run();
 
-		Thread thread = new Thread(new LiftOff());
-		thread.start();
-		System.out.println("Waiting for LiftOff");
+		// Thread thread = new Thread(new LiftOff());
+		// thread.start();
+		// System.out.println("Waiting for LiftOff");
+
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		executorService.execute(new LiftOff());
+		executorService.execute(new LiftOff());
+		executorService.execute(new LiftOff());
+		executorService.shutdown();
 	}
 }
