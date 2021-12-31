@@ -12,42 +12,68 @@ import java.util.concurrent.*;
 public class ToastStore {
 	//~ Static fields/constants/initializer
 
-
 	//~ Instance fields
 
 	/**
-	 * 制作机器数量
+	 * 门店id
 	 */
-	private int makeMachineNumber;
+	final int id;
 	/**
-	 * 抹黄油的机器数量
+	 * 吐司的份数id，
 	 */
-	private int butterMachineNumber;
-	/**
-	 * 涂果酱的机器数量
-	 */
-	private int jamMachineNumber;
+	private int totalGlobalId = 0;
 	/**
 	 * 最大的吐司数量
 	 */
-	private static final int maxToast = 10;
+	private final int maxToast;
+	/**
+	 * 制作机器数量
+	 */
+	private final int makeMachineNumber;
+	/**
+	 * 抹黄油的机器数量
+	 */
+	private final int butterMachineNumber;
+	/**
+	 * 涂果酱的机器数量
+	 */
+	private final int jamMachineNumber;
+	/**
+	 * 监控机器，如果生产了足够数量的吐司，则店铺关门
+	 */
+	private final CyclicBarrier watchDog;
 	private final ExecutorService executorService = Executors.newCachedThreadPool();
-	private final BlockingQueue<Toast> driedQueue = new LinkedBlockingQueue<>();
-	private final BlockingQueue<Toast> butteredQueue = new LinkedBlockingQueue<>();
-	private final BlockingQueue<Toast> finishedQueue = new LinkedBlockingQueue<>();
+	// 考虑单独启动守护线程为顾客服务
+	// private final ExecutorService customerServingService = Executors.newCachedThreadPool(new ThreadFactory() {
+	// 	@Override
+	// 	public Thread newThread(Runnable r) {
+	// 		Thread thread = new Thread(r);
+	// 		thread.setName("customer-serving-thread");
+	// 		thread.setDaemon(true);
+	// 		return thread;
+	// 	}
+	// });
+	final BlockingQueue<Toast> driedQueue = new LinkedBlockingQueue<>();
+	final BlockingQueue<Toast> butteredQueue = new LinkedBlockingQueue<>();
+	final BlockingQueue<Toast> finishedQueue = new LinkedBlockingQueue<>();
+	/**
+	 * 用于模拟机器运作时间的随机数
+	 */
+	private final Random random = new Random(47);
 	private volatile boolean closed;
 	private volatile int totalNumber;
 
+
 	//~ Constructors
 
-	public ToastStore() {
-
-	}
-
-	public ToastStore(int makeMachineNumber, int butterMachineNumber, int jamMachineNumber) {
+	public ToastStore(int id, int makeMachineNumber, int butterMachineNumber, int jamMachineNumber, int maxToast) {
+		this.id = id;
 		this.makeMachineNumber = makeMachineNumber;
 		this.butterMachineNumber = butterMachineNumber;
 		this.jamMachineNumber = jamMachineNumber;
+		watchDog = new CyclicBarrier(makeMachineNumber, this::close);
+		this.maxToast = maxToast;
+		System.out.println(this);
 	}
 
 
@@ -60,20 +86,22 @@ public class ToastStore {
 	 */
 
 	public static void main(String[] args) throws InterruptedException {
-		// 开店
-		ToastStore toastStore = new ToastStore(3, 2, 1);
-		// 开业了
-		toastStore.open();
+		Random random = new Random(47);
+		// 多家门店开业了
+		for (int i = 0; i < 10; i++) {
+			ToastStore toastStore = new ToastStore(i,
+					5 + random.nextInt(15),
+					2 + random.nextInt(10),
+					2 + random.nextInt(5),
+					100);
+			toastStore.open();
 
-		// TimeUnit.SECONDS.sleep(5);
-
-		// 顾客创建线程
-		// int customerNumber = 10;
-		// ExecutorService executorService = Executors.newCachedThreadPool();
-		// for (int i = 0; i < customerNumber; i++) {
-		// 	executorService.execute(new Customer(i, toastStore));
-		// }
-		// executorService.shutdown();
+			// 创建顾客
+			int customerNumber = 2 + random.nextInt(6);
+			for (int j = 0; j < customerNumber; j++) {
+				new Customer(j, toastStore);
+			}
+		}
 	}
 
 	/**
@@ -81,19 +109,18 @@ public class ToastStore {
 	 */
 	public void open() {
 		closed = false;
-		// 制作机器
+		// 启动制作机器
 		for (int i = 0; i < makeMachineNumber; i++) {
-			executorService.execute(new ToastMaking(i));
+			executorService.execute(new Toaster(i));
 		}
+		// 启动抹黄油的机器
 		for (int i = 0; i < butterMachineNumber; i++) {
-			// 抹黄油的机器
 			executorService.execute(new Butter(i));
 		}
+		// 启动涂果酱的机器
 		for (int i = 0; i < jamMachineNumber; i++) {
-			// 涂果酱的机器
 			executorService.execute(new Jam(i));
 		}
-
 	}
 
 	/**
@@ -101,16 +128,31 @@ public class ToastStore {
 	 */
 	public void serving(Customer customer) {
 		System.out.println("欢迎您，" + customer);
-		executorService.execute(customer);
+		// customerServingService.execute(customer);
+		if (!this.closed) {
+			executorService.execute(customer);
+		}
 	}
 
+	// 判断是否到达上限，是则关门，多个线程都会判断，需要同步
 	public boolean needClose() {
-		if (totalNumber > maxToast) {
-			System.out.println("吐司数量已达上限，打烊了: " + totalNumber);
-			this.close();
+		boolean overflow;
+		synchronized (this) {
+			overflow = totalNumber >= maxToast;
+			if (overflow) {
+				closed = true;
+			} else {
+				++totalNumber;
+			}
+		}
+		Thread.yield();
+		if (overflow) {
+			if (totalNumber > maxToast) {
+				System.err.println(totalNumber);
+				throw new RuntimeException("Max toast number over limit: " + this.totalNumber);
+			}
 			return true;
 		} else {
-			++totalNumber;
 			return false;
 		}
 	}
@@ -119,24 +161,23 @@ public class ToastStore {
 	 * 打烊了
 	 */
 	public void close() {
-		closed = true;
-		executorService.shutdown();
-	}
-
-	public void setMakeMachineNumber(int makeMachineNumber) {
-		this.makeMachineNumber = makeMachineNumber;
-	}
-
-	public void setButterMachineNumber(int butterMachineNumber) {
-		this.butterMachineNumber = butterMachineNumber;
-	}
-
-	public void setJamMachineNumber(int jamMachineNumber) {
-		this.jamMachineNumber = jamMachineNumber;
+		System.out.printf("门店：%-3d 吐司数量已达上限，打烊了: %d%n", this.id, this.totalNumber);
+		// 关门了，立即中断机器，如果是 shutdown，可能其他机器仍然在等待获取toast
+		this.executorService.shutdownNow();
 	}
 
 	public boolean isClosed() {
 		return closed;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("门店 %-3d 号：%-3d 台制作机，%-3d 台黄油机，%-3d 台果酱机，最大数量：%d",
+				this.id, this.makeMachineNumber, this.butterMachineNumber, this.jamMachineNumber, this.maxToast);
+	}
+
+	void print(Object obj, String oper, Toast toast) {
+		System.out.printf(obj + " %-4s ：%s \n", oper, toast);
 	}
 
 	// 吐司状态：刚制作、抹黄油、涂果酱
@@ -144,32 +185,33 @@ public class ToastStore {
 		DRY, BUTTERED, JAMMED;
 	}
 
-	static class Toast {
-		static int count = 0;
+	class Toast {
 		// 这里的id生成在多线程并发时会重复，因为是非原子操作
-		// final int id = ++needClose;
+		// final int id = ++count;
 		final int id;
 		ToastStatus status = ToastStatus.DRY;
 
 		public Toast() {
 			// 想让每台机器制作的吐司都有唯一的id，即id不重复，需要加锁
-			synchronized (Toast.class) {
-				this.id = ++count;
+			synchronized (ToastStore.this) {
+				this.id = ++totalGlobalId;
+			}
+			if (this.id > ToastStore.this.maxToast) {
+				throw new RuntimeException("Max toast id over limit: " + this.id);
 			}
 		}
 
 		@Override
 		public String toString() {
-			return "Toast " + id + "(" + status + ")";
+			return String.format("Toast：%-6d(%s)", this.id, this.status);
 		}
 	}
 
-	class ToastMaking implements Runnable {
+	class Toaster implements Runnable {
 		private final int id;
 		private final BlockingQueue<Toast> driedQueue = ToastStore.this.driedQueue;
-		private final Random random = new Random(47);
 
-		public ToastMaking(int id) {
+		public Toaster(int id) {
 			this.id = id;
 		}
 
@@ -177,28 +219,29 @@ public class ToastStore {
 		public void run() {
 			try {
 				while (!ToastStore.this.isClosed()) {
-					// TODO 数量没有同步
-					synchronized (ToastStore.class) {
-						while (ToastStore.this.needClose()) {
-							return;
-						}
+					if (ToastStore.this.needClose()) {
+						break;
 					}
+					Toast toast = new Toast();
 					// 模拟制作时间
 					TimeUnit.MILLISECONDS.sleep(50 + random.nextInt(200));
-					Toast toast = new Toast();
-					System.out.println(this + " 完成：" + toast);
-
+					ToastStore.this.print(this, "完成", toast);
 					// 放入队列，队列满则阻塞
 					driedQueue.put(toast);
 				}
+				// 等待所有机器都制造完成
+				watchDog.await();
 			} catch (InterruptedException e) {
 				System.out.println(this + "中断");
+			} catch (BrokenBarrierException e) {
+				e.printStackTrace();
 			}
+			System.out.println(this + " 今天的任务结束");
 		}
 
 		@Override
 		public String toString() {
-			return "ToastMaking " + this.id + " 号机";
+			return String.format("门店：%-3d，制作机 %-3d 号", ToastStore.this.id, this.id);
 		}
 	}
 
@@ -207,7 +250,6 @@ public class ToastStore {
 		private final int id;
 		private final BlockingQueue<Toast> driedQueue = ToastStore.this.driedQueue,
 				butteredQueue = ToastStore.this.butteredQueue;
-		private final Random random = new Random(47);
 
 		public Butter(int id) {
 			this.id = id;
@@ -219,23 +261,24 @@ public class ToastStore {
 				while (!ToastStore.this.isClosed()) {
 					// 获取一个制作好的吐司，队列空则阻塞
 					Toast toast = driedQueue.take();
-					System.out.println(this + "拿到：" + toast);
+					System.out.printf(this + " %-4s ：%s \n", "拿到", toast);
 					// 模拟时间
 					TimeUnit.MILLISECONDS.sleep(50 + random.nextInt(100));
 					// 更新状态
 					toast.status = ToastStatus.BUTTERED;
-					System.out.println(this + "完成: " + toast);
+					ToastStore.this.print(this, "完成", toast);
 					// 放入已抹黄油队列
 					butteredQueue.put(toast);
 				}
 			} catch (InterruptedException e) {
 				System.out.println(this + "中断");
 			}
+			System.out.println(this + " 今天的任务结束");
 		}
 
 		@Override
 		public String toString() {
-			return "Butter " + this.id + " 号机";
+			return String.format("门店：%-3d，黄油机 %-3d 号", ToastStore.this.id, this.id);
 		}
 	}
 
@@ -244,7 +287,6 @@ public class ToastStore {
 		private final int id;
 		private final BlockingQueue<Toast> butteredQueue = ToastStore.this.butteredQueue,
 				finishedQueue = ToastStore.this.finishedQueue;
-		private final Random random = new Random(47);
 
 		public Jam(int id) {
 			this.id = id;
@@ -256,54 +298,57 @@ public class ToastStore {
 				while (!ToastStore.this.isClosed()) {
 					// 获取一个吐司，队列空则阻塞
 					Toast toast = butteredQueue.take();
-					System.out.println(this + "拿到：" + toast);
+					System.out.printf(this + " %-4s ：%s \n", "拿到", toast);
 					// 模拟时间
 					TimeUnit.MILLISECONDS.sleep(50 + random.nextInt(100));
 					// 更新状态
 					toast.status = ToastStatus.JAMMED;
-					System.out.println(this + "完成: " + toast);
+					ToastStore.this.print(this, "完成", toast);
 					// 放入制作完成黄油队列
 					finishedQueue.put(toast);
 				}
 			} catch (InterruptedException e) {
 				System.out.println(this + "中断");
 			}
+			System.out.println(this + " 今天的任务结束");
 		}
 
 		@Override
 		public String toString() {
-			return "Jam " + this.id + " 号机";
+			return String.format("门店：%-3d，果酱机 %-3d 号", ToastStore.this.id, this.id);
 		}
 	}
+}
 
+// 消费者
+class Customer implements Runnable {
+	private final int id;
+	private final Random random = new Random(47);
+	private final ToastStore toastStore;
 
-	// 消费者
-	class Customer implements Runnable {
-		private final int id;
-		private BlockingQueue<Toast> finishedQueue;
-		private final Random random = new Random(47);
+	public Customer(int id, ToastStore toastStore) {
+		this.id = id;
+		this.toastStore = toastStore;
+		this.toastStore.serving(this);
+	}
 
-		public Customer(int id) {
-			this.id = id;
-		}
-
-		@Override
-		public void run() {
-			try {
-				while (!ToastStore.this.isClosed()) {
-					Toast toast = finishedQueue.take();
-					System.out.println(this + "取餐：" + toast);
-					TimeUnit.MILLISECONDS.sleep(100 + random.nextInt(200));
-					System.out.println(this + "用餐：" + toast);
-				}
-			} catch (InterruptedException e) {
-				System.out.println(this + "中断");
+	@Override
+	public void run() {
+		try {
+			while (!this.toastStore.isClosed()) {
+				ToastStore.Toast toast = this.toastStore.finishedQueue.take();
+				this.toastStore.print(this, "取餐", toast);
+				TimeUnit.MILLISECONDS.sleep(100 + random.nextInt(200));
+				this.toastStore.print(this, "用餐", toast);
 			}
+		} catch (InterruptedException e) {
+			System.out.println(this + "中断");
 		}
+		System.out.println(this + " 退出门店：" + this.toastStore.id);
+	}
 
-		@Override
-		public String toString() {
-			return "Customer " + this.id + " 号顾客";
-		}
+	@Override
+	public String toString() {
+		return String.format("门店：%-3d，顾客 %-5d 号", this.toastStore.id, this.id);
 	}
 }
