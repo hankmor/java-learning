@@ -16,8 +16,8 @@ public class DeadLockTest {
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 */
 
-	private static Object lock1 = new Object();
-	private static Object lock2 = new Object();
+	private static final Object lock1 = new Object();
+	private static final Object lock2 = new Object();
 
 	/*
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,8 +64,8 @@ public class DeadLockTest {
 }
 
 class MyThread1 implements Runnable {
-	private Object lock1;
-	private Object lock2;
+	private final Object lock1;
+	private final Object lock2;
 
 	public MyThread1(Object lock1, Object lock2) {
 		this.lock1 = lock1;
@@ -86,8 +86,8 @@ class MyThread1 implements Runnable {
 }
 
 class MyThread2 implements Runnable {
-	private Object lock1;
-	private Object lock2;
+	private final Object lock1;
+	private final Object lock2;
 
 	public MyThread2(Object lock1, Object lock2) {
 		this.lock1 = lock1;
