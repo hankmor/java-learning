@@ -62,7 +62,7 @@ public class TestBlockingQueues {
 		 */
 		test("DelayQueue ", new DelayQueue<>(), DelayLiftOff.class);
 
-		// LinkedTransferQueue: 实现了 TransferQueue 接口，如果有消费者线程在等待介绍元素，则队列可以将生产者加入的元素立即传输给消费者，没有则将元素放入队列尾部
+		// LinkedTransferQueue: 实现了 TransferQueue 接口，如果有消费者线程在等待接收元素，则队列可以将生产者加入的元素立即传输给消费者，没有则将元素放入队列尾部
 		test("LinkedTransferQueue  ", new LinkedTransferQueue<>());
 	}
 
