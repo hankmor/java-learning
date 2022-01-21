@@ -122,6 +122,7 @@ class Horse implements Runnable {
 					// 模拟跑的步频的快慢
 					stride += random.nextInt(3);
 				}
+				// 注意这里！每次跑了几步，就等待所有马都跑几步，然后打印马的运动轨迹
 				barrier.await();
 			}
 		} catch (InterruptedException e) {
