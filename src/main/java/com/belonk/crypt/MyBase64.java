@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
  * @version 0.1
  * @since 1.0
  */
-public class Base64 {
+public class MyBase64 {
 	//~ Static fields/initializers =====================================================================================
 
 	//~ Instance fields ================================================================================================
