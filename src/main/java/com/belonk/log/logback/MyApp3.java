@@ -2,7 +2,6 @@ package com.belonk.log.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
-import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ public class MyApp3 {
 			// configuration. For multi-step configuration, omit calling context.reset().
 			context.reset();
 			configurator.doConfigure(args[0]);
-		} catch (JoranException je) {
+		} catch (Exception je) {
 			// StatusPrinter will handle this
 		}
 		StatusPrinter.printInCaseOfErrorsOrWarnings(context);
