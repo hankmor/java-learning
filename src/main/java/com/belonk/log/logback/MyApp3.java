@@ -2,10 +2,7 @@ package com.belonk.log.logback;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
-<<<<<<< HEAD
-=======
 import ch.qos.logback.core.joran.spi.JoranException;
->>>>>>> 28970d5eeab395df9d7b810a105a5f7c43e32fff
 import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
